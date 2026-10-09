@@ -1,0 +1,19 @@
+/* Hace que cada página del documento salga como una página del PDF, sin marcos ni sombras. */
+html,
+body {
+  margin: 0;
+  background: #fff;
+}
+.docx-wrapper {
+  background: #fff !important;
+  padding: 0 !important;
+  display: block !important;
+}
+.docx-wrapper > section.docx {
+  box-shadow: none !important;
+  margin: 0 !important;
+  break-after: page;
+}
+.docx-wrapper > section.docx:last-child {
+  break-after: auto;
+}

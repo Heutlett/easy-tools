@@ -1,0 +1,49 @@
+appId: cr.easytools.app
+productName: Easy Tools
+directories:
+  buildResources: build
+# Solo el código compilado entra al .asar; ffmpeg, yt-dlp y los modelos van como extraResources.
+# Ojo: los `files` de cada plataforma reemplazan a estos (no se suman), por eso se repiten allá.
+files:
+  - out/**/*
+  - package.json
+asarUnpack:
+  - node_modules/onnxruntime-node/**
+# ffmpeg, yt-dlp y los modelos de IA van fuera del .asar para poder ejecutarse / leerse directamente.
+extraResources:
+  - from: resources/bin/${os}
+    to: bin
+  - from: resources/models
+    to: models
+win:
+  executableName: easy-tools
+  target:
+    - nsis
+  files:
+    - out/**/*
+    - package.json
+    # onnxruntime-node trae los binarios de todos los sistemas: solo dejamos el de Windows x64.
+    - '!node_modules/onnxruntime-node/bin/napi-v3/{darwin,linux}/**'
+    - '!node_modules/onnxruntime-node/bin/napi-v3/win32/arm64/**'
+nsis:
+  artifactName: Easy-Tools-${version}-instalador.${ext}
+  shortcutName: Easy Tools
+  uninstallDisplayName: Easy Tools
+  oneClick: true
+  perMachine: false
+  createDesktopShortcut: always
+  language: '3082'
+linux:
+  target:
+    - AppImage
+  category: Utility
+  files:
+    - out/**/*
+    - package.json
+    - '!node_modules/onnxruntime-node/bin/napi-v3/{darwin,win32}/**'
+    - '!node_modules/onnxruntime-node/bin/napi-v3/linux/arm64/**'
+    # Las librerías de GPU (CUDA) pesan ~450 MB y no las usamos.
+    - '!node_modules/onnxruntime-node/bin/napi-v3/linux/x64/libonnxruntime_providers_*'
+appImage:
+  artifactName: Easy-Tools-${version}.${ext}
+npmRebuild: false

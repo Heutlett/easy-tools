@@ -1,0 +1,10 @@
+node_modules
+dist
+out
+.DS_Store
+.eslintcache
+*.log*
+
+# Binarios y modelos que se descargan con `npm run setup`
+resources/bin/
+resources/models/
