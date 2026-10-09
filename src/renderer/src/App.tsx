@@ -1,6 +1,7 @@
 import { Suspense, useState } from 'react'
 import { categories } from './tools/categories'
 import { tools } from './tools/registry'
+import ToolIcon from './components/ToolIcon'
 import ToolLayout from './components/ToolLayout'
 
 export default function App(): React.JSX.Element {
@@ -45,7 +46,7 @@ export default function App(): React.JSX.Element {
                   style={{ '--accent': t.color } as React.CSSProperties}
                   onClick={() => setToolId(t.id)}
                 >
-                  <span className="tool-icon">{t.icon}</span>
+                  <ToolIcon tool={t} />
                   <span className="tool-title">{t.title}</span>
                   <span className="tool-desc">{t.description}</span>
                 </button>

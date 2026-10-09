@@ -5,6 +5,8 @@ export interface ToolMeta {
   description: string
   /** Emoji que se muestra en la tarjeta */
   icon: string
+  /** Logos (en vez del emoji). Si son dos, se muestran con una flecha: "A → B" */
+  images?: string[]
   /** Color de acento (cualquier color CSS) */
   color: string
   /** Sección de la pantalla de inicio (ver categories.ts) */

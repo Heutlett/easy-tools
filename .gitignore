@@ -8,3 +8,7 @@ out
 # Binarios y modelos que se descargan con `npm run setup`
 resources/bin/
 resources/models/
+
+# Documentos de ejemplo personales en la raíz (facturas, etc.): no se suben
+/*.pdf
+/*.docx

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import pdfLogo from '../../assets/icons/pdf.svg'
 import FileDrop from '../../components/FileDrop'
 import JobStatus from '../../components/JobStatus'
 import { baseName } from '../../lib/format'
@@ -28,16 +29,9 @@ export default function PdfToWord(): React.JSX.Element {
       {file && job.status === 'idle' && (
         <div className="panel">
           <div className="selected-file">
-            <span>📄</span>
+            <img className="file-icon" src={pdfLogo} alt="" />
             <strong>{baseName(file)}</strong>
           </div>
-          <p className="notice">
-            Esta herramienta copia el <strong>texto</strong> del PDF a un documento de Word que
-            puedes editar: negritas, tamaños, párrafos, encabezado y pie de página. Las tablas
-            quedan como texto en columnas, sin sus bordes, y las imágenes no se copian. Funciona
-            mejor con PDFs hechos en una computadora; un PDF escaneado (una foto de una hoja) no se
-            puede convertir.
-          </p>
           <div className="row start">
             <button className="btn big" onClick={() => convert(file)}>
               Convertir a Word

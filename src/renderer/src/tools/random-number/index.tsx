@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { randomInt } from '../../lib/random'
 import { fanfare, tick } from '../../lib/sound'
-import { useFullscreen } from '../../lib/useFullscreen'
 import { usePersistentState } from '../../lib/usePersistentState'
 
 const MAX_RANGE = 100_000
@@ -23,7 +22,6 @@ export default function RandomNumber(): React.JSX.Element {
   })
   const [shown, setShown] = useState<number | null>(null)
   const [rolling, setRolling] = useState(false)
-  const { fullscreen, toggle: toggleFullscreen } = useFullscreen()
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
   const from = toInt(fromText)
@@ -91,45 +89,43 @@ export default function RandomNumber(): React.JSX.Element {
   const finished = valid && noRepeat && left === 0
 
   return (
-    <div className={`stage ${fullscreen ? 'fullscreen' : ''}`}>
+    <div className="stage">
       <div className="number-stage">
-        {!fullscreen && (
-          <div className="panel number-range">
-            <div className="custom-time">
-              <label htmlFor="num-from">Desde</label>
-              <input
-                id="num-from"
-                className="field"
-                inputMode="numeric"
-                value={fromText}
-                disabled={rolling}
-                onChange={(e) => setFromText(e.target.value)}
-              />
-              <label htmlFor="num-to">hasta</label>
-              <input
-                id="num-to"
-                className="field"
-                inputMode="numeric"
-                value={toText}
-                disabled={rolling}
-                onChange={(e) => setToText(e.target.value)}
-              />
-            </div>
-            <label className="check left">
-              <input
-                type="checkbox"
-                checked={noRepeat}
-                onChange={(e) => setNoRepeat(e.target.checked)}
-              />
-              No repetir números
-              {noRepeat && valid && <span className="muted"> — quedan {left}</span>}
-            </label>
-            <label className="check left">
-              <input type="checkbox" checked={sound} onChange={(e) => setSound(e.target.checked)} />
-              Con sonido
-            </label>
+        <div className="panel number-range">
+          <div className="custom-time">
+            <label htmlFor="num-from">Desde</label>
+            <input
+              id="num-from"
+              className="field"
+              inputMode="numeric"
+              value={fromText}
+              disabled={rolling}
+              onChange={(e) => setFromText(e.target.value)}
+            />
+            <label htmlFor="num-to">hasta</label>
+            <input
+              id="num-to"
+              className="field"
+              inputMode="numeric"
+              value={toText}
+              disabled={rolling}
+              onChange={(e) => setToText(e.target.value)}
+            />
           </div>
-        )}
+          <label className="check left">
+            <input
+              type="checkbox"
+              checked={noRepeat}
+              onChange={(e) => setNoRepeat(e.target.checked)}
+            />
+            No repetir números
+            {noRepeat && valid && <span className="muted"> — quedan {left}</span>}
+          </label>
+          <label className="check left">
+            <input type="checkbox" checked={sound} onChange={(e) => setSound(e.target.checked)} />
+            Con sonido
+          </label>
+        </div>
 
         <div
           className={`number-display ${rolling ? 'rolling' : shown !== null ? 'done' : ''}`}
@@ -152,9 +148,6 @@ export default function RandomNumber(): React.JSX.Element {
               Empezar de nuevo
             </button>
           )}
-          <button className="btn big secondary" onClick={toggleFullscreen}>
-            {fullscreen ? 'Salir de pantalla completa' : '⛶ Pantalla completa'}
-          </button>
         </div>
 
         {history.length > 0 && (

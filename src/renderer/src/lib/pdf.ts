@@ -31,3 +31,25 @@ export async function renderThumbnail(
   await page.render({ canvas, viewport }).promise
   return canvas.toDataURL('image/jpeg', 0.8)
 }
+
+/** Dibuja una página del PDF (con fondo blanco) y la devuelve como imagen JPG o PNG, a unos 200 puntos por pulgada. */
+export async function renderPageImage(
+  doc: PDFDocumentProxy,
+  pageNumber: number,
+  format: 'jpg' | 'png'
+): Promise<ArrayBuffer> {
+  const page = await doc.getPage(pageNumber)
+  const base = page.getViewport({ scale: 1 })
+  // 200 ppp, pero sin pasar de 4500 píxeles de lado (hojas muy grandes)
+  const scale = Math.min(200 / 72, 4500 / Math.max(base.width, base.height))
+  const viewport = page.getViewport({ scale })
+  const canvas = document.createElement('canvas')
+  canvas.width = Math.floor(viewport.width)
+  canvas.height = Math.floor(viewport.height)
+  await page.render({ canvas, viewport, background: '#ffffff' }).promise
+  const blob = await new Promise<Blob | null>((resolve) =>
+    canvas.toBlob(resolve, format === 'jpg' ? 'image/jpeg' : 'image/png', 0.92)
+  )
+  if (!blob) throw new Error('No se pudo crear la imagen.')
+  return blob.arrayBuffer()
+}

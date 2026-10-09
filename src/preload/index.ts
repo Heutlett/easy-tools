@@ -32,6 +32,13 @@ const api = {
     }
   },
 
+  output: {
+    saveFile: (p: { name: string; ext: string; data: ArrayBuffer }) =>
+      call<{ output: string }>('output:saveFile', p),
+    saveInFolder: (p: { dir?: string; folderName: string; fileName: string; data: ArrayBuffer }) =>
+      call<{ dir: string; output: string }>('output:saveInFolder', p)
+  },
+
   video: {
     info: (file: string) => call<MediaInfo>('video:info', file),
     /** Un fotograma del video en el segundo indicado, como imagen (data URL) */
@@ -59,7 +66,9 @@ const api = {
       call<{ output: string; count: number }>('pdf:split', p)
   },
   word: {
-    toPdf: (p: { input: string }) => call<{ output: string }>('word:toPdf', p)
+    toPdf: (p: { input: string }) => call<{ output: string }>('word:toPdf', p),
+    /** Qué programa de Office hay en el equipo ("word", "libreoffice" o null) */
+    engine: () => call<'word' | 'libreoffice' | null>('word:engine')
   },
   image: {
     removeBackground: (p: { input: string; width: number; height: number; rgba: ArrayBuffer }) =>

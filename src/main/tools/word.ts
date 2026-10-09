@@ -5,6 +5,7 @@ import { join } from 'path'
 import { handle } from '../ipc'
 import { UserError } from '../jobs'
 import { nameOf, outputDir, uniquePath } from '../paths'
+import { convertWithOffice, findOfficeEngine } from './officeEngine'
 
 const TIMEOUT_MS = 90_000
 
@@ -21,7 +22,19 @@ async function loadPrintPage(win: BrowserWindow, input: string): Promise<void> {
 }
 
 export function registerWordTools(): void {
+  handle('word:engine', async () => (await findOfficeEngine())?.kind ?? null)
+
   handle('word:toPdf', async (_e, p: { input: string }) => {
+    // Con Microsoft Word o LibreOffice el PDF queda igual al documento (y también se pueden abrir los .doc antiguos)
+    const engine = await findOfficeEngine()
+    if (engine) {
+      try {
+        return { output: await convertWithOffice(engine, p.input) }
+      } catch (err) {
+        console.error('[word:toPdf] falló el programa de Office, se usa el método sencillo', err)
+      }
+    }
+
     if (/\.doc$/i.test(p.input)) {
       throw new UserError(
         'Este es un Word antiguo (.doc). Ábrelo en Word, elige Archivo → Guardar como → Documento de Word (.docx) y vuelve a intentarlo.'

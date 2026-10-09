@@ -1,4 +1,5 @@
 import type { Tool } from '../tools/registry'
+import ToolIcon from './ToolIcon'
 
 interface Props {
   tool: Tool
@@ -14,7 +15,7 @@ export default function ToolLayout({ tool, onBack, children }: Props): React.JSX
           ← Volver al inicio
         </button>
         <div className="tool-heading">
-          <span className="tool-icon small">{tool.icon}</span>
+          <ToolIcon tool={tool} small />
           <div>
             <h1>{tool.title}</h1>
             <p className="muted">{tool.description}</p>

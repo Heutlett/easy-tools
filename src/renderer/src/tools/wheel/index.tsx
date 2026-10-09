@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react'
 import Wheel from '../../components/Wheel'
 import { randomFloat, randomInt } from '../../lib/random'
 import { fanfare } from '../../lib/sound'
-import { useFullscreen } from '../../lib/useFullscreen'
 import { usePersistentState } from '../../lib/usePersistentState'
 
 const SPIN_SECONDS = 6
@@ -25,7 +24,6 @@ export default function WheelTool(): React.JSX.Element {
   const [angle, setAngle] = useState(0)
   const [spinning, setSpinning] = useState(false)
   const [winner, setWinner] = useState<string | null>(null)
-  const { fullscreen, toggle: toggleFullscreen } = useFullscreen()
   const pending = useRef<{ index: number; item: string } | null>(null)
   const fallback = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
@@ -86,7 +84,7 @@ export default function WheelTool(): React.JSX.Element {
   }
 
   return (
-    <div className={`stage ${fullscreen ? 'fullscreen' : ''}`}>
+    <div className="stage">
       <div className="wheel-layout">
         <div className="wheel-main">
           <Wheel
@@ -113,61 +111,56 @@ export default function WheelTool(): React.JSX.Element {
             <button className="btn big" disabled={!canSpin} onClick={spin}>
               {spinning ? 'Girando…' : '🎡 ¡Girar!'}
             </button>
-            <button className="btn big secondary" onClick={toggleFullscreen}>
-              {fullscreen ? 'Salir de pantalla completa' : '⛶ Pantalla completa'}
-            </button>
           </div>
         </div>
 
-        {!fullscreen && (
-          <aside className="panel wheel-side">
-            <label className="panel-title" htmlFor="wheel-text">
-              Opciones de la ruleta
-            </label>
-            <p className="muted">
-              Escribe una por línea (por ejemplo, los nombres de tu grupo). Puedes pegar una lista
-              completa desde Word o Excel. Se guarda para la próxima vez.
-            </p>
-            <textarea
-              id="wheel-text"
-              className="field wheel-text"
-              value={text}
-              disabled={spinning}
-              spellCheck={false}
-              onChange={(e) => setText(e.target.value)}
+        <aside className="panel wheel-side">
+          <label className="panel-title" htmlFor="wheel-text">
+            Opciones de la ruleta
+          </label>
+          <p className="muted">
+            Escribe una por línea (por ejemplo, los nombres de tu grupo). Puedes pegar una lista
+            completa desde Word o Excel. Se guarda para la próxima vez.
+          </p>
+          <textarea
+            id="wheel-text"
+            className="field wheel-text"
+            value={text}
+            disabled={spinning}
+            spellCheck={false}
+            onChange={(e) => setText(e.target.value)}
+          />
+          <p className="muted">
+            {items.length} {items.length === 1 ? 'opción' : 'opciones'}
+            {parseItems(text).length > MAX_ITEMS && ` (se usan las primeras ${MAX_ITEMS})`}
+          </p>
+          <label className="check left">
+            <input
+              type="checkbox"
+              checked={removeWinner}
+              onChange={(e) => setRemoveWinner(e.target.checked)}
             />
-            <p className="muted">
-              {items.length} {items.length === 1 ? 'opción' : 'opciones'}
-              {parseItems(text).length > MAX_ITEMS && ` (se usan las primeras ${MAX_ITEMS})`}
-            </p>
-            <label className="check left">
-              <input
-                type="checkbox"
-                checked={removeWinner}
-                onChange={(e) => setRemoveWinner(e.target.checked)}
-              />
-              Quitar de la ruleta a quien salga (para que no se repita)
-            </label>
-            <label className="check left">
-              <input type="checkbox" checked={sound} onChange={(e) => setSound(e.target.checked)} />
-              Con sonido
-            </label>
-            <div className="row start">
-              {removed.length > 0 && (
-                <button className="btn secondary small" disabled={spinning} onClick={restore}>
-                  Volver a poner a los {removed.length} que salieron
-                </button>
-              )}
-              <button
-                className="btn secondary small"
-                disabled={spinning}
-                onClick={() => (setText(''), setRemoved([]), setWinner(null))}
-              >
-                Borrar todo
+            Quitar de la ruleta a quien salga (para que no se repita)
+          </label>
+          <label className="check left">
+            <input type="checkbox" checked={sound} onChange={(e) => setSound(e.target.checked)} />
+            Con sonido
+          </label>
+          <div className="row start">
+            {removed.length > 0 && (
+              <button className="btn secondary small" disabled={spinning} onClick={restore}>
+                Volver a poner a los {removed.length} que salieron
               </button>
-            </div>
-          </aside>
-        )}
+            )}
+            <button
+              className="btn secondary small"
+              disabled={spinning}
+              onClick={() => (setText(''), setRemoved([]), setWinner(null))}
+            >
+              Borrar todo
+            </button>
+          </div>
+        </aside>
       </div>
     </div>
   )

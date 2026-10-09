@@ -32,3 +32,8 @@ export function formatDuration(seconds: number): string {
 export function baseName(path: string): string {
   return path.split(/[\\/]/).pop() ?? path
 }
+
+/** "foto.vacaciones.jpg" -> "foto.vacaciones" */
+export function nameWithoutExtension(name: string): string {
+  return name.replace(/\.[^./\\]+$/, '')
+}

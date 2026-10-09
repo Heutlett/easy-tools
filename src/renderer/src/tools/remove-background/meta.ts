@@ -6,5 +6,5 @@ export default {
   icon: '🪄',
   color: '#db2777',
   category: 'images',
-  order: 1
+  order: 2
 } satisfies ToolMeta

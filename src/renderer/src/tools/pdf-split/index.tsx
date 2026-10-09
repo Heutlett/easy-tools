@@ -2,6 +2,7 @@ import type { PDFDocumentProxy } from 'pdfjs-dist/legacy/build/pdf.mjs'
 import { useEffect, useRef, useState } from 'react'
 import FileDrop from '../../components/FileDrop'
 import JobStatus from '../../components/JobStatus'
+import pdfLogo from '../../assets/icons/pdf.svg'
 import { baseName } from '../../lib/format'
 import { openPdf, renderThumbnail } from '../../lib/pdf'
 import { useJob } from '../../lib/useJob'
@@ -138,7 +139,7 @@ export default function PdfSplit(): React.JSX.Element {
       {file && doc && job.status !== 'done' && (
         <>
           <div className="selected-file">
-            <span>📄</span>
+            <img className="file-icon" src={pdfLogo} alt="" />
             <strong>{baseName(file)}</strong>
             <span className="muted">
               {total} {total === 1 ? 'página' : 'páginas'}

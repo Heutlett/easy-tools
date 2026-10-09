@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { formatTime } from '../../lib/format'
 import { beepThree } from '../../lib/sound'
-import { useFullscreen } from '../../lib/useFullscreen'
 
 const PRESETS = [1, 2, 3, 5, 10, 15, 20, 30, 45, 60]
 
@@ -12,7 +11,6 @@ export default function Timer(): React.JSX.Element {
   const [seconds, setSeconds] = useState(0)
   const [phase, setPhase] = useState<Phase>('setup')
   const [remaining, setRemaining] = useState(0)
-  const { fullscreen, toggle: toggleFullscreen } = useFullscreen()
   const endsAt = useRef(0)
 
   const total = minutes * 60 + seconds
@@ -75,7 +73,7 @@ export default function Timer(): React.JSX.Element {
 
   return (
     <div
-      className={`timer ${phase === 'finished' ? 'finished' : ''} ${fullscreen ? 'fullscreen' : ''}`}
+      className={`timer ${phase === 'finished' ? 'finished' : ''}`}
       style={{ '--timer-color': color } as React.CSSProperties}
     >
       {phase === 'setup' && (
@@ -138,9 +136,6 @@ export default function Timer(): React.JSX.Element {
             Cambiar tiempo
           </button>
         )}
-        <button className="btn big secondary" onClick={toggleFullscreen}>
-          {fullscreen ? 'Salir de pantalla completa' : '⛶ Pantalla completa'}
-        </button>
       </div>
       {phase === 'setup' && <p className="muted">Tip: la barra espaciadora inicia y pausa.</p>}
     </div>
