@@ -2,11 +2,18 @@ import { Suspense, useState } from 'react'
 import { categories } from './tools/categories'
 import { tools } from './tools/registry'
 import ToolIcon from './components/ToolIcon'
+import logo from './assets/logo.svg'
+import AboutPage from './components/AboutPage'
+import LicenseGate from './components/LicenseGate'
 import ToolLayout from './components/ToolLayout'
+import UpdateBanner from './components/UpdateBanner'
 
-export default function App(): React.JSX.Element {
+function Content(): React.JSX.Element {
   const [toolId, setToolId] = useState<string | null>(null)
+  const [about, setAbout] = useState(false)
   const tool = tools.find((t) => t.id === toolId)
+
+  if (about) return <AboutPage onBack={() => setAbout(false)} />
 
   if (tool) {
     return (
@@ -21,13 +28,21 @@ export default function App(): React.JSX.Element {
   return (
     <main className="home">
       <header className="home-header">
-        <div>
-          <h1>Easy Tools</h1>
-          <p className="muted">Herramientas sencillas para el día a día en el aula</p>
+        <div className="brand">
+          <img className="app-logo" src={logo} alt="" />
+          <div>
+            <h1>Easy Tools</h1>
+            <p className="muted">Herramientas sencillas para el día a día en el aula</p>
+          </div>
         </div>
-        <button className="btn secondary" onClick={() => window.api.openOutputFolder()}>
-          📁 Mis archivos
-        </button>
+        <div className="header-actions">
+          <button className="btn secondary" onClick={() => setAbout(true)}>
+            💜 Acerca de
+          </button>
+          <button className="btn secondary" onClick={() => window.api.openOutputFolder()}>
+            📁 Mis archivos
+          </button>
+        </div>
       </header>
       <h2 className="home-question">¿Qué quieres hacer hoy?</h2>
       {categories.map((category) => {
@@ -56,5 +71,14 @@ export default function App(): React.JSX.Element {
         )
       })}
     </main>
+  )
+}
+
+export default function App(): React.JSX.Element {
+  return (
+    <LicenseGate>
+      <UpdateBanner />
+      <Content />
+    </LicenseGate>
   )
 }

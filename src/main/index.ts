@@ -11,6 +11,9 @@ import { registerImageTools } from './tools/image'
 import { registerOutputTools } from './tools/output'
 import { registerPdfToWordTools } from './tools/pdfToWord'
 import { registerWordTools } from './tools/word'
+import { registerAppInfoHandlers } from './appInfo'
+import { initLicense, registerLicenseHandlers } from './license'
+import { setupUpdater } from './updater'
 import { fixedContentSize, setupWindowSizing } from './windowMode'
 
 // Esquema propio para mostrar en la ventana archivos locales (videos, imágenes, PDFs)
@@ -41,7 +44,7 @@ function createWindow(): void {
     // Sin pantalla completa: solo el tamaño fijo y maximizada (ver windowMode.ts)
     fullscreenable: false,
     backgroundColor: '#faf7f2',
-    ...(process.platform === 'linux' ? { icon } : {}),
+    icon,
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false
@@ -74,6 +77,10 @@ app.whenReady().then(() => {
     return serveLocalFile(file, request.headers.get('range'))
   })
 
+  registerAppInfoHandlers()
+  setupUpdater()
+  registerLicenseHandlers()
+  initLicense()
   registerCommonHandlers()
   registerVideoTools()
   registerYoutubeTools()

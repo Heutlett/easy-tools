@@ -1276,3 +1276,262 @@ h1 {
   background: var(--danger);
   border-color: var(--danger);
 }
+
+/* ---------- Activación y Acerca de ---------- */
+.header-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.selectable {
+  user-select: text;
+}
+.activation {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 32px;
+}
+.activation-card {
+  width: min(720px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 32px;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 24px;
+}
+.activation-block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.activation-code {
+  font-size: 1.5rem;
+  letter-spacing: 0.06em;
+  font-variant-numeric: tabular-nums;
+}
+.activation-key {
+  min-height: 96px;
+  padding: 12px 16px;
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.9rem;
+  resize: vertical;
+}
+.donation {
+  border-color: color-mix(in srgb, var(--accent) 45%, white);
+  background: color-mix(in srgb, var(--accent) 6%, white);
+}
+.donation-number {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+/* ---------- Aviso de actualización ---------- */
+.update-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 10px 36px;
+  background: color-mix(in srgb, #c026d3 12%, white);
+  border-bottom: 2px solid color-mix(in srgb, #c026d3 35%, white);
+}
+.update-banner.ready {
+  background: color-mix(in srgb, var(--success) 12%, white);
+  border-bottom-color: color-mix(in srgb, var(--success) 40%, white);
+}
+.update-actions {
+  display: flex;
+  gap: 10px;
+}
+.update-bar {
+  flex: 1;
+  min-width: 200px;
+  max-width: 420px;
+  height: 12px;
+}
+
+/* ---------- Logo de la app ---------- */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.app-logo {
+  width: 64px;
+  height: 64px;
+  flex: none;
+  filter: drop-shadow(0 6px 10px rgba(79, 70, 229, 0.3));
+}
+.app-logo.small {
+  width: 52px;
+  height: 52px;
+}
+.app-logo.big {
+  width: 84px;
+  height: 84px;
+}
+
+/* ---------- Lista de estudiantes ---------- */
+.students-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+.students-groups {
+  gap: 10px;
+}
+.group-btn {
+  font: inherit;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 2px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+}
+.group-btn:hover,
+.group-btn.selected {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 9%, white);
+}
+.group-name {
+  flex: 1;
+  font-weight: 700;
+  font-size: 1.15rem;
+}
+.add-students {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+}
+.add-students .field {
+  width: 100%;
+  padding: 10px 14px;
+  resize: vertical;
+}
+.student-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 8px 14px;
+}
+.student-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.student-row .field {
+  flex: 1;
+  min-height: 44px;
+}
+
+/* ---------- Estrellitas ---------- */
+.reason-panel {
+  gap: 10px;
+}
+.star-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 14px;
+}
+.star-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 16px;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 18px;
+  text-align: center;
+}
+.star-card.bump {
+  border-color: var(--accent);
+  animation: pop 0.5s ease-out;
+}
+.star-name {
+  font-size: 1.15rem;
+  line-height: 1.2;
+  word-break: break-word;
+}
+.star-count {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.star-icon {
+  font-size: 2rem;
+}
+.star-number {
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+}
+.star-actions {
+  display: flex;
+  gap: 8px;
+}
+.star-give {
+  flex: 1;
+  min-height: 46px;
+  padding: 0 10px;
+  font-size: 0.95rem;
+}
+.star-history {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.95rem;
+}
+
+/* ---------- Acerca de: sin anuncios y contacto ---------- */
+.no-ads {
+  flex-direction: row;
+  align-items: center;
+  gap: 18px;
+}
+.no-ads-icon {
+  font-size: 2.6rem;
+  line-height: 1;
+}
+.no-ads-title {
+  font-size: 1.7rem;
+  margin-bottom: 2px;
+}
+.contact {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.avatar {
+  flex: none;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 6px 14px -8px rgba(0, 0, 0, 0.5);
+}
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.contact-name {
+  font-size: 1.25rem;
+}

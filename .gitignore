@@ -12,3 +12,6 @@ resources/models/
 # Documentos de ejemplo personales en la raíz (facturas, etc.): no se suben
 /*.pdf
 /*.docx
+
+# Llave privada y lista de claves emitidas: NUNCA se suben
+/keys/

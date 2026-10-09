@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import Wheel from '../../components/Wheel'
+import { useClassrooms } from '../../lib/classrooms'
 import { randomFloat, randomInt } from '../../lib/random'
 import { fanfare } from '../../lib/sound'
 import { usePersistentState } from '../../lib/usePersistentState'
@@ -24,6 +25,7 @@ export default function WheelTool(): React.JSX.Element {
   const [angle, setAngle] = useState(0)
   const [spinning, setSpinning] = useState(false)
   const [winner, setWinner] = useState<string | null>(null)
+  const { groups } = useClassrooms()
   const pending = useRef<{ index: number; item: string } | null>(null)
   const fallback = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
@@ -77,6 +79,15 @@ export default function WheelTool(): React.JSX.Element {
     return () => window.removeEventListener('keydown', onKey)
   })
 
+  /** Reemplaza las opciones por los nombres de un grupo guardado (después se pueden seguir editando) */
+  const loadGroup = (id: string): void => {
+    const group = groups.find((g) => g.id === id)
+    if (!group) return
+    setText(group.students.map((s) => s.name).join('\n'))
+    setRemoved([])
+    setWinner(null)
+  }
+
   const restore = (): void => {
     setText([...parseItems(text), ...removed].join('\n'))
     setRemoved([])
@@ -122,6 +133,26 @@ export default function WheelTool(): React.JSX.Element {
             Escribe una por línea (por ejemplo, los nombres de tu grupo). Puedes pegar una lista
             completa desde Word o Excel. Se guarda para la próxima vez.
           </p>
+          {groups.length > 0 ? (
+            <select
+              className="field"
+              aria-label="Cargar un grupo de estudiantes"
+              value=""
+              disabled={spinning}
+              onChange={(e) => loadGroup(e.target.value)}
+            >
+              <option value="">👥 Cargar un grupo de estudiantes…</option>
+              {groups.map((g) => (
+                <option key={g.id} value={g.id}>
+                  {g.name || 'Sin nombre'} ({g.students.length})
+                </option>
+              ))}
+            </select>
+          ) : (
+            <p className="muted">
+              Tip: guarda tus grupos en «Lista de estudiantes» y cárgalos aquí con un clic.
+            </p>
+          )}
           <textarea
             id="wheel-text"
             className="field wheel-text"

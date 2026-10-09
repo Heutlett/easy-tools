@@ -47,3 +47,10 @@ linux:
 appImage:
   artifactName: Easy-Tools-${version}.${ext}
 npmRebuild: false
+# Dónde se publican las versiones nuevas y de dónde las descarga la app instalada para actualizarse.
+# Tiene que ser un repositorio PÚBLICO (el código puede seguir privado en otro repositorio): ver README.
+publish:
+  provider: github
+  owner: Heutlett
+  repo: easy-tools-releases
+  releaseType: release

@@ -1,5 +1,7 @@
 import { contextBridge, ipcRenderer, webUtils } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
+import type { LicenseState } from '../shared/about'
+import type { UpdateStatus } from '../shared/update'
 import type { FileKind, MediaInfo, WordModel } from '../shared/types'
 
 type Result<T> = { ok: true; data: T } | { ok: false; error: string; cancelled?: boolean }
@@ -14,6 +16,7 @@ async function call<T>(channel: string, ...args: unknown[]): Promise<T> {
 }
 
 const api = {
+  appVersion: () => call<string>('app:version'),
   pickFiles: (kind: FileKind, multiple = false) =>
     call<string[]>('dialog:open', { kind, multiple }),
   /** Ruta real de un archivo arrastrado a la ventana */
@@ -37,6 +40,25 @@ const api = {
       call<{ output: string }>('output:saveFile', p),
     saveInFolder: (p: { dir?: string; folderName: string; fileName: string; data: ArrayBuffer }) =>
       call<{ dir: string; output: string }>('output:saveInFolder', p)
+  },
+
+  update: {
+    status: () => call<UpdateStatus>('update:status'),
+    check: () => call<void>('update:check'),
+    download: () => call<void>('update:download'),
+    install: () => call<void>('update:install'),
+    onStatus: (cb: (status: UpdateStatus) => void) => {
+      const listener = (_: unknown, status: UpdateStatus): void => cb(status)
+      ipcRenderer.on('update:status', listener)
+      return () => {
+        ipcRenderer.removeListener('update:status', listener)
+      }
+    }
+  },
+
+  license: {
+    state: () => call<LicenseState>('license:state'),
+    activate: (key: string) => call<void>('license:activate', key)
   },
 
   video: {
