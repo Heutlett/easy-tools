@@ -2,6 +2,12 @@
 
 Cada versión se publica con una etiqueta `vX.Y.Z` (ver [GITFLOW.md](GITFLOW.md)). El texto de cada entrada es el que aparece en la descripción del release en GitHub.
 
+## [0.2.1] - 2026-10-10
+
+- Instalador mucho más liviano: el procesador de video, el descargador de YouTube y la inteligencia artificial para quitar fondos ya no vienen dentro; se descargan una sola vez
+- Aviso en la pantalla de inicio para descargarlas de una vez, y una tarjeta al abrir una herramienta que las necesita, con barra de progreso y botón para reintentar
+- Las actualizaciones no vuelven a descargar esas piezas
+
 ## [0.2.0] - 2026-10-10
 
 - Nuevo nombre: **Educando**, con un ícono de manzana
