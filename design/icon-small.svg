@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Easy Tools">
+  <title>Easy Tools (versión para tamaños chicos)</title>
+  <defs>
+    <linearGradient id="fondo" x1="0.1" y1="0" x2="0.9" y2="1">
+      <stop offset="0" stop-color="#4f46e5"/>
+      <stop offset="1" stop-color="#c026d3"/>
+    </linearGradient>
+  </defs>
+  <!-- Mismo ícono, pero con trazos más gruesos y menos detalles para que se entienda a 16-48 px -->
+  <rect width="512" height="512" rx="108" fill="url(#fondo)"/>
+  <g transform="translate(206 372) scale(1.02)">
+    <path d="M0 0-98-98" fill="none" stroke="#fff" stroke-width="56" stroke-linecap="round"/>
+    <g transform="rotate(-45)">
+      <path d="M0 0 76-42V42z" fill="#fcd9a8"/>
+      <path d="M0 0 26-14V14z" fill="#1e1b4b"/>
+      <rect x="76" y="-42" width="170" height="84" fill="#fff"/>
+      <path d="M246-42H262a42 42 0 0 1 0 84H246z" fill="#fb7185"/>
+    </g>
+  </g>
+</svg>
