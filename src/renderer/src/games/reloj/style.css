@@ -1,0 +1,221 @@
+/* Aprende la hora: clases con prefijo rl- */
+.rl-play {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 24px;
+  align-items: center;
+}
+.rl-clock {
+  width: min(47vh, 44vw);
+  min-width: 260px;
+  height: auto;
+  aspect-ratio: 1;
+  touch-action: none;
+  user-select: none;
+  filter: drop-shadow(0 10px 18px rgba(15, 23, 42, 0.18));
+}
+.rl-clock:focus-visible {
+  outline: none;
+}
+.rl-clock:focus-visible .rl-face {
+  stroke-width: 18;
+}
+.rl-clock.interactive {
+  cursor: grab;
+}
+.rl-clock.dragging {
+  cursor: grabbing;
+}
+.rl-face {
+  fill: #fff;
+  stroke: var(--accent);
+  stroke-width: 12;
+}
+.rl-clock.ok .rl-face {
+  stroke: var(--success);
+}
+.rl-clock.bad .rl-face {
+  stroke: var(--danger);
+}
+.rl-tick {
+  stroke: var(--muted);
+  stroke-width: 2;
+}
+.rl-tick.big {
+  stroke: var(--text);
+  stroke-width: 4;
+}
+.rl-num {
+  font-size: 38px;
+  font-weight: 800;
+  fill: var(--text);
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+.rl-min {
+  font-size: 17px;
+  font-weight: 700;
+  fill: var(--accent);
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+.rl-hand line {
+  stroke-linecap: round;
+}
+.rl-hand.hour line {
+  stroke: #1f2933;
+}
+.rl-hand.hour polygon {
+  fill: #1f2933;
+}
+.rl-hand.minute line {
+  stroke: #dc2626;
+}
+.rl-hand.minute polygon {
+  fill: #dc2626;
+}
+.rl-hand.active {
+  filter: drop-shadow(0 0 6px rgba(14, 116, 144, 0.7));
+}
+.rl-ghost-hand line {
+  stroke: var(--success);
+  stroke-dasharray: 3 8;
+  opacity: 0.9;
+}
+.rl-ghost-hand polygon {
+  fill: var(--success);
+  opacity: 0.55;
+}
+.rl-cap {
+  fill: #1f2933;
+  stroke: #fff;
+  stroke-width: 3;
+}
+.rl-grip {
+  fill: var(--accent);
+  fill-opacity: 0.12;
+  stroke: var(--accent);
+  stroke-opacity: 0.45;
+  stroke-width: 2;
+  stroke-dasharray: 4 5;
+  pointer-events: none;
+}
+
+.rl-side {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+.rl-digital {
+  font-family: 'Consolas', 'DejaVu Sans Mono', monospace;
+  font-size: clamp(3rem, 7vw, 5rem);
+  font-weight: 800;
+  line-height: 1;
+  text-align: center;
+  padding: 10px 16px;
+  color: #67e8f9;
+  background: #0f172a;
+  border-radius: 20px;
+  border: 4px solid #1e293b;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+}
+.rl-digital small {
+  font-size: 0.32em;
+  letter-spacing: 0;
+  margin-left: 10px;
+  color: #94a3b8;
+}
+.rl-words {
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 800;
+  text-align: center;
+  padding: 12px 16px;
+  background: var(--surface);
+  border: 3px solid var(--border);
+  border-radius: 20px;
+  min-height: 74px;
+  display: grid;
+  place-items: center;
+}
+.rl-words .rl-part {
+  display: block;
+  font-size: 0.6em;
+  font-weight: 600;
+  color: var(--muted);
+}
+.rl-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.rl-controls .btn {
+  padding: 0 12px;
+}
+.rl-question {
+  font-size: clamp(1.4rem, 2.8vw, 2rem);
+  font-weight: 800;
+  text-align: center;
+}
+.rl-prompt {
+  font-size: clamp(1.4rem, 2.8vw, 2rem);
+  font-weight: 800;
+  text-align: center;
+  padding: 12px 16px;
+  background: var(--surface);
+  border: 3px solid var(--border);
+  border-radius: 20px;
+}
+.rl-prompt .rl-big {
+  display: block;
+  font-family: 'Consolas', 'DejaVu Sans Mono', monospace;
+  font-size: 2.6rem;
+  color: var(--accent);
+}
+.rl-prompt small {
+  display: block;
+  color: var(--muted);
+  font-size: 0.6em;
+  font-weight: 600;
+}
+.rl-opt-digital {
+  font-family: 'Consolas', 'DejaVu Sans Mono', monospace;
+  font-size: 2rem;
+  font-weight: 800;
+}
+.rl-opt-words {
+  font-size: 1.2rem;
+  line-height: 1.15;
+}
+.rl-tries {
+  text-align: center;
+  font-weight: 700;
+  min-height: 1.4em;
+}
+.rl-tries.warn {
+  color: var(--danger);
+}
+.rl-pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.rl-explore {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.rl-explore-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.rl-keys {
+  text-align: center;
+  font-size: 0.85rem;
+}
+.mp-one-col {
+  grid-template-columns: 1fr;
+}

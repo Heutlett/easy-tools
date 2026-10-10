@@ -1,0 +1,402 @@
+/* Estilos compartidos de los juegos y de los componentes de src/renderer/src/components/games.
+   Cada juego pone sus propios estilos en su carpeta (games/<id>/style.css) con clases que empiezan por el nombre del juego. */
+
+/* ---------- Equipos y marcador ---------- */
+.player-setup {
+  max-width: 880px;
+}
+.player-teams {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 10px;
+}
+.player-team {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border: 3px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+}
+.player-team-emoji {
+  font-size: 1.8rem;
+}
+.scoreboard {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.score-card {
+  flex: 1 1 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 14px;
+  background: var(--surface);
+  border: 3px solid var(--team, var(--border));
+  border-radius: 18px;
+  transition:
+    transform 0.15s,
+    box-shadow 0.15s;
+}
+.score-card.current {
+  background: color-mix(in srgb, var(--team, var(--accent)) 12%, white);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px -12px var(--team, var(--accent));
+}
+.score-card.leader .score-value::after {
+  content: ' 👑';
+  font-size: 0.5em;
+}
+.score-name {
+  font-weight: 700;
+  font-size: 1.05rem;
+  text-align: center;
+  word-break: break-word;
+}
+.score-value {
+  font-size: 2.6rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--team, var(--accent));
+  font-variant-numeric: tabular-nums;
+}
+.score-actions {
+  display: flex;
+  gap: 8px;
+}
+.scoreboard.compact .score-card {
+  flex: 0 1 160px;
+  padding: 6px 10px;
+}
+.scoreboard.compact .score-name {
+  font-size: 0.95rem;
+}
+.scoreboard.compact .score-value {
+  font-size: 1.8rem;
+}
+
+/* ---------- Filtros, elegir contenido y administrar lo propio ---------- */
+.pill.small {
+  min-height: 36px;
+  padding: 0 14px;
+  font-size: 0.9rem;
+}
+.picker,
+.bank-manager {
+  gap: 16px;
+}
+.bank-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.bank-filter-row {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  align-items: start;
+  gap: 12px;
+}
+.bank-filter-label {
+  font-weight: 700;
+  color: var(--muted);
+  padding-top: 9px;
+}
+.chips-scroll {
+  max-height: 120px;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+.bank-search {
+  max-width: 320px;
+}
+.bank-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.bank-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 12px 14px;
+  border: 2px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+}
+.bank-item.mine {
+  border-color: color-mix(in srgb, var(--accent) 45%, white);
+  background: color-mix(in srgb, var(--accent) 5%, white);
+}
+.bank-item-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.bank-item-actions {
+  display: flex;
+  gap: 8px;
+  flex: none;
+}
+.bank-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.bank-tag {
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: 99px;
+  background: color-mix(in srgb, var(--accent) 10%, white);
+  color: var(--muted);
+}
+.bank-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 760px;
+}
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.form-field > span {
+  font-weight: 700;
+}
+.option-edit {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.option-edit input[type='radio'] {
+  width: 22px;
+  height: 22px;
+  flex: none;
+  accent-color: var(--success);
+}
+.list-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 10px;
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 2px;
+}
+.list-card {
+  font: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: left;
+  padding: 12px 14px;
+  border: 2px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+}
+.list-card:hover,
+.list-card.selected {
+  border-color: var(--accent);
+}
+.list-card.selected {
+  background: color-mix(in srgb, var(--accent) 9%, white);
+}
+
+/* ---------- Piezas para los juegos (proyector: todo grande) ---------- */
+.g-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.g-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 16px;
+}
+.g-question {
+  font-size: clamp(1.5rem, 3.2vw, 2.4rem);
+  font-weight: 700;
+  line-height: 1.25;
+  text-align: center;
+  padding: 18px 24px;
+  background: var(--surface);
+  border: 3px solid var(--border);
+  border-radius: 22px;
+}
+.g-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.g-option {
+  font: inherit;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 74px;
+  padding: 10px 18px;
+  font-size: clamp(1.15rem, 2.2vw, 1.7rem);
+  font-weight: 600;
+  text-align: left;
+  color: var(--text);
+  background: var(--surface);
+  border: 3px solid var(--border);
+  border-radius: 18px;
+  cursor: pointer;
+  transition:
+    transform 0.1s,
+    background 0.15s,
+    border-color 0.15s;
+}
+.g-option:hover:not(:disabled) {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+.g-option .g-letter {
+  flex: none;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  font-weight: 800;
+  color: #fff;
+  background: var(--accent);
+}
+.g-option.picked {
+  border-color: #f59e0b;
+  background: color-mix(in srgb, #f59e0b 14%, white);
+}
+.g-option.correct {
+  border-color: var(--success);
+  background: color-mix(in srgb, var(--success) 14%, white);
+  animation: pop 0.45s ease-out;
+}
+.g-option.wrong {
+  border-color: var(--danger);
+  background: color-mix(in srgb, var(--danger) 10%, white);
+}
+.g-option.dim {
+  opacity: 0.35;
+}
+.g-option:disabled {
+  cursor: default;
+}
+.g-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 14px;
+  border-radius: 99px;
+  font-weight: 700;
+  background: color-mix(in srgb, var(--accent) 12%, white);
+}
+.g-timer {
+  font-size: 2.4rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+}
+.g-timer.low {
+  color: var(--danger);
+  animation: pop 0.6s ease-in-out infinite;
+}
+.g-win {
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  font-weight: 800;
+}
+@media (max-width: 760px) {
+  .g-options {
+    grid-template-columns: 1fr;
+  }
+  .bank-filter-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- «Mis preguntas»: acciones, compartir y pegar varias ---------- */
+.bank-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.bank-share,
+.bank-more {
+  border: 2px solid var(--border);
+  border-radius: 14px;
+  padding: 10px 16px;
+  background: var(--surface);
+}
+.bank-share summary,
+.bank-more summary {
+  cursor: pointer;
+  font-weight: 700;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+}
+.bank-share-body,
+.bank-more > :not(summary) {
+  margin-top: 12px;
+}
+.bank-share-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.bank-empty {
+  padding: 22px;
+  border: 2px dashed var(--border);
+  border-radius: 16px;
+  text-align: center;
+}
+.bank-empty-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.bulk-howto {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--accent) 7%, white);
+}
+.bulk-howto .btn {
+  align-self: flex-start;
+}
+.bulk-example {
+  margin: 0;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  font-family: inherit;
+  white-space: pre-wrap;
+  font-size: 0.95rem;
+}
+.bulk-text {
+  font-family: inherit;
+}
+.bulk-problems {
+  margin: 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: var(--danger);
+}

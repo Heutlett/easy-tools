@@ -1,5 +1,5 @@
-appId: cr.easytools.app
-productName: Easy Tools
+appId: cr.educando.app
+productName: Educando
 directories:
   buildResources: build
 # Solo el código compilado entra al .asar; ffmpeg, yt-dlp y los modelos van como extraResources.
@@ -16,7 +16,7 @@ extraResources:
   - from: resources/models
     to: models
 win:
-  executableName: easy-tools
+  executableName: educando
   target:
     - nsis
   files:
@@ -26,9 +26,9 @@ win:
     - '!node_modules/onnxruntime-node/bin/napi-v3/{darwin,linux}/**'
     - '!node_modules/onnxruntime-node/bin/napi-v3/win32/arm64/**'
 nsis:
-  artifactName: Easy-Tools-${version}-instalador.${ext}
-  shortcutName: Easy Tools
-  uninstallDisplayName: Easy Tools
+  artifactName: Educando-${version}-instalador.${ext}
+  shortcutName: Educando
+  uninstallDisplayName: Educando
   oneClick: true
   perMachine: false
   createDesktopShortcut: always
@@ -45,7 +45,7 @@ linux:
     # Las librerías de GPU (CUDA) pesan ~450 MB y no las usamos.
     - '!node_modules/onnxruntime-node/bin/napi-v3/linux/x64/libonnxruntime_providers_*'
 appImage:
-  artifactName: Easy-Tools-${version}.${ext}
+  artifactName: Educando-${version}.${ext}
 npmRebuild: false
 # Dónde se publican las versiones nuevas y de dónde las descarga la app instalada para actualizarse.
 # Tiene que ser un repositorio PÚBLICO (la app instalada lo consulta sin ninguna clave): ver README.

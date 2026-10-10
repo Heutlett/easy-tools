@@ -13,6 +13,5 @@ resources/models/
 /*.pdf
 /*.docx
 
-
-# Carpeta local de las claves de uso que ya no existen (llave privada y lista de personas): nunca se sube
+# Carpeta local de las claves de uso que ya no existen (tiene una llave privada): nunca se sube
 /keys/

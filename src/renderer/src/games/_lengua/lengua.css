@@ -1,0 +1,81 @@
+.ln-end {
+  padding-top: 12px;
+}
+.ln-winner {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+.ln-turn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 18px;
+  border-radius: 99px;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #fff;
+  background: var(--team, var(--accent));
+}
+.ln-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.ln-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.ln-hint {
+  text-align: center;
+  font-size: 0.85rem;
+}
+.ln-menu-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px;
+}
+.ln-card {
+  font: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 18px 14px;
+  text-align: center;
+  color: var(--text);
+  background: var(--surface);
+  border: 3px solid var(--border);
+  border-radius: 20px;
+  cursor: pointer;
+  transition:
+    transform 0.1s,
+    border-color 0.15s;
+}
+.ln-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+.ln-card.selected {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, white);
+}
+.ln-card-icon {
+  font-size: 2.6rem;
+  line-height: 1;
+}
+.ln-card-title {
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+.ln-card-desc {
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+.ln-field-title {
+  font-weight: 700;
+  font-size: 1.05rem;
+}

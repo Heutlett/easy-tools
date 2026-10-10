@@ -90,7 +90,7 @@ try {
 
 /** Convierte un documento de Word a PDF con el programa indicado y devuelve la ruta del PDF guardado. */
 export async function convertWithOffice(engine: OfficeEngine, input: string): Promise<string> {
-  // Carpeta de trabajo (visible) dentro de "Easy Tools": algunos programas, por ejemplo LibreOffice instalado como
+  // Carpeta de trabajo (visible) dentro de "Educando": algunos programas, por ejemplo LibreOffice instalado como
   // snap, no pueden leer carpetas ocultas. Se borra al terminar.
   const work = join(outputDir(), `trabajando-${Date.now()}`)
   mkdirSync(work, { recursive: true })

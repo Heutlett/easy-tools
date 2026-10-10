@@ -1,11 +1,11 @@
 import { Suspense, useState } from 'react'
-import { categories } from './tools/categories'
 import { tools } from './tools/registry'
-import ToolIcon from './components/ToolIcon'
+import ToolCatalog from './components/ToolCatalog'
 import logo from './assets/logo.svg'
 import AboutPage from './components/AboutPage'
 import ToolLayout from './components/ToolLayout'
 import UpdateBanner from './components/UpdateBanner'
+import WelcomeNote from './components/WelcomeNote'
 
 function Content(): React.JSX.Element {
   const [toolId, setToolId] = useState<string | null>(null)
@@ -30,7 +30,7 @@ function Content(): React.JSX.Element {
         <div className="brand">
           <img className="app-logo" src={logo} alt="" />
           <div>
-            <h1>Easy Tools</h1>
+            <h1>Educando</h1>
             <p className="muted">Herramientas sencillas para el día a día en el aula</p>
           </div>
         </div>
@@ -44,31 +44,7 @@ function Content(): React.JSX.Element {
         </div>
       </header>
       <h2 className="home-question">¿Qué quieres hacer hoy?</h2>
-      {categories.map((category) => {
-        const list = tools.filter((t) => t.category === category.id)
-        if (list.length === 0) return null
-        return (
-          <section key={category.id} className="category">
-            <h3 className="category-title">
-              <span aria-hidden>{category.icon}</span> {category.title}
-            </h3>
-            <div className="tool-grid">
-              {list.map((t) => (
-                <button
-                  key={t.id}
-                  className="tool-card"
-                  style={{ '--accent': t.color } as React.CSSProperties}
-                  onClick={() => setToolId(t.id)}
-                >
-                  <ToolIcon tool={t} />
-                  <span className="tool-title">{t.title}</span>
-                  <span className="tool-desc">{t.description}</span>
-                </button>
-              ))}
-            </div>
-          </section>
-        )
-      })}
+      <ToolCatalog tools={tools} onOpen={setToolId} />
     </main>
   )
 }
@@ -78,6 +54,7 @@ export default function App(): React.JSX.Element {
     <>
       <UpdateBanner />
       <Content />
+      <WelcomeNote />
     </>
   )
 }

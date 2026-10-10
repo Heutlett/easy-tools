@@ -17,9 +17,9 @@ const exe = process.platform === 'win32' ? '.exe' : ''
 export const ffmpegPath = (): string => join(binDir(), `ffmpeg${exe}`)
 export const bundledYtDlpPath = (): string => join(binDir(), `yt-dlp${exe}`)
 
-/** Carpeta donde se guardan todos los resultados: Documentos/Easy Tools */
+/** Carpeta donde se guardan todos los resultados: Documentos/Educando */
 export function outputDir(): string {
-  const dir = join(app.getPath('documents'), 'Easy Tools')
+  const dir = join(app.getPath('documents'), 'Educando')
   mkdirSync(dir, { recursive: true })
   return dir
 }

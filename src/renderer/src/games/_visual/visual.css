@@ -1,0 +1,5 @@
+/* Piezas comunes de los juegos visuales (imagen escondida, rompecabezas, carrera) */
+.vz-row-label {
+  font-weight: 700;
+  color: var(--muted);
+}

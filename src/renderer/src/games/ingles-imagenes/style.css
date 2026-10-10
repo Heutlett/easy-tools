@@ -1,0 +1,33 @@
+/* What is it? (prefijo ii-); lo común está en ../_ingles/style.css */
+.ii-prompt {
+  gap: 4px;
+}
+.ii-word-line {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.ii-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+.ii-turn {
+  font-weight: 700;
+}
+.ii-scores {
+  margin-top: 4px;
+}
+.ii-scores .scoreboard.compact {
+  gap: 8px;
+}
+.ii-scores .scoreboard.compact .score-card {
+  flex: 0 1 auto;
+  flex-direction: row;
+  gap: 10px;
+  padding: 4px 12px;
+}
+.ii-scores .scoreboard.compact .score-name {
+  font-size: 0.95rem;
+}

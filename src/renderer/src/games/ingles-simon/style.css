@@ -1,0 +1,139 @@
+/* Simon says (prefijo is-); lo común está en ../_ingles/style.css */
+.is-card {
+  min-height: clamp(150px, 24vh, 230px);
+  gap: 14px;
+}
+.is-command {
+  font-size: clamp(2.2rem, 5.6vw, 4rem);
+  font-weight: 800;
+  line-height: 1.2;
+}
+.is-badge {
+  display: inline-block;
+  margin-right: 0.35em;
+  padding: 0 0.4em;
+  color: #fff;
+  background: var(--accent);
+  border-radius: 0.3em;
+  white-space: nowrap;
+}
+.is-bar {
+  height: 10px;
+  background: color-mix(in srgb, var(--accent) 14%, white);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.is-bar > span {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  border-radius: 99px;
+  transition: width 1s linear;
+}
+.is-bar.low > span {
+  background: var(--danger);
+}
+.is-verdict {
+  min-height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 16px;
+  font-size: 1.6rem;
+  font-weight: 800;
+  text-align: center;
+  border-radius: 16px;
+  border: 3px dashed var(--border);
+  color: var(--muted);
+}
+.is-verdict.go {
+  color: var(--success);
+  border: 3px solid var(--success);
+  background: color-mix(in srgb, var(--success) 10%, white);
+}
+.is-verdict.freeze {
+  color: var(--danger);
+  border: 3px solid var(--danger);
+  background: color-mix(in srgb, var(--danger) 9%, white);
+}
+.is-es {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--muted);
+  min-height: 1.8em;
+}
+.is-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+.is-fails {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.is-fail {
+  font: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 46px;
+  padding: 0 14px;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--text);
+  background: var(--surface);
+  border: 3px solid var(--team, var(--border));
+  border-radius: 99px;
+  cursor: pointer;
+}
+.is-fail:hover:not(:disabled):not(.failed) {
+  background: color-mix(in srgb, var(--danger) 10%, white);
+}
+.is-fail:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+.is-fail.failed {
+  color: #fff;
+  background: var(--danger);
+  border-color: var(--danger);
+}
+.is-fail.out {
+  opacity: 0.4;
+  text-decoration: line-through;
+  cursor: default;
+}
+.is-fail .pts {
+  font-weight: 800;
+  color: var(--team, var(--accent));
+}
+.is-fail.failed .pts {
+  color: #fff;
+}
+.is-title {
+  font-weight: 700;
+  color: var(--muted);
+}
+.is-end-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  max-width: 900px;
+}
+
+.is-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 24px;
+}
+.is-grid .bank-filter-row {
+  grid-template-columns: 84px 1fr;
+}
+@media (max-width: 900px) {
+  .is-grid {
+    grid-template-columns: 1fr;
+  }
+}

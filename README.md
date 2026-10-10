@@ -1,31 +1,51 @@
-# Easy Tools
+# Educando
 
 Aplicación de escritorio, gratuita y sin fines de lucro, con herramientas **súper sencillas** para las tareas del día a día de docentes de Costa Rica. Todo en español, sin menús escondidos y sin configuraciones.
 
-Los archivos se procesan en la propia computadora (nada se sube a internet) y los resultados se guardan en **Documentos → Easy Tools**.
+Los archivos se procesan en la propia computadora (nada se sube a internet) y los resultados se guardan en **Documentos → Educando**.
 
 ## Herramientas
 
-| Herramienta                   | Qué hace                                                                                                                                                          |
-| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Recortar video                | Se elige el inicio y el final con una barra o escribiendo los tiempos                                                                                             |
-| Sacar el audio de un video    | Video → MP3                                                                                                                                                       |
-| Descargar de YouTube          | Video (MP4) o solo audio (MP3) a partir de un enlace                                                                                                              |
-| Unir videos                   | Junta varios videos en uno, en el orden elegido                                                                                                                   |
-| Unir PDFs                     | Junta varios PDFs en uno                                                                                                                                          |
-| Separar páginas de un PDF     | Elegir páginas con miniaturas, o un PDF por página                                                                                                                |
-| PDF a Word                    | Deja el Word lo más parecido posible al PDF: cada texto, línea, tabla, color e imagen en su posición exacta                                                       |
-| Word a PDF                    | Usa Microsoft Word o LibreOffice si están instalados (queda igual al documento); si no, un método sencillo                                                        |
-| Recortar imagen               | Marco que se mueve y se estira, con formas fijas (1:1, 4:3, 3:4, 16:9); guarda a la resolución original                                                           |
-| Quitar el fondo de una imagen | IA local (sin internet), resultado PNG transparente                                                                                                               |
-| PDF a imagen                  | Una imagen JPG o PNG por página, a 200 ppp, en una carpeta                                                                                                        |
-| Imagen a PDF                  | Varias imágenes en un PDF (hoja carta o del tamaño de cada imagen); respeta la rotación de las fotos de celular                                                   |
-| Temporizador para el aula     | Cuenta regresiva grande, pantalla completa, aviso sonoro                                                                                                          |
-| Número al azar                | Número dentro de un rango, con opción de no repetir, historial y pantalla completa                                                                                |
-| Bingo                         | Tómbola para cantar el bingo (75 bolitas B-I-N-G-O o 90): bolita grande, tablero con lo que ha salido, voz en español que canta cada número y revisor de cartones |
-| Lista de estudiantes          | Guarda varios grupos con sus estudiantes (acepta listas pegadas desde Word o Excel) para usarlos en otras herramientas                                            |
-| Estrellitas                   | Da estrellitas a tus estudiantes (con la razón: participó, ayudó…) y mira en vivo cuántas lleva cada quien; historial, deshacer y reinicio                        |
-| Ruleta                        | Gira para elegir un ganador de una lista editable (se recuerda); puede cargar un grupo de estudiantes y quitar a quien salga                                      |
+| Herramienta                   | Qué hace                                                                                                                                                                                |
+| ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Recortar video                | Se elige el inicio y el final con una barra o escribiendo los tiempos                                                                                                                   |
+| Sacar el audio de un video    | Video → MP3                                                                                                                                                                             |
+| Descargar de YouTube          | Video (MP4) o solo audio (MP3) a partir de un enlace                                                                                                                                    |
+| Unir videos                   | Junta varios videos en uno, en el orden elegido                                                                                                                                         |
+| Unir PDFs                     | Junta varios PDFs en uno                                                                                                                                                                |
+| Separar páginas de un PDF     | Elegir páginas con miniaturas, o un PDF por página                                                                                                                                      |
+| PDF a Word                    | Deja el Word lo más parecido posible al PDF: cada texto, línea, tabla, color e imagen en su posición exacta                                                                             |
+| Word a PDF                    | Usa Microsoft Word o LibreOffice si están instalados (queda igual al documento); si no, un método sencillo                                                                              |
+| Recortar imagen               | Marco que se mueve y se estira, con formas fijas (1:1, 4:3, 3:4, 16:9); guarda a la resolución original                                                                                 |
+| Quitar el fondo de una imagen | IA local (sin internet), resultado PNG transparente                                                                                                                                     |
+| PDF a imagen                  | Una imagen JPG o PNG por página, a 200 ppp, en una carpeta                                                                                                                              |
+| Imagen a PDF                  | Varias imágenes en un PDF (hoja carta o del tamaño de cada imagen); respeta la rotación de las fotos de celular                                                                         |
+| Temporizador para el aula     | Cuenta regresiva grande, pantalla completa, aviso sonoro                                                                                                                                |
+| Número al azar                | Número dentro de un rango, con opción de no repetir, historial y pantalla completa                                                                                                      |
+| Juegos                        | 32 juegos para la clase con buscador y filtros por asignatura, grado y modo de juego (ver más abajo). El bingo está aquí                                                                |
+| Lista de estudiantes          | Guarda varios grupos con sus estudiantes (acepta listas pegadas desde Word o Excel) para usarlos en otras herramientas                                                                  |
+| Puntos                        | Da puntos (con emojis que suben: ⭐ 1, 💎 5, 👑 10, 💯 100) a tus estudiantes, con la razón: participó, ayudó…, y mira en vivo cuántos lleva cada quien; historial, deshacer y reinicio |
+| Ruleta                        | Gira para elegir un ganador de una lista editable (se recuerda); puede cargar un grupo de estudiantes y quitar a quien salga                                                            |
+
+La pantalla de inicio tiene **buscador**, filtro por sección y **favoritos**: la estrella de cada tarjeta la agrega a una fila «Favoritos» que va siempre arriba (si no hay favoritos, no se muestra).
+
+## Juegos
+
+En **Para el aula → Juegos** hay 32 juegos pensados para proyectarse en el salón (texto grande, pocos botones, teclado y sonidos). Se filtran y buscan por asignatura (Matemática, Español, Ciencias, Estudios Sociales, Inglés, Música, Cultura de Costa Rica), grado (1.º a 6.º) y modo (toda la clase, por equipos, por turnos, individual), y también se pueden marcar como favoritos.
+
+| Tipo             | Juegos                                                                                                                                 |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| Preguntas        | ¿Quién quiere ser millonario?, Concurso de preguntas (estilo Jeopardy), Verdadero o falso, Carrera de equipos                          |
+| Palabras         | Ahorcado (un helado que se derrite), Palabras desordenadas, Memoria, Imagen escondida, Rompecabezas, Mímica y adivinanzas, ¿Quién soy? |
+| Lectura y lengua | Arma la palabra (sílabas), Lectura veloz, Ordena la oración, Comprensión de lectura, Ortografía, Trabalenguas y rimas                  |
+| Matemática       | Cálculo mental relámpago, Aprende la hora, Monedas y billetes (colones), Fracciones, Dados y monedas                                   |
+| Inglés           | What is it?, Listen and choose, Simon says, Build the sentence                                                                         |
+| Música           | Lee las notas, Piano, Eco rítmico, Adivina la melodía, ¿Qué instrumento es?                                                            |
+| Azar             | Bingo                                                                                                                                  |
+
+**Contenido incluido:** más de 2 400 preguntas de opción múltiple y 1 400 afirmaciones de verdadero o falso por asignatura, grado, tema y dificultad, además de listas de palabras y parejas para memoria. Se basa en los programas de estudio del MEP para I y II ciclos, y todo viene dentro de la app (sin internet). Cada docente puede **agregar sus propias preguntas, afirmaciones y listas**, editarlas, y guardarlas o abrirlas como archivo para compartirlas con otras personas. Detalles para agregar contenido y juegos en [docs/juegos.md](docs/juegos.md); la verificación del contenido se hace con `node scripts/validate-content.mjs`.
+
+> El contenido fue revisado con ayuda de fuentes, pero aún conviene que una docente lo repase: cada informe de revisión dejó una lista de datos por confirmar.
 
 ## Tamaño de la ventana
 
@@ -55,7 +75,7 @@ Otros comandos: `npm run typecheck`, `npm run lint`, `npm run format`.
 Compilar para Windows desde Linux/macOS necesita Wine, así que lo más simple es hacerlo en Windows o con GitHub Actions (`.github/workflows/build-windows.yml`, se ejecuta a mano o al subir una etiqueta `v*`):
 
 ```bash
-npm run build:win   # genera dist/Easy-Tools-<versión>-instalador.exe
+npm run build:win   # genera dist/Educando-<versión>-instalador.exe
 ```
 
 El instalador se instala con un solo clic, sin asistente, y crea un acceso directo en el escritorio. No está firmado, así que Windows puede mostrar "Windows protegió su PC": hay que elegir _Más información → Ejecutar de todas formas_.
@@ -116,10 +136,10 @@ scripts/        Descarga de binarios y modelos para el empaquetado
 - **Word a PDF** prefiere un programa de Office de verdad (`src/main/tools/officeEngine.ts`): Microsoft Word en Windows (vía PowerShell/COM, **sin probar** aún en Windows) o LibreOffice (`soffice --headless --convert-to pdf`). Con cualquiera de los dos el PDF queda igual al documento y también se pueden abrir los `.doc` antiguos. Si no hay ninguno (o falla), se usa el método sencillo: `docx-preview` en una ventana oculta (`src/renderer/print.html`) impreso con Chromium; ese método respeta estilos, tablas simples, imágenes, encabezados y pies, pero **no** diseños exactos (filas con alto fijo, cuadros de texto, formas) y no lee `.doc`.
 - **PDF a Word** (`src/renderer/src/lib/pdfRead.ts` y `pdfToWordExact.ts`) lee del PDF el texto con su posición, tipo de letra, tamaño, color, escala horizontal y espaciado, además de líneas, rellenos e imágenes. Arma tablas con las columnas en su posición exacta (por huecos del texto, o por la cuadrícula de líneas si la tabla tiene bordes), interlineado exacto en todo, líneas como bordes de celdas y las imágenes ancladas a la hoja. No hace OCR, así que un PDF escaneado no se puede convertir. No copia: vectores curvos, degradados, imágenes giradas ni las de fondo de toda la página.
 - Cómo se mide la fidelidad: se convierte un PDF a Word, se dibuja el Word con LibreOffice y se compara contra el original por imagen (desplazamiento medio de la tinta por franjas de la página). Con la factura de ejemplo queda a menos de ~0,4 pt en la página 1.
-- **Estudiantes y estrellitas:** los grupos se guardan en la computadora (almacenamiento local de la app, en `src/renderer/src/lib/classrooms.ts`) y cada estudiante tiene un identificador propio, así que renombrar a alguien o tener dos con el mismo nombre no mezcla sus estrellitas. Las estrellitas se guardan como eventos (quién, por qué razón y cuándo), de donde salen el conteo y el historial. Otras herramientas pueden usar los grupos con `useClassrooms()`.
+- **Estudiantes y puntos:** los grupos se guardan en la computadora (almacenamiento local de la app, en `src/renderer/src/lib/classrooms.ts`) y cada estudiante tiene un identificador propio, así que renombrar a alguien o tener dos con el mismo nombre no mezcla sus puntos. Los puntos se guardan como eventos (quién, por qué razón y cuándo), de donde salen el conteo y el historial. Otras herramientas pueden usar los grupos con `useClassrooms()`.
 - **Bingo** narra con `speechSynthesis` usando una voz en español del sistema (`src/renderer/src/lib/useSpanishVoice.ts`). En Windows 10/11 vienen voces como Sabina o Helena; en Linux puede no haber ninguna, y entonces la herramienta lo avisa y funciona sin voz. El juego en curso se guarda al cerrar la app.
 - YouTube a veces bloquea la descarga pidiendo "confirmar que no eres un robot" (pasa casi siempre desde servidores, rara vez en una casa). La app muestra un mensaje claro y basta con reintentar más tarde.
 
 ## Licencia
 
-[MIT](LICENSE): puedes usar, copiar y modificar Easy Tools libremente.
+[MIT](LICENSE): puedes usar, copiar y modificar Educando libremente.

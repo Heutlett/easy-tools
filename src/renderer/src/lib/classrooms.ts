@@ -1,6 +1,6 @@
 import { usePersistentState } from './usePersistentState'
 
-/** Cada estudiante tiene un identificador propio: así se puede cambiar su nombre, o tener dos con el mismo nombre, sin mezclar sus estrellitas. */
+/** Cada estudiante tiene un identificador propio: así se puede cambiar su nombre, o tener dos con el mismo nombre, sin mezclar sus puntos. */
 export interface Student {
   id: string
   name: string
