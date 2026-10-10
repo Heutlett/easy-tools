@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { AUTHOR, type LicenseState } from '../../../shared/about'
 import logo from '../assets/logo.svg'
+import whatsapp from '../assets/icons/whatsapp.svg'
 import CopyButton from './CopyButton'
 
 interface Props {
@@ -27,26 +28,40 @@ export default function ActivationScreen({ state, onActivated }: Props): React.J
     }
   }
 
+  // El mensaje sale escrito con el código del equipo: la persona solo tiene que enviarlo.
+  const whatsappUrl = `https://wa.me/${AUTHOR.phoneDigits.replace('+', '')}?text=${encodeURIComponent(
+    `Hola Adrian, quiero mi clave de Easy Tools. El código de mi equipo es: ${state.code}`
+  )}`
+
   return (
     <main className="activation">
       <div className="activation-card">
-        <img className="app-logo big" src={logo} alt="" />
-        <h1>Easy Tools necesita una clave</h1>
-        <p>
-          Esta aplicación es de uso privado. Para usarla, <strong>escríbeme primero</strong> y
-          envíame el código de este equipo: te respondo con tu clave.
-        </p>
-
-        <div className="activation-block">
-          <span className="muted">Mi correo</span>
-          <div className="row start">
-            <strong className="selectable">{AUTHOR.email}</strong>
-            <CopyButton text={AUTHOR.email} />
-          </div>
+        <div className="activation-head">
+          <img className="app-logo" src={logo} alt="" width={64} height={64} />
+          <h1>Easy Tools necesita una clave</h1>
         </div>
 
         <div className="activation-block">
-          <span className="muted">Código de este equipo (envíamelo)</span>
+          <span className="panel-title">1. Pídela por WhatsApp</span>
+          <a className="btn big whatsapp-btn" href={whatsappUrl} target="_blank" rel="noreferrer">
+            <img src={whatsapp} width={34} height={34} alt="" />
+            Escribirme por WhatsApp
+          </a>
+          <div className="row start">
+            <span className="selectable">
+              <img className="inline-icon" src={whatsapp} width={20} height={20} alt="" />{' '}
+              <strong>{AUTHOR.phone}</strong>
+            </span>
+            <CopyButton text={AUTHOR.phone} />
+          </div>
+          <span className="muted">
+            El mensaje ya lleva el código de este equipo. Si prefieres, escríbeme a{' '}
+            <span className="selectable">{AUTHOR.email}</span>
+          </span>
+        </div>
+
+        <div className="activation-block">
+          <span className="muted">Código de este equipo</span>
           <div className="row start">
             <strong className="activation-code selectable">{state.code}</strong>
             <CopyButton text={state.code} />
@@ -55,7 +70,7 @@ export default function ActivationScreen({ state, onActivated }: Props): React.J
 
         <div className="activation-block">
           <label className="panel-title" htmlFor="license-key">
-            Cuando tengas tu clave, pégala aquí
+            2. Pega aquí la clave que te envíe
           </label>
           <textarea
             id="license-key"
