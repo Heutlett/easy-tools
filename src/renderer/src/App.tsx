@@ -1,5 +1,6 @@
 import { Suspense, useState } from 'react'
 import { tools } from './tools/registry'
+import ComponentsBanner from './components/ComponentsBanner'
 import ToolCatalog from './components/ToolCatalog'
 import logo from './assets/logo.svg'
 import AboutPage from './components/AboutPage'
@@ -44,6 +45,7 @@ function Content(): React.JSX.Element {
         </div>
       </header>
       <h2 className="home-question">¿Qué quieres hacer hoy?</h2>
+      <ComponentsBanner />
       <ToolCatalog tools={tools} onOpen={setToolId} />
     </main>
   )

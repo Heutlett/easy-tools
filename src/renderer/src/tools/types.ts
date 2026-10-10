@@ -1,3 +1,4 @@
+import type { ComponentId } from '../../../shared/components'
 import type { CategoryId } from './categories'
 
 export interface ToolMeta {
@@ -13,4 +14,6 @@ export interface ToolMeta {
   category: CategoryId
   /** Posición dentro de su sección (menor = primero) */
   order: number
+  /** Piezas grandes que hay que descargar antes de usarla (ver shared/components.ts) */
+  requires?: ComponentId[]
 }

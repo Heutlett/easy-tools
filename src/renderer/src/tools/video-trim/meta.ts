@@ -6,5 +6,6 @@ export default {
   icon: '✂️',
   color: '#2563eb',
   category: 'video',
+  requires: ['ffmpeg'],
   order: 1
 } satisfies ToolMeta

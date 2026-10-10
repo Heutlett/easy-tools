@@ -6,5 +6,6 @@ export default {
   icon: '🪄',
   color: '#db2777',
   category: 'images',
+  requires: ['model'],
   order: 2
 } satisfies ToolMeta

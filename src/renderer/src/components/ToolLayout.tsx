@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react'
 import type { Tool } from '../tools/registry'
 import { ToolHeaderContext, type HeaderOverride } from './ToolHeaderContext'
+import ComponentGate from './ComponentGate'
 import ToolIcon from './ToolIcon'
 
 interface Props {
@@ -43,7 +44,9 @@ export default function ToolLayout({ tool, onBack, children }: Props): React.JSX
             </div>
           </div>
         </header>
-        <main className="tool-body">{children}</main>
+        <main className="tool-body">
+          <ComponentGate need={tool.requires}>{children}</ComponentGate>
+        </main>
       </div>
     </ToolHeaderContext.Provider>
   )

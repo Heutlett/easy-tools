@@ -12,6 +12,7 @@ import { registerOutputTools } from './tools/output'
 import { registerPdfToWordTools } from './tools/pdfToWord'
 import { registerWordTools } from './tools/word'
 import { registerAppInfoHandlers } from './appInfo'
+import { registerComponentHandlers } from './components'
 import { setupUpdater } from './updater'
 import { fixedContentSize, setupWindowSizing } from './windowMode'
 
@@ -78,6 +79,7 @@ app.whenReady().then(() => {
 
   registerAppInfoHandlers()
   setupUpdater()
+  registerComponentHandlers()
   registerCommonHandlers()
   registerVideoTools()
   registerYoutubeTools()

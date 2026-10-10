@@ -9,12 +9,8 @@ files:
   - package.json
 asarUnpack:
   - node_modules/onnxruntime-node/**
-# ffmpeg, yt-dlp y los modelos de IA van fuera del .asar para poder ejecutarse / leerse directamente.
-extraResources:
-  - from: resources/bin/${os}
-    to: bin
-  - from: resources/models
-    to: models
+# ffmpeg, yt-dlp y el modelo de IA NO viajan en el instalador (pesan ~190 MB): la app los descarga la primera vez
+# (ver src/main/components.ts). Para desarrollar se bajan con `npm run setup` a resources/ y no se empaquetan.
 win:
   executableName: educando
   target:

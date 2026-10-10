@@ -1,28 +1,11 @@
-import { app } from 'electron'
 import { spawn } from 'child_process'
-import { copyFileSync, chmodSync, existsSync, mkdirSync, statSync } from 'fs'
-import { join } from 'path'
 import { handle } from '../ipc'
 import { CancelledError, registerJob, reporter, UserError } from '../jobs'
-import { bundledYtDlpPath, ffmpegPath, outputDir } from '../paths'
+import { requireYtDlp } from '../components'
+import { ffmpegPath, outputDir } from '../paths'
 
-const exe = process.platform === 'win32' ? '.exe' : ''
-
-/**
- * yt-dlp se copia a la carpeta de datos de la app para poder actualizarse solo:
- * YouTube cambia seguido y las versiones viejas dejan de funcionar.
- */
-function ytDlpPath(): string {
-  const dir = join(app.getPath('userData'), 'bin')
-  const dest = join(dir, `yt-dlp${exe}`)
-  const bundled = bundledYtDlpPath()
-  if (!existsSync(dest) || statSync(bundled).mtimeMs > statSync(dest).mtimeMs) {
-    mkdirSync(dir, { recursive: true })
-    copyFileSync(bundled, dest)
-    if (process.platform !== 'win32') chmodSync(dest, 0o755)
-  }
-  return dest
-}
+/** yt-dlp es un componente que se descarga la primera vez (ver components.ts) y se actualiza solo. */
+const ytDlpPath = requireYtDlp
 
 /** Se llama al iniciar la app: intenta actualizar yt-dlp en segundo plano (si hay internet). */
 export function updateYtDlpInBackground(): void {
