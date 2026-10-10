@@ -1,0 +1,186 @@
+.mr-setup {
+  max-width: 900px;
+  gap: 18px;
+}
+.mr {
+  gap: 12px;
+}
+.mr-board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 24px 10px;
+  background: var(--surface);
+  border: 3px solid var(--border);
+  border-radius: 22px;
+}
+.mr-board .mus-rhythm {
+  max-height: clamp(110px, 24vh, 230px);
+}
+.mr-beats {
+  display: flex;
+  gap: 14px;
+}
+.mr-dot {
+  display: grid;
+  place-items: center;
+  width: clamp(40px, 5.4vw, 58px);
+  height: clamp(40px, 5.4vw, 58px);
+  border-radius: 50%;
+  font-size: clamp(1.1rem, 2.4vw, 1.7rem);
+  font-weight: 800;
+  color: var(--muted);
+  background: var(--bg);
+  border: 3px solid var(--border);
+  transition:
+    background 0.06s,
+    transform 0.06s;
+}
+.mr-dot.on {
+  color: #fff;
+  background: var(--accent);
+  border-color: var(--accent);
+  transform: scale(1.15);
+}
+.mr-dot.on.count {
+  background: #ea580c;
+  border-color: #ea580c;
+}
+.mr-status {
+  min-height: 2.4rem;
+  margin: 0;
+  font-size: clamp(1.3rem, 2.6vw, 1.9rem);
+  font-weight: 800;
+  text-align: center;
+}
+.mr-stars-off {
+  filter: grayscale(1);
+  opacity: 0.25;
+}
+.mr-detail {
+  margin: 0;
+  text-align: center;
+}
+.mr-key {
+  font-weight: 800;
+  margin: 0 4px;
+}
+.mr-key.ok {
+  color: var(--success);
+}
+.mr-key.near {
+  color: #d97706;
+}
+.mr-key.miss {
+  color: var(--danger);
+}
+.mr-pad {
+  font: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  min-height: clamp(86px, 15vh, 150px);
+  font-size: clamp(1.1rem, 2.2vw, 1.6rem);
+  font-weight: 700;
+  color: var(--muted);
+  background: var(--surface);
+  border: 4px dashed var(--border);
+  border-radius: 24px;
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+  transition:
+    transform 0.05s,
+    background 0.1s;
+}
+.mr-pad:active {
+  transform: scale(0.985);
+  background: color-mix(in srgb, var(--accent) 16%, white);
+}
+.mr-pad.live {
+  color: var(--text);
+  border: 4px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, white);
+  animation: mr-pulse 1s ease-in-out infinite alternate;
+}
+.mr-pad-icon {
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  line-height: 1;
+}
+@keyframes mr-pulse {
+  from {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 30%, transparent);
+  }
+  to {
+    box-shadow: 0 0 0 10px color-mix(in srgb, var(--accent) 0%, transparent);
+  }
+}
+.mr-actions {
+  justify-content: center;
+}
+
+/* ¿Qué figura es? */
+.mr-question {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 20px;
+  background: var(--surface);
+  border: 3px solid var(--border);
+  border-radius: 22px;
+}
+.mr-figure-big {
+  width: clamp(150px, 26vh, 260px);
+}
+.mr-ask {
+  margin: 0;
+  font-size: clamp(1.3rem, 2.8vw, 2rem);
+  font-weight: 800;
+  text-align: center;
+}
+.mr-name {
+  justify-content: center;
+  font-size: clamp(1.3rem, 2.6vw, 2rem);
+  font-weight: 800;
+}
+.mr-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.mr-card {
+  position: relative;
+  justify-content: center;
+  padding: 6px 12px;
+}
+.mr-card .g-letter {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+}
+.mr-card .mus-figure {
+  width: auto;
+  height: clamp(100px, 17vh, 170px);
+}
+.mr-feedback {
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.mr-verdict {
+  margin: 0;
+  font-size: 1.7rem;
+  font-weight: 800;
+}
+.mr-verdict.ok {
+  color: var(--success);
+}
+.mr-verdict.bad {
+  color: var(--danger);
+}

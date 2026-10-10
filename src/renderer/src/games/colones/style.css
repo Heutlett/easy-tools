@@ -1,0 +1,228 @@
+/* Monedas y billetes: clases con prefijo cl- */
+.cl-piece {
+  display: block;
+  overflow: visible;
+  filter: drop-shadow(0 3px 3px rgba(15, 23, 42, 0.28));
+}
+.cl-pile {
+  width: 100%;
+}
+.cl-ask {
+  font-size: clamp(1.4rem, 2.8vw, 2rem);
+  font-weight: 800;
+}
+.cl-ask.center {
+  text-align: center;
+}
+.cl-target {
+  font-size: clamp(2.6rem, 6vw, 4rem);
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.cl-builder {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.cl-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.cl-heading {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+.cl-sum {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 14px;
+  background: var(--surface);
+  border: 3px solid var(--border);
+  border-radius: 18px;
+}
+.cl-sum.ok {
+  border-color: var(--success);
+}
+.cl-sum.bad {
+  border-color: var(--danger);
+}
+.cl-sum-label {
+  color: var(--muted);
+  font-weight: 700;
+}
+.cl-sum-value {
+  font-size: 2rem;
+  font-weight: 800;
+  min-width: 5.5ch;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.cl-table {
+  min-height: 100px;
+  max-height: 170px;
+  overflow: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background: #3f6b4f;
+  background-image: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.12), transparent 60%);
+  border: 4px solid #2a4a37;
+  border-radius: 20px;
+}
+.cl-empty {
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 600;
+  margin: auto;
+  font-size: 1.15rem;
+}
+.cl-chip,
+.cl-pick {
+  font: inherit;
+  padding: 2px;
+  background: transparent;
+  border: 3px solid transparent;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+.cl-chip:hover:not(:disabled),
+.cl-pick:hover:not(:disabled) {
+  transform: translateY(-3px) scale(1.04);
+}
+.cl-chip:focus-visible,
+.cl-pick:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+  background: #fff8;
+}
+.cl-chip:disabled,
+.cl-pick:disabled {
+  cursor: default;
+}
+.cl-hint {
+  min-height: 1.2em;
+  text-align: center;
+  font-weight: 700;
+  color: var(--danger);
+}
+.cl-palette {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding: 6px 10px;
+  background: var(--surface);
+  border: 2px dashed var(--border);
+  border-radius: 18px;
+}
+.cl-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.cl-keys {
+  font-size: 0.85rem;
+}
+.cl-count {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.cl-pilebox {
+  padding: 10px;
+  background: #3f6b4f;
+  border: 4px solid #2a4a37;
+  border-radius: 20px;
+}
+.cl-opt {
+  font-size: 1.9rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.cl-equation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 14px;
+  background: var(--surface);
+  border: 3px solid var(--border);
+  border-radius: 20px;
+}
+.cl-eq {
+  font-size: 2.6rem;
+  font-weight: 800;
+  color: var(--muted);
+}
+.cl-qmark {
+  display: grid;
+  place-items: center;
+  width: 84px;
+  height: 84px;
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--accent);
+  border: 4px dashed var(--accent);
+  border-radius: 20px;
+}
+.cl-swap {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.cl-shop {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.cl-shop-title {
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: var(--accent);
+}
+.cl-lines {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.cl-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 2px 12px;
+  background: var(--surface);
+  border: 3px solid var(--border);
+  border-radius: 16px;
+  font-size: 1.15rem;
+}
+.cl-line-emoji {
+  font-size: 1.8rem;
+}
+.cl-pay {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.25rem;
+  flex-wrap: wrap;
+}
+.cl-pay .cl-shop-title {
+  margin-right: 6px;
+  padding-right: 16px;
+  border-right: 3px solid var(--border);
+}

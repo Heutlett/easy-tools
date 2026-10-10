@@ -1,0 +1,40 @@
+.vf-statement {
+  min-height: 150px;
+  display: grid;
+  place-items: center;
+}
+.vf-answer {
+  min-height: 96px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-align: center;
+  border-radius: 18px;
+  border: 3px dashed var(--border);
+}
+.vf-answer.true {
+  border: 3px solid var(--success);
+  background: color-mix(in srgb, var(--success) 10%, white);
+}
+.vf-answer.false {
+  border: 3px solid var(--danger);
+  background: color-mix(in srgb, var(--danger) 9%, white);
+}
+.vf-verdict {
+  font-size: 2.2rem;
+  font-weight: 800;
+}
+.vf-explanation {
+  font-size: 1.25rem;
+  padding: 0 20px;
+}
+.vf-winner {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+.vf-hint {
+  text-align: center;
+  font-size: 0.85rem;
+}

@@ -1,0 +1,121 @@
+/* Piezas comunes de los juegos de lectura (prefijo lec-). */
+:root {
+  --lec-font: Verdana, 'DejaVu Sans', 'Segoe UI', system-ui, sans-serif;
+  --lec-c1: var(--accent);
+  --lec-c2: #d97706;
+}
+.lec-opt {
+  display: grid;
+  grid-template-columns: 170px 1fr;
+  gap: 12px;
+  align-items: center;
+}
+.lec-opt-label {
+  font-weight: 800;
+  font-size: 1.05rem;
+}
+.lec-opt-hint {
+  display: block;
+  font-weight: 500;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.lec-pill {
+  min-height: 48px;
+  font-size: 1.05rem;
+}
+.lec-setup {
+  max-width: 1000px;
+  gap: 14px;
+}
+.lec-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.lec-top-right {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.lec-turn {
+  font-weight: 800;
+  font-size: 1.15rem;
+  padding: 3px 14px;
+  border: 3px solid;
+  border-radius: 99px;
+  background: var(--surface);
+}
+.lec-winner {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+.lec-end-line {
+  font-size: 1.3rem;
+}
+.lec-sub {
+  text-align: center;
+  font-size: 0.85rem;
+}
+.lec-burst {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 30;
+}
+.lec-burst span {
+  position: absolute;
+  top: -50px;
+  animation: lec-fall 1.6s ease-in forwards;
+}
+@keyframes lec-fall {
+  to {
+    transform: translateY(110vh) rotate(260deg);
+    opacity: 0.8;
+  }
+}
+@keyframes lec-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-10px);
+  }
+  40% {
+    transform: translateX(10px);
+  }
+  60% {
+    transform: translateX(-7px);
+  }
+  80% {
+    transform: translateX(7px);
+  }
+}
+@keyframes lec-drain {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lec-burst span {
+    animation-duration: 0.01s;
+  }
+}
+
+.lec-end {
+  min-height: 62vh;
+}
+
+.lec-score {
+  align-self: stretch;
+}
+.lec-score .scoreboard {
+  justify-content: center;
+}

@@ -34,7 +34,7 @@ protocol.registerSchemesAsPrivileged([
 function createWindow(): void {
   const { width, height } = fixedContentSize()
   const mainWindow = new BrowserWindow({
-    title: 'Easy Tools',
+    title: 'Educando',
     width,
     height,
     useContentSize: true,
@@ -64,7 +64,7 @@ function createWindow(): void {
 }
 
 app.whenReady().then(() => {
-  electronApp.setAppUserModelId('cr.easytools.app')
+  electronApp.setAppUserModelId('cr.educando.app')
 
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)

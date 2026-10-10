@@ -1,6 +1,6 @@
 {
   "name": "easy-tools",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Herramientas sencillas para docentes",
   "main": "./out/main/index.js",
   "author": "heutlett",
@@ -41,6 +41,7 @@
     "electron": "^39.2.6",
     "electron-builder": "^26.0.12",
     "electron-vite": "^5.0.0",
+    "esbuild": "^0.25.12",
     "eslint": "^9.39.1",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.0.1",

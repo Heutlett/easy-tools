@@ -1,0 +1,102 @@
+.mm-setup {
+  max-width: 900px;
+  gap: 18px;
+}
+.mm-setup .pills .pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.mm {
+  gap: 14px;
+}
+.mm-board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: var(--surface);
+  border: 3px solid var(--border);
+  border-radius: 22px;
+}
+.mm-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  height: clamp(44px, 7vh, 72px);
+}
+.mm-bars span {
+  width: 14px;
+  height: 14px;
+  border-radius: 7px;
+  background: var(--accent);
+  opacity: 0.35;
+  transition:
+    height 0.2s,
+    opacity 0.2s;
+}
+.mm-bars.on span {
+  opacity: 1;
+  animation: mm-bounce 0.55s ease-in-out infinite alternate;
+}
+@keyframes mm-bounce {
+  from {
+    height: 14px;
+  }
+  to {
+    height: clamp(40px, 6.5vh, 66px);
+  }
+}
+.mm-ask {
+  margin: 0;
+  font-size: clamp(1.6rem, 3.4vw, 2.5rem);
+  font-weight: 800;
+}
+.mm-mode {
+  margin: 0;
+  font-size: 1.05rem;
+}
+.mm-actions {
+  justify-content: center;
+}
+.mm-option {
+  font-size: clamp(1.2rem, 2.3vw, 1.8rem);
+  font-weight: 700;
+}
+.mm-emoji {
+  font-size: 1.5em;
+  line-height: 1;
+}
+.mm-feedback {
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.mm-verdict {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  font-size: 1.7rem;
+  font-weight: 800;
+}
+.mm-verdict small {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.mm-verdict.ok {
+  color: var(--success);
+}
+.mm-verdict.bad {
+  color: var(--danger);
+}
+@media (prefers-reduced-motion: reduce) {
+  .mm-bars.on span {
+    animation: none;
+    height: 40px;
+  }
+}

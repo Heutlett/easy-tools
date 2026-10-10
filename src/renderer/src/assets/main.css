@@ -150,6 +150,55 @@ h1 {
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 18px;
 }
+.catalog-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 26px;
+}
+.catalog-search {
+  max-width: 460px;
+}
+.catalog-empty {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.tool-card-wrap {
+  position: relative;
+  display: flex;
+}
+.tool-card-wrap > .tool-card {
+  flex: 1;
+}
+.fav-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--muted);
+  background: transparent;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  cursor: pointer;
+}
+.fav-btn:hover {
+  color: #d97706;
+  background: color-mix(in srgb, #f59e0b 14%, white);
+}
+.fav-btn.on {
+  color: #f59e0b;
+}
+.fav-btn:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 2px;
+}
 .tool-card {
   font: inherit;
   text-align: left;
@@ -1409,7 +1458,7 @@ h1 {
   min-height: 44px;
 }
 
-/* ---------- Estrellitas ---------- */
+/* ---------- Puntos ---------- */
 .reason-panel {
   gap: 10px;
 }
@@ -1439,12 +1488,44 @@ h1 {
 }
 .star-count {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.star-emojis {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2px;
+  min-height: 2rem;
+  font-size: 1.6rem;
+  line-height: 1.2;
+}
+.tiers {
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 8px 28px;
+  padding: 10px 18px;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 18px;
 }
-.star-icon {
-  font-size: 2rem;
+.tier {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.tier-emoji {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+.tier-value {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
 }
 .star-number {
   font-size: 3rem;
@@ -1505,4 +1586,54 @@ h1 {
 }
 .contact-name {
   font-size: 1.25rem;
+}
+
+/* ---------- Nota de bienvenida (una sola vez) ---------- */
+.welcome-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  overflow-y: auto;
+  background: rgba(17, 24, 39, 0.62);
+}
+.welcome-card {
+  width: min(720px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 26px 30px;
+  background: var(--surface);
+  border-radius: 24px;
+  box-shadow: 0 30px 60px -24px rgba(0, 0, 0, 0.6);
+}
+.welcome-card h1 {
+  font-size: 1.9rem;
+}
+.welcome-lead {
+  font-size: 1.1rem;
+}
+.welcome-author {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--accent) 8%, white);
+}
+.welcome-author p {
+  margin-bottom: 4px;
+  font-size: 1.15rem;
+}
+.welcome-author p.welcome-contact {
+  font-size: 1.05rem;
+}
+.welcome-where {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+.welcome-card .btn.big {
+  align-self: flex-end;
 }

@@ -66,7 +66,7 @@ export default function JobStatus<T extends { output: string }>({
       <div className="panel success-panel">
         <p className="panel-title">✅ ¡Listo!</p>
         <p>{doneText ? doneText(out) : baseName(out)}</p>
-        <p className="muted">Se guardó en Documentos → Easy Tools</p>
+        <p className="muted">Se guardó en Documentos → Educando</p>
         <div className="row start">
           <button className="btn" onClick={() => window.api.showItem(out)}>
             Mostrar en la carpeta

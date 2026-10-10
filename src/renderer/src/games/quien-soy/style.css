@@ -1,0 +1,240 @@
+.qs-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.qs-top .btn {
+  margin-left: auto;
+}
+.qs-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.qs-title {
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  font-weight: 900;
+}
+.qs-worth {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 22px;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #fff;
+  background: var(--accent);
+  border-radius: 99px;
+}
+.qs-worth b {
+  font-size: 2.4rem;
+  line-height: 1;
+}
+.qs-clues {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.qs-clue {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 58px;
+  padding: 6px 18px;
+  font-size: clamp(1.15rem, 2.4vw, 1.75rem);
+  font-weight: 600;
+  background: var(--surface);
+  border: 3px solid var(--border);
+  border-radius: 18px;
+}
+.qs-clue.open {
+  border-color: color-mix(in srgb, var(--accent) 50%, white);
+}
+.qs-clue.fresh {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 9%, white);
+  animation: qs-in 0.25s ease-out;
+}
+.qs-clue.locked {
+  color: var(--muted);
+  border-style: dashed;
+  background: transparent;
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+.qs-num {
+  flex: none;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #fff;
+  background: var(--accent);
+  border-radius: 50%;
+}
+.qs-clue.locked .qs-num {
+  background: var(--border);
+  color: var(--muted);
+}
+@keyframes qs-in {
+  from {
+    opacity: 0.25;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.qs-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+.qs-actions .btn {
+  min-height: 66px;
+  font-size: 1.3rem;
+}
+.qs-who {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+.qs-who-label {
+  font-weight: 700;
+  color: var(--muted);
+}
+.qs-team {
+  font: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 58px;
+  padding: 0 20px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text);
+  background: var(--surface);
+  border: 3px solid var(--team);
+  border-radius: 16px;
+  cursor: pointer;
+}
+.qs-team:hover {
+  background: color-mix(in srgb, var(--team) 14%, white);
+}
+.qs-team:focus-visible {
+  outline: 3px solid var(--team);
+  outline-offset: 3px;
+}
+.qs-reveal {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 18px 28px;
+  background: color-mix(in srgb, var(--accent) 8%, white);
+  border: 4px solid var(--accent);
+  border-radius: 26px;
+  animation: pop 0.45s ease-out;
+}
+.qs-emoji {
+  flex: none;
+  font-size: clamp(5rem, 11vw, 8rem);
+  line-height: 1;
+}
+.qs-answer {
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  font-weight: 900;
+  line-height: 1.1;
+}
+.qs-also {
+  color: var(--muted);
+  font-size: 1rem;
+}
+.qs-fact {
+  font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+  margin-top: 6px;
+}
+.qs-points {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 4px 18px;
+  font-size: 1.4rem;
+  font-weight: 800;
+  border-radius: 99px;
+  color: #fff;
+  background: var(--success);
+}
+.qs-points.none {
+  background: var(--muted);
+}
+.qs-clues.small .qs-clue {
+  min-height: 0;
+  padding: 2px 14px;
+  font-size: 1rem;
+  font-weight: 500;
+}
+.qs-clues.small .qs-num {
+  width: 26px;
+  height: 26px;
+  font-size: 0.85rem;
+}
+.qs-hint {
+  text-align: center;
+  font-size: 0.85rem;
+}
+.qs-winner {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+.qs-review {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  max-width: 900px;
+}
+.qs-review-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 14px;
+  font-weight: 700;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 99px;
+}
+.qs-review-item.hit {
+  border-color: var(--success);
+  background: color-mix(in srgb, var(--success) 10%, white);
+}
+.qs-review-item span:first-child {
+  font-size: 1.4rem;
+}
+@media (max-width: 760px) {
+  .qs-reveal {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+.btn.qs-ok {
+  background: var(--success);
+  border-color: var(--success);
+}
+
+.qs-board .scoreboard.compact .score-card {
+  flex: 1 1 190px;
+  max-width: 260px;
+}
+.qs-board .scoreboard {
+  justify-content: center;
+}
