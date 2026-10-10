@@ -23,7 +23,7 @@ export default function AboutPage({ onBack }: { onBack: () => void }): React.JSX
         <div className="tool-heading">
           <img className="app-logo small" src={logo} alt="" />
           <div>
-            <h1>Acerca de Easy Tools</h1>
+            <h1>Acerca de Educando</h1>
             <p className="muted">Versión {version}</p>
           </div>
         </div>
@@ -72,7 +72,7 @@ export default function AboutPage({ onBack }: { onBack: () => void }): React.JSX
         </section>
 
         <section className="panel">
-          <h2 className="panel-title">Quién la hizo</h2>
+          <h2 className="panel-title">Desarrollado por</h2>
           <div className="contact">
             <img className="avatar" src={adrian} width={88} height={88} alt={AUTHOR.name} />
             <div className="contact-info">
@@ -87,12 +87,15 @@ export default function AboutPage({ onBack }: { onBack: () => void }): React.JSX
               </div>
             </div>
           </div>
+          <p className="muted">
+            Si necesitas una aplicación o un sistema a la medida, escríbeme y conversamos.
+          </p>
         </section>
 
         <section className="panel donation">
           <h2 className="panel-title">Apoyar el proyecto</h2>
           <p>
-            Si Easy Tools te resulta útil, puedes apoyar su desarrollo con un aporte voluntario por
+            Si Educando te resulta útil, puedes apoyar su desarrollo con un aporte voluntario por
             SINPE Móvil. ¡Gracias!
           </p>
           <div className="row start">
@@ -105,8 +108,8 @@ export default function AboutPage({ onBack }: { onBack: () => void }): React.JSX
         <section className="panel">
           <h2 className="panel-title">Para desarrolladores</h2>
           <p>
-            Easy Tools es de código abierto. Puedes ver el código, reportar errores o proponer
-            mejoras en GitHub.
+            Educando es de código abierto. Puedes ver el código, reportar errores o proponer mejoras
+            en GitHub.
           </p>
           <div className="row start">
             <a className="repo-link selectable" href={REPO_URL} target="_blank" rel="noreferrer">

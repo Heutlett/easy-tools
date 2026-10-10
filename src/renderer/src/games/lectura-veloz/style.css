@@ -1,0 +1,205 @@
+.vel-pill-count {
+  font-weight: 500;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.vel-stage {
+  gap: 12px;
+}
+.vel-screen {
+  min-height: 360px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  background: var(--surface);
+  border: 3px solid var(--border);
+  border-radius: 28px;
+  padding: 16px 28px;
+  overflow: hidden;
+}
+.vel-word {
+  font-family: var(--lec-font);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: 0.04em;
+  word-spacing: 0.3em;
+  color: var(--text);
+}
+.vel-word.reveal {
+  color: var(--accent);
+  animation: pop 0.4s ease-out;
+}
+.vel-msg {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: var(--muted);
+}
+.vel-msg-emoji {
+  font-size: 6rem;
+  line-height: 1;
+}
+.vel-bar-wrap {
+  height: 12px;
+  border-radius: 99px;
+  background: color-mix(in srgb, var(--accent) 10%, white);
+  overflow: hidden;
+}
+.vel-bar {
+  height: 100%;
+  background: var(--accent);
+  transform-origin: left;
+  animation-name: lec-drain;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+.vel-actions {
+  justify-content: center;
+  min-height: 62px;
+}
+
+/* Lectura cronometrada */
+.vel-read {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 18px;
+  align-items: start;
+}
+.vel-read-main {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+.vel-read-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.vel-read-size {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+}
+.vel-text {
+  font-family: var(--lec-font);
+  font-weight: 500;
+  line-height: 1.75;
+  letter-spacing: 0.03em;
+  padding: 18px 26px;
+  max-height: calc(100vh - 205px);
+  overflow-y: auto;
+  background: var(--surface);
+  border: 3px solid var(--border);
+  border-radius: 22px;
+  user-select: text;
+}
+.vel-text p + p {
+  margin-top: 0.7em;
+}
+.vel-verse {
+  white-space: pre-line;
+}
+.vel-text.blurred {
+  filter: blur(8px);
+  overflow: hidden;
+  pointer-events: none;
+}
+.vel-side {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.vel-name {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+.vel-used {
+  gap: 6px;
+}
+.vel-clock {
+  font-size: 3.4rem;
+  font-weight: 800;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+.vel-clock.reading {
+  color: var(--accent);
+}
+.vel-clock.done {
+  color: var(--text);
+}
+.vel-stop {
+  background: var(--success);
+  border-color: var(--success);
+}
+.vel-errors {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-weight: 700;
+}
+.vel-result {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 18px;
+  border: 3px solid var(--success);
+  background: color-mix(in srgb, var(--success) 8%, white);
+  animation: pop 0.45s ease-out;
+}
+.vel-wpm {
+  font-size: 3.2rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--success);
+}
+.vel-wpm span {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.vel-correct {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+.vel-history {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 170px;
+  overflow-y: auto;
+}
+.vel-hist-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 6px 10px;
+  border-radius: 12px;
+  background: var(--surface);
+  border: 2px solid var(--border);
+}
+.vel-hist-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+.vel-chip {
+  font-weight: 800;
+  padding: 0 10px;
+  border-radius: 99px;
+  background: color-mix(in srgb, var(--accent) 14%, white);
+}
+.vel-exit {
+  margin-top: 4px;
+}

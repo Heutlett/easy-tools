@@ -10,7 +10,7 @@ export default function UpdateBanner(): React.JSX.Element | null {
     return (
       <div className="update-banner" role="status">
         <span>
-          🎉 <strong>Hay una versión nueva de Easy Tools</strong> ({status.version}).
+          🎉 <strong>Hay una versión nueva de Educando</strong> ({status.version}).
         </span>
         <span className="update-actions">
           <button className="btn small" onClick={download}>

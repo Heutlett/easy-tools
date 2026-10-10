@@ -4,3 +4,7 @@ pnpm-lock.yaml
 LICENSE.md
 tsconfig.json
 tsconfig.*.json
+src/renderer/src/content/questions
+src/renderer/src/content/statements
+src/renderer/src/content/lists
+src/renderer/src/content/pairs

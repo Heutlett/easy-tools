@@ -1,0 +1,242 @@
+.mp {
+  gap: 12px;
+}
+.mp-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 20px;
+}
+.mp-timbres .pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.mp-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 24px;
+}
+.mp-now {
+  min-height: 76px;
+  display: grid;
+  place-items: center;
+  font-size: 1.2rem;
+}
+.mp-now-name {
+  font-size: clamp(2.6rem, 6vw, 4.4rem);
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+}
+.mp-hint {
+  text-align: center;
+  margin: 0;
+}
+.mp-songs {
+  gap: 14px;
+}
+.mp-song-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+.mp-song {
+  align-items: center;
+  text-align: center;
+  font-size: 1.1rem;
+  padding: 16px 12px;
+}
+.mp-song-emoji {
+  font-size: 2.4rem;
+  line-height: 1;
+}
+.mp-song-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+.mp-spacer {
+  flex: 1;
+}
+.mp-strip {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 92px;
+  overflow: hidden;
+}
+.mp-chip {
+  display: grid;
+  place-items: center;
+  min-width: 62px;
+  height: 56px;
+  padding: 0 10px;
+  font-size: 1.4rem;
+  font-weight: 800;
+  border-radius: 14px;
+  background: var(--surface);
+  border: 3px solid var(--border);
+  color: var(--text);
+}
+.mp-chip.past {
+  opacity: 0.4;
+  border-color: var(--success);
+}
+.mp-chip.now {
+  min-width: 96px;
+  height: 78px;
+  font-size: 2.4rem;
+  color: #fff;
+  background: var(--accent);
+  border-color: var(--accent);
+  animation: pop 0.5s ease-out;
+}
+.mp-progress {
+  height: 8px;
+  border-radius: 99px;
+  background: var(--border);
+  overflow: hidden;
+}
+.mp-progress span {
+  display: block;
+  height: 100%;
+  background: var(--success);
+  transition: width 0.2s;
+}
+.mp-result {
+  min-height: 92px;
+  gap: 6px;
+}
+.mp-stars {
+  font-size: 3rem;
+  margin: 0;
+  letter-spacing: 6px;
+}
+.mp-stars-off {
+  filter: grayscale(1);
+  opacity: 0.25;
+}
+.mp-winner {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* ---------- Teclado ---------- */
+.mp-keyboard {
+  position: relative;
+  display: flex;
+  height: clamp(190px, 34vh, 360px);
+  user-select: none;
+  touch-action: none;
+  padding: 0 0 6px;
+}
+.mp-white,
+.mp-black {
+  font: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0 0 10px;
+  margin: 0;
+  transition:
+    background 0.08s,
+    transform 0.08s,
+    box-shadow 0.15s;
+}
+.mp-white {
+  flex: 1 1 0;
+  min-width: 0;
+  color: var(--text);
+  background: linear-gradient(#fff, #f3f4f6);
+  border: 2px solid #4b5563;
+  border-top: 0;
+  border-radius: 0 0 12px 12px;
+  margin-left: -2px;
+  font-size: clamp(0.9rem, 1.7vw, 1.5rem);
+  font-weight: 800;
+}
+.mp-white:first-child {
+  margin-left: 0;
+}
+.mp-black {
+  position: absolute;
+  top: 0;
+  height: 62%;
+  z-index: 2;
+  color: #fff;
+  background: linear-gradient(#374151, #111827);
+  border: 2px solid #111827;
+  border-top: 0;
+  border-radius: 0 0 9px 9px;
+  font-size: clamp(0.65rem, 1.2vw, 1.05rem);
+  font-weight: 700;
+  padding-bottom: 8px;
+}
+.mp-white.down {
+  background: color-mix(in srgb, var(--accent) 30%, white);
+  transform: translateY(2px);
+}
+.mp-black.down {
+  background: var(--accent);
+  transform: translateY(2px);
+}
+.mp-white.lit,
+.mp-black.lit {
+  background: #fbbf24;
+  color: #1f2933;
+}
+.mp-white.target,
+.mp-black.target {
+  background: #fde68a;
+  color: #1f2933;
+  box-shadow: inset 0 0 0 4px #f59e0b;
+  animation: mp-glow 0.9s ease-in-out infinite alternate;
+}
+.mp-black.target {
+  background: #f59e0b;
+}
+.mp-white.hit,
+.mp-black.hit {
+  background: color-mix(in srgb, var(--success) 40%, white);
+  animation: mp-glow 0.35s ease-out 2;
+}
+.mp-white.miss,
+.mp-black.miss {
+  background: color-mix(in srgb, var(--danger) 35%, white);
+  animation: mp-shake 0.3s ease-out;
+}
+@keyframes mp-glow {
+  from {
+    filter: brightness(1);
+  }
+  to {
+    filter: brightness(1.12);
+  }
+}
+@keyframes mp-shake {
+  25% {
+    transform: translateX(-4px);
+  }
+  75% {
+    transform: translateX(4px);
+  }
+}
+@media (max-width: 800px) {
+  .mp-chip {
+    min-width: 44px;
+    height: 44px;
+    font-size: 1rem;
+  }
+  .mp-chip.now {
+    min-width: 60px;
+    height: 56px;
+    font-size: 1.5rem;
+  }
+}

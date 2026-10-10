@@ -1,0 +1,89 @@
+.mn-setup {
+  max-width: 900px;
+  gap: 18px;
+}
+.mn-range {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 0;
+}
+.mn {
+  gap: 14px;
+}
+.mn-board {
+  display: grid;
+  place-items: center;
+  padding: 10px 20px;
+  background: var(--surface);
+  border: 3px solid var(--border);
+  border-radius: 22px;
+}
+.mn-board .mus-staff {
+  width: auto;
+  height: clamp(170px, 32vh, 320px);
+}
+.mn-listen {
+  min-height: clamp(100px, 16vh, 170px);
+  gap: 12px;
+  align-content: center;
+}
+.mn-speaker {
+  font-size: 1.6rem;
+  min-height: 72px;
+  padding: 0 36px;
+}
+.mn-name {
+  justify-content: center;
+  font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+  font-weight: 800;
+}
+.mn-seven {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+}
+.mn-note-btn {
+  justify-content: center;
+  padding: 10px 4px;
+  font-size: clamp(1.1rem, 2.4vw, 1.9rem);
+  font-weight: 800;
+}
+.mn-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.mn-card {
+  position: relative;
+  justify-content: center;
+  padding: 6px 12px;
+}
+.mn-card .g-letter {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+}
+.mn-card .mus-staff {
+  width: auto;
+  height: clamp(120px, 18vh, 200px);
+}
+.mn-feedback {
+  min-height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.mn-verdict {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin: 0;
+}
+.mn-verdict.ok {
+  color: var(--success);
+}
+.mn-verdict.bad {
+  color: var(--danger);
+}

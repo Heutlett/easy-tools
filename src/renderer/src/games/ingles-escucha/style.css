@@ -1,0 +1,112 @@
+/* Listen and choose (prefijo ie-); lo común está en ../_ingles/style.css */
+.ie-ear {
+  font-size: clamp(3.4rem, 11vh, 6rem);
+  line-height: 1;
+}
+.ie-ear.playing {
+  animation: pop 0.9s ease-in-out infinite;
+}
+.ie-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+.ie-text {
+  font-size: clamp(1.9rem, 4.4vw, 3rem);
+  font-weight: 800;
+  line-height: 1.2;
+}
+.ie-stage-card {
+  min-height: clamp(150px, 27vh, 230px);
+}
+.ie-clue {
+  font-size: 4.2rem;
+}
+.ie-slots {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+.ie-slot {
+  display: grid;
+  place-items: center;
+  width: 60px;
+  height: 70px;
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: var(--text);
+  background: var(--surface);
+  border: 3px solid var(--border);
+  border-bottom-width: 6px;
+  border-radius: 12px;
+}
+.ie-slot.filled {
+  border-color: var(--accent);
+  cursor: pointer;
+}
+.ie-slot.bad {
+  border-color: var(--danger);
+  background: color-mix(in srgb, var(--danger) 10%, white);
+  animation: ie-shake 0.4s;
+}
+.ie-slot.good {
+  border-color: var(--success);
+  background: color-mix(in srgb, var(--success) 12%, white);
+}
+.ie-letters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  min-height: 70px;
+}
+.ie-letter {
+  font: inherit;
+  width: 62px;
+  height: 66px;
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--text);
+  background: color-mix(in srgb, var(--accent) 9%, white);
+  border: 3px solid color-mix(in srgb, var(--accent) 45%, white);
+  border-radius: 14px;
+  box-shadow: 0 4px 0 color-mix(in srgb, var(--accent) 35%, white);
+  cursor: pointer;
+}
+.ie-letter:hover:not(:disabled) {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+.ie-letter:focus-visible,
+.ie-slot:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+@keyframes ie-shake {
+  25% {
+    transform: translateX(-6px);
+  }
+  75% {
+    transform: translateX(6px);
+  }
+}
+.ie-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+.ie-scores .scoreboard.compact {
+  gap: 8px;
+}
+.ie-scores .scoreboard.compact .score-card {
+  flex: 0 1 auto;
+  flex-direction: row;
+  gap: 10px;
+  padding: 4px 12px;
+}
+.ie-scores .scoreboard.compact .score-name {
+  font-size: 0.95rem;
+}

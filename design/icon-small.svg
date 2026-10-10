@@ -1,20 +1,2 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Easy Tools">
-  <title>Easy Tools (versión para tamaños chicos)</title>
-  <defs>
-    <linearGradient id="fondo" x1="0.1" y1="0" x2="0.9" y2="1">
-      <stop offset="0" stop-color="#4f46e5"/>
-      <stop offset="1" stop-color="#c026d3"/>
-    </linearGradient>
-  </defs>
-  <!-- Mismo ícono, pero con trazos más gruesos y menos detalles para que se entienda a 16-48 px -->
-  <rect width="512" height="512" rx="108" fill="url(#fondo)"/>
-  <g transform="translate(206 372) scale(1.02)">
-    <path d="M0 0-98-98" fill="none" stroke="#fff" stroke-width="56" stroke-linecap="round"/>
-    <g transform="rotate(-45)">
-      <path d="M0 0 76-42V42z" fill="#fcd9a8"/>
-      <path d="M0 0 26-14V14z" fill="#1e1b4b"/>
-      <rect x="76" y="-42" width="170" height="84" fill="#fff"/>
-      <path d="M246-42H262a42 42 0 0 1 0 84H246z" fill="#fb7185"/>
-    </g>
-  </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6366f1"/><stop offset="1" stop-color="#c026d3"/></linearGradient></defs><rect width="512" height="512" rx="104" fill="url(#g)"/>
+<path d="M256 150c-40-34-132-28-150 52-24 92 38 228 112 228 16 0 28-10 38-10s22 10 38 10c74 0 136-136 112-228-18-80-110-86-150-52z" fill="#ef4444"/><path d="M256 152c0-38 10-66 34-92" stroke="#7c2d12" stroke-width="24" stroke-linecap="round" fill="none"/><path d="M286 104c6-40 38-58 78-52 0 40-32 60-78 52z" fill="#4ade80"/></svg>

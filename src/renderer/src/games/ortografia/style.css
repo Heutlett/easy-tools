@@ -1,0 +1,104 @@
+.or-setup {
+  gap: 18px;
+}
+.or-options {
+  gap: 14px 22px;
+}
+.or-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 190px;
+}
+.or-instruction {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.or-emoji {
+  font-size: 3.4rem;
+  line-height: 1;
+}
+.or-prompt {
+  font-size: clamp(2.6rem, 6vw, 4.6rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1.15;
+}
+.or-prompt:where(:has(.or-blank)) {
+  white-space: nowrap;
+}
+.or-blank {
+  display: inline-block;
+  min-width: 0.9em;
+  margin: 0 0.02em;
+  padding: 0 0.04em;
+  border-bottom: 0.09em solid var(--accent);
+  color: var(--success);
+  text-align: center;
+}
+.or-blank.filled {
+  border-bottom-color: var(--success);
+}
+.or-hint-only {
+  display: none;
+}
+.or-small {
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+}
+.or-small .g-option {
+  justify-content: center;
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  min-height: 84px;
+}
+.or-round .g-option {
+  min-height: 70px;
+}
+.or-after {
+  min-height: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.or-after .ln-hint {
+  flex: 1;
+}
+.or-why {
+  flex: 1 1 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.or-verdict {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+.or-rule {
+  margin: 0;
+  font-size: 1.15rem;
+}
+.or-worst {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 720px;
+  text-align: left;
+}
+.or-worst-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 16px;
+  border: 2px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+}
+
+.or-blank.filled {
+  min-width: 0;
+}

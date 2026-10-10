@@ -1,0 +1,238 @@
+/* Fracciones: clases con prefijo fr- */
+.fr-play {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.fr-identify {
+  flex-direction: row;
+  justify-content: center;
+  gap: 28px;
+}
+.fr-identify .fr-side {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.fr-ask {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.fr-ask-label {
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 800;
+}
+.fr-ask-value {
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
+  font-weight: 800;
+  color: var(--accent);
+}
+.fr-ask-words {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.fr-question {
+  font-size: clamp(1.4rem, 2.8vw, 2rem);
+  font-weight: 800;
+  text-align: center;
+}
+.fr-stage-shape {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 160px;
+}
+.fr-set {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.fr-shape {
+  display: block;
+  overflow: visible;
+}
+.fr-part {
+  fill: #fff;
+  stroke: #3b2a5a;
+  stroke-width: 3;
+  stroke-linejoin: round;
+  transition: fill 0.12s;
+}
+.fr-part.on {
+  fill: var(--accent);
+}
+.fr-part.tap {
+  cursor: pointer;
+}
+.fr-part.tap:hover {
+  fill: color-mix(in srgb, var(--accent) 30%, white);
+}
+.fr-part.tap.on:hover {
+  fill: color-mix(in srgb, var(--accent) 80%, white);
+}
+.fr-part:focus-visible {
+  outline: none;
+  stroke: #f59e0b;
+  stroke-width: 7;
+}
+
+.fr-frac {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.18em;
+  line-height: 1.05;
+}
+.fr-whole {
+  font-size: 1.15em;
+}
+.fr-stack {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 1.1em;
+}
+.fr-bar {
+  align-self: stretch;
+  height: 0.09em;
+  min-height: 3px;
+  margin: 0.06em 0;
+  background: currentColor;
+  border-radius: 2px;
+}
+.fr-plain {
+  font-variant-numeric: tabular-nums;
+}
+.fr-opt {
+  font-size: 2.2rem;
+  font-weight: 800;
+}
+
+.fr-controls {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.fr-hint {
+  min-height: 1.5em;
+  font-weight: 700;
+  color: var(--danger);
+}
+.fr-keys {
+  font-size: 0.85rem;
+}
+.fr-center {
+  text-align: center;
+}
+
+.fr-cmp-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  width: 100%;
+}
+.fr-cmp-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  justify-content: space-between;
+  padding: 10px 18px;
+  min-width: 190px;
+  min-height: 250px;
+  background: var(--surface);
+  border: 3px solid var(--border);
+  border-radius: 22px;
+}
+.fr-cmp-fig {
+  min-height: 150px;
+  display: flex;
+  align-items: center;
+}
+.fr-cmp-val {
+  font-size: 2.6rem;
+  font-weight: 800;
+}
+.fr-cmp-val.small {
+  font-size: 2rem;
+}
+.fr-hidden {
+  display: grid;
+  place-items: center;
+  width: 110px;
+  height: 110px;
+  font-size: 3.4rem;
+  color: var(--muted);
+  border: 4px dashed var(--border);
+  border-radius: 20px;
+}
+.fr-signs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.fr-sign {
+  font: inherit;
+  width: 84px;
+  height: 64px;
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: var(--text);
+  background: var(--surface);
+  border: 3px solid var(--border);
+  border-radius: 16px;
+  cursor: pointer;
+}
+.fr-sign:hover:not(:disabled) {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+.fr-sign:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+.fr-sign.correct {
+  border-color: var(--success);
+  background: color-mix(in srgb, var(--success) 14%, white);
+}
+.fr-sign.wrong {
+  border-color: var(--danger);
+  background: color-mix(in srgb, var(--danger) 10%, white);
+}
+.fr-sign.dim {
+  opacity: 0.35;
+}
+.fr-equal {
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--muted);
+}
+.fr-sumrow {
+  gap: 14px;
+}
+.fr-sumrow .fr-cmp-fig {
+  min-height: 110px;
+}
+.fr-sumrow .fr-cmp-card {
+  min-height: 200px;
+  min-width: 150px;
+  padding: 8px 12px;
+}
+.fr-peek {
+  align-self: center;
+}
+@media (max-width: 760px) {
+  .fr-identify {
+    flex-direction: column;
+  }
+}

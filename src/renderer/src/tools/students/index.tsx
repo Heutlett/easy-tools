@@ -140,8 +140,8 @@ export default function Students(): React.JSX.Element {
         <section className="panel students-empty">
           <p className="panel-title">Todavía no tienes ningún grupo</p>
           <p className="muted">
-            Crea uno y agrega a tus estudiantes: después los puedes usar en la ruleta y en las
-            estrellitas.
+            Crea uno y agrega a tus estudiantes: después los puedes usar en la ruleta y en los
+            puntos.
           </p>
           <div>
             <button className="btn big" onClick={createGroup}>

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import AddStudents from '../../components/AddStudents'
 import { useClassrooms } from '../../lib/classrooms'
 import { usePersistentState } from '../../lib/usePersistentState'
+import { TIERS, pointsLabel, pointsToEmojis } from './tiers'
 
 interface StarEvent {
   id: string
@@ -82,7 +83,7 @@ export default function Stars(): React.JSX.Element {
     bumpTimer.current = setTimeout(() => setBumped(null), 700)
   }
 
-  /** Quita la estrellita más reciente de un estudiante (o del grupo si no se dice cuál) */
+  /** Quita el punto más reciente de un estudiante (o del grupo si no se dice cuál) */
   const takeBack = (studentId?: string): void => {
     for (let i = store.events.length - 1; i >= 0; i--) {
       const e = store.events[i]
@@ -127,14 +128,23 @@ export default function Stars(): React.JSX.Element {
             className={`pill ${sort === 'stars' ? 'selected' : ''}`}
             onClick={() => setSort('stars')}
           >
-            Más estrellitas primero
+            Más puntos primero
           </button>
         </div>
       </div>
 
+      <div className="tiers" aria-label="Equivalencias">
+        {[...TIERS].reverse().map((t) => (
+          <span key={t.value} className="tier">
+            <span className="tier-emoji">{t.emoji}</span>
+            <span className="tier-value">= {t.value}</span>
+          </span>
+        ))}
+      </div>
+
       <div className="panel reason-panel">
-        <span className="panel-title">La estrellita es por:</span>
-        <div className="pills" role="group" aria-label="Razón de la estrellita">
+        <span className="panel-title">El punto es por:</span>
+        <div className="pills" role="group" aria-label="Razón del punto">
           {[...PRESETS, OTHER].map((r) => (
             <button
               key={r}
@@ -168,18 +178,22 @@ export default function Stars(): React.JSX.Element {
             return (
               <div key={s.id} className={`star-card ${bumped === s.id ? 'bump' : ''}`}>
                 <strong className="star-name">{s.name}</strong>
-                <div className="star-count" aria-live="polite">
-                  <span className="star-icon">⭐</span>
+                <div className="star-count" aria-live="polite" aria-label={pointsLabel(n)}>
                   <span className="star-number">{n}</span>
+                  <span className="star-emojis" aria-hidden="true">
+                    {pointsToEmojis(n).map((emoji, i) => (
+                      <span key={i}>{emoji}</span>
+                    ))}
+                  </span>
                 </div>
                 <div className="star-actions">
                   <button className="btn star-give" onClick={() => give(s.id)}>
-                    ⭐ Dar estrellita
+                    ⭐ Dar punto
                   </button>
                   <button
                     className="icon-btn"
-                    title="Quitar la última estrellita"
-                    aria-label={`Quitar una estrellita a ${s.name}`}
+                    title="Quitar el último punto"
+                    aria-label={`Quitar un punto a ${s.name}`}
                     disabled={n === 0}
                     onClick={() => takeBack(s.id)}
                   >
@@ -194,9 +208,7 @@ export default function Stars(): React.JSX.Element {
 
       <div className="panel">
         <div className="row">
-          <p className="panel-title">
-            Total del grupo: {total} {total === 1 ? 'estrellita' : 'estrellitas'}
-          </p>
+          <p className="panel-title">Total del grupo: {pointsLabel(total)}</p>
           <div className="row start">
             <button
               className="btn secondary small"
@@ -224,7 +236,7 @@ export default function Stars(): React.JSX.Element {
                   setTimeout(() => setConfirmReset(false), 3500)
                 )}
               >
-                Reiniciar estrellitas
+                Reiniciar puntos
               </button>
             )}
           </div>

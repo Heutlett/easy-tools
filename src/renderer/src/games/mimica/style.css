@@ -1,0 +1,250 @@
+.mi-modes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+.mi-mode {
+  font: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 12px 10px;
+  color: var(--text);
+  background: var(--surface);
+  border: 3px solid var(--border);
+  border-radius: 18px;
+  cursor: pointer;
+}
+.mi-mode:hover {
+  border-color: var(--accent);
+}
+.mi-mode.on {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, white);
+}
+.mi-mode:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+.mi-mode-icon {
+  font-size: 2.2rem;
+}
+.mi-mode-title {
+  font-weight: 800;
+  font-size: 1.1rem;
+}
+.mi-mode-hint {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.mi-footer {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* ---------- Partida ---------- */
+.mi-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.mi-top .btn {
+  margin-left: auto;
+}
+.mi-turn-name {
+  font-size: clamp(2rem, 4.5vw, 3.2rem);
+  font-weight: 800;
+  line-height: 1.1;
+}
+.mi-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+.mi-steps li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  font-size: 1.15rem;
+  font-weight: 600;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 99px;
+}
+.btn.mi-main {
+  min-height: 78px;
+  font-size: 1.5rem;
+  padding: 0 44px;
+}
+.mi-count {
+  font-size: clamp(7rem, 22vw, 12rem);
+  font-weight: 900;
+  line-height: 1;
+  color: var(--accent);
+  animation: pop 0.9s ease-out;
+}
+.mi-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 170px;
+  padding: 20px 24px;
+  text-align: center;
+  background: var(--surface);
+  border: 4px solid var(--border);
+  border-radius: 26px;
+}
+.mi-card.show {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, white);
+}
+.mi-card.hidden {
+  border-style: dashed;
+}
+.mi-word {
+  font-size: clamp(2.4rem, 6.5vw, 4.6rem);
+  font-weight: 900;
+  line-height: 1.1;
+  word-break: break-word;
+}
+.mi-q {
+  font-size: 4.2rem;
+  line-height: 1;
+}
+.mi-rule {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.mi-taboo {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+.mi-taboo-chip {
+  padding: 4px 14px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--danger);
+  background: color-mix(in srgb, var(--danger) 9%, white);
+  border: 2px solid color-mix(in srgb, var(--danger) 40%, white);
+  border-radius: 99px;
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+}
+.mi-timer-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.mi-time {
+  min-width: 150px;
+  font-size: 3.4rem;
+  line-height: 1;
+}
+.mi-bar {
+  flex: 1;
+  height: 16px;
+  border-radius: 99px;
+  background: var(--border);
+  overflow: hidden;
+}
+.mi-bar > span {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  border-radius: 99px;
+  transition: width 1s linear;
+}
+.mi-bar.low > span {
+  background: var(--danger);
+}
+.mi-actions {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 14px;
+}
+.mi-actions .btn.big {
+  min-height: 78px;
+  font-size: 1.5rem;
+}
+.btn.mi-ok {
+  background: var(--success);
+  border-color: var(--success);
+}
+.btn.mi-peek {
+  width: 100%;
+  min-height: 62px;
+  font-size: 1.3rem;
+  touch-action: none;
+}
+.btn.mi-peek.holding {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.mi-tools {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.mi-big {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 800;
+}
+.mi-results {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+.mi-chip {
+  padding: 4px 14px;
+  font-weight: 700;
+  border-radius: 99px;
+  border: 2px solid var(--border);
+  background: var(--surface);
+}
+.mi-chip.ok {
+  border-color: var(--success);
+  background: color-mix(in srgb, var(--success) 10%, white);
+}
+.mi-chip.skip {
+  color: var(--muted);
+}
+.mi-hint {
+  text-align: center;
+  font-size: 0.85rem;
+}
+.mi-winner {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.mi-stage {
+  gap: 12px;
+}
+.mi-board .scoreboard.compact .score-card {
+  flex: 1 1 190px;
+  max-width: 260px;
+}
+.mi-board .scoreboard {
+  justify-content: center;
+}
+.mi-board {
+  width: 100%;
+}

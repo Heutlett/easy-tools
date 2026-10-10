@@ -1,0 +1,99 @@
+.tw-menu {
+  gap: 20px;
+}
+.tw-twister {
+  gap: 14px;
+}
+.tw-text {
+  display: grid;
+  place-items: center;
+  min-height: 190px;
+  padding: 22px 30px;
+  font-weight: 800;
+  line-height: 1.3;
+  letter-spacing: 0.01em;
+}
+.tw-text.tw-xl {
+  font-size: clamp(2.2rem, 4.6vw, 3.4rem);
+}
+.tw-text.tw-l {
+  font-size: clamp(1.8rem, 3.6vw, 2.7rem);
+}
+.tw-text.tw-m {
+  font-size: clamp(1.4rem, 2.8vw, 2.1rem);
+}
+.tw-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 28px;
+  align-items: center;
+  justify-content: center;
+}
+.tw-tool {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.tw-clock {
+  min-width: 5ch;
+}
+.tw-clock.done {
+  color: var(--success);
+}
+.tw-actions {
+  justify-content: center;
+}
+.tw-ok {
+  background: var(--success);
+  border-color: var(--success);
+}
+.tw-prompt {
+  min-height: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+.tw-small {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.tw-word {
+  font-size: clamp(2.6rem, 6vw, 4.2rem);
+  font-weight: 800;
+  color: var(--accent);
+}
+.tw-verse {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.tw-line {
+  display: block;
+}
+.tw-blank {
+  display: inline-block;
+  min-width: 4.5ch;
+  border-bottom: 5px solid var(--accent);
+  margin: 0 4px;
+}
+.tw-after {
+  min-height: 92px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-align: center;
+}
+.tw-note {
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.tw-verse.tw-long {
+  font-size: 0.82em;
+}

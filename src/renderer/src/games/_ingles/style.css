@@ -1,0 +1,314 @@
+/* Estilos compartidos de los cuatro juegos de inglés (prefijo ing-) */
+
+/* ---------- Dibujos: el tamaño lo da el font-size del contenedor ---------- */
+.ing-emoji {
+  display: inline-block;
+  line-height: 1;
+  font-family:
+    'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', 'Twemoji Mozilla', sans-serif;
+}
+.ing-swatch {
+  display: inline-block;
+  width: 0.9em;
+  height: 0.9em;
+  border-radius: 50%;
+  border: 0.04em solid rgba(0, 0, 0, 0.22);
+  box-shadow: inset -0.06em -0.08em 0.12em rgba(0, 0, 0, 0.18);
+}
+.ing-shape {
+  display: inline-block;
+  width: 0.9em;
+  height: 0.9em;
+  background: var(--accent);
+}
+.ing-shape.circle {
+  border-radius: 50%;
+}
+.ing-shape.square {
+  border-radius: 0.06em;
+}
+.ing-shape.rectangle {
+  width: 1.2em;
+  height: 0.7em;
+  border-radius: 0.06em;
+}
+.ing-shape.oval {
+  width: 1.15em;
+  height: 0.75em;
+  border-radius: 50%;
+}
+.ing-shape.triangle {
+  clip-path: polygon(50% 5%, 98% 92%, 2% 92%);
+}
+.ing-shape.diamond {
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+}
+.ing-num {
+  display: inline-grid;
+  place-items: center;
+  min-width: 0.95em;
+  height: 0.95em;
+  padding: 0 0.12em;
+  border-radius: 0.22em;
+  font-family: inherit;
+  font-weight: 800;
+  font-size: 0.7em;
+  line-height: 1;
+  color: #fff;
+  background: var(--accent);
+}
+.ing-num.long {
+  font-size: 0.55em;
+}
+
+/* ---------- Pantallas de preparación ---------- */
+.ing-setup {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.ing-setup .bank-filter-row {
+  grid-template-columns: 96px 1fr;
+}
+.ing-topics {
+  max-height: 150px;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+.ing-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.ing-novoice {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted);
+  padding: 2px 10px;
+  border: 2px dashed var(--border);
+  border-radius: 99px;
+}
+
+/* ---------- Durante la partida ---------- */
+.ing-hud {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.ing-stage .spacer {
+  flex: 1;
+}
+.ing-streak {
+  font-weight: 800;
+  color: #c2410c;
+}
+.ing-streak.pop {
+  animation: pop 0.45s ease-out;
+}
+.ing-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.ing-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 12px 20px;
+  text-align: center;
+  background: var(--surface);
+  border: 3px solid var(--border);
+  border-radius: 22px;
+}
+.ing-card.big-visual {
+  font-size: clamp(4.6rem, 15vh, 8.5rem);
+  min-height: clamp(130px, 26vh, 240px);
+}
+.ing-word {
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+}
+.ing-sub {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--muted);
+  min-height: 1.6em;
+  white-space: pre;
+}
+.ing-sub.good {
+  color: var(--success);
+  font-weight: 800;
+}
+.ing-sub.bad {
+  color: var(--danger);
+  font-weight: 800;
+}
+.ing-speak {
+  font: inherit;
+  font-size: 1.1rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 18px;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, white);
+  border: 2px solid color-mix(in srgb, var(--accent) 40%, white);
+  border-radius: 99px;
+  cursor: pointer;
+}
+.ing-speak:hover {
+  border-color: var(--accent);
+}
+.ing-speak:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* Opciones con dibujo (2 x 2 o en fila) */
+.ing-picks {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+.ing-pick {
+  font: inherit;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: clamp(120px, 20vh, 190px);
+  font-size: clamp(3.4rem, 9vh, 5.4rem);
+  color: var(--text);
+  background: var(--surface);
+  border: 3px solid var(--border);
+  border-radius: 20px;
+  cursor: pointer;
+  transition:
+    transform 0.1s,
+    border-color 0.15s,
+    background 0.15s;
+}
+.ing-pick:hover:not(:disabled) {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+.ing-pick:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+.ing-pick .ing-letter {
+  position: absolute;
+  top: 8px;
+  left: 10px;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #fff;
+  background: var(--accent);
+}
+.ing-pick .ing-pick-label {
+  font-size: 1.2rem;
+  font-weight: 700;
+  min-height: 1.4em;
+}
+.ing-pick.correct {
+  border-color: var(--success);
+  background: color-mix(in srgb, var(--success) 14%, white);
+  animation: pop 0.45s ease-out;
+}
+.ing-pick.wrong {
+  border-color: var(--danger);
+  background: color-mix(in srgb, var(--danger) 10%, white);
+}
+.ing-pick.dim {
+  opacity: 0.35;
+}
+.ing-pick:disabled {
+  cursor: default;
+}
+
+/* Opciones de texto */
+.ing-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.ing-options .g-option {
+  min-height: clamp(64px, 11vh, 92px);
+  font-size: clamp(1.3rem, 2.6vw, 2rem);
+}
+
+/* ---------- Final ---------- */
+.ing-end {
+  padding-top: 8px;
+}
+.ing-end .ing-winner {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+.ing-stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+.ing-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 130px;
+  padding: 10px 18px;
+  background: var(--surface);
+  border: 3px solid var(--border);
+  border-radius: 18px;
+}
+.ing-stat b {
+  font-size: 2.4rem;
+  line-height: 1.1;
+  color: var(--accent);
+}
+.ing-stat span {
+  color: var(--muted);
+  font-weight: 600;
+}
+.ing-hint {
+  text-align: center;
+  font-size: 0.85rem;
+}
+.ing-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.ing-toggle input {
+  width: 22px;
+  height: 22px;
+  accent-color: var(--accent);
+}
+
+@media (max-width: 900px) {
+  .ing-picks {
+    grid-template-columns: 1fr 1fr;
+  }
+  .ing-options {
+    grid-template-columns: 1fr;
+  }
+}
