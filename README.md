@@ -62,7 +62,7 @@ Requisitos: Node.js 22 o superior. La app es para **Windows**; en Linux solo se 
 
 ```bash
 npm install
-npm run setup   # descarga ffmpeg y yt-dlp (para tu sistema) y copia el modelo de IA a resources/
+npm run setup   # solo para desarrollar: baja ffmpeg y yt-dlp (para tu sistema) y copia el modelo de IA a resources/
 npm run dev
 ```
 
@@ -125,12 +125,12 @@ src/main/       Proceso principal de Electron: ffmpeg, yt-dlp, PDFs, quitar fond
 src/preload/    API segura que usa la ventana para hablar con el proceso principal
 src/renderer/   Interfaz (React): pantalla de inicio, componentes y herramientas
 src/shared/     Tipos compartidos
-scripts/        Descarga de binarios y modelos para el empaquetado
+scripts/        Descarga de binarios y modelos para desarrollar, y revisión del contenido
 ```
 
 ## Notas técnicas
 
-- **ffmpeg** (video/audio) y **yt-dlp** (YouTube) viajan dentro de la app. yt-dlp se copia a la carpeta de datos del usuario y trata de actualizarse solo al iniciar, porque YouTube cambia seguido.
+- **Piezas que se descargan la primera vez** (`src/main/components.ts`, `src/shared/components.ts`): ffmpeg (video y audio, ~30 MB), yt-dlp (YouTube, ~18 MB) y el modelo de IA de quitar fondos (~88 MB) **no viajan en el instalador**, para que pese mucho menos. Se bajan una sola vez desde el aviso de la pantalla de inicio o al abrir la primera herramienta que las necesita, y se guardan en la carpeta de datos de la app (así las actualizaciones no las vuelven a bajar). ffmpeg viene de `eugeneware/ffmpeg-static`, yt-dlp de sus releases oficiales y el modelo del CDN de IMG.LY (cada pedazo se verifica con su SHA-256). yt-dlp trata de actualizarse solo al iniciar, porque YouTube cambia seguido. Al desarrollar, lo que baje `npm run setup` a `resources/` cuenta como ya descargado; para probar la descarga: `EASY_TOOLS_IGNORE_BUNDLED=1` y, para no usar internet, `EASY_TOOLS_COMPONENTS_URL=http://127.0.0.1:PUERTO` con `ffmpeg.gz`, `yt-dlp` y `model/`.
 - Recortar y unir videos **vuelven a codificar** el video para que el corte sea exacto y el resultado funcione en cualquier reproductor; en videos largos puede tardar unos minutos.
 - **Quitar fondo** usa `@imgly/background-removal-node` con `onnxruntime-node`. La librería depende de `sharp`, que se cae dentro de Electron, así que se reemplaza por un módulo vacío al compilar (`src/main/stubs/sharp.ts`): la ventana decodifica la imagen y el proceso principal escribe el PNG.
 - **Word a PDF** prefiere un programa de Office de verdad (`src/main/tools/officeEngine.ts`): Microsoft Word en Windows (vía PowerShell/COM, **sin probar** aún en Windows) o LibreOffice (`soffice --headless --convert-to pdf`). Con cualquiera de los dos el PDF queda igual al documento y también se pueden abrir los `.doc` antiguos. Si no hay ninguno (o falla), se usa el método sencillo: `docx-preview` en una ventana oculta (`src/renderer/print.html`) impreso con Chromium; ese método respeta estilos, tablas simples, imágenes, encabezados y pies, pero **no** diseños exactos (filas con alto fijo, cuadros de texto, formas) y no lee `.doc`.

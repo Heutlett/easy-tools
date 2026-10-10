@@ -1,21 +1,9 @@
 import { app } from 'electron'
 import { existsSync, mkdirSync } from 'fs'
 import { join, parse } from 'path'
+import { requireFfmpeg } from './components'
 
-const OS_DIR =
-  { win32: 'win', darwin: 'mac', linux: 'linux' }[process.platform as string] ?? 'linux'
-
-/** Carpeta donde viven ffmpeg y yt-dlp (empaquetados con la app). */
-export function binDir(): string {
-  return app.isPackaged
-    ? join(process.resourcesPath, 'bin')
-    : join(app.getAppPath(), 'resources', 'bin', OS_DIR)
-}
-
-const exe = process.platform === 'win32' ? '.exe' : ''
-
-export const ffmpegPath = (): string => join(binDir(), `ffmpeg${exe}`)
-export const bundledYtDlpPath = (): string => join(binDir(), `yt-dlp${exe}`)
+export const ffmpegPath = (): string => requireFfmpeg()
 
 /** Carpeta donde se guardan todos los resultados: Documentos/Educando */
 export function outputDir(): string {

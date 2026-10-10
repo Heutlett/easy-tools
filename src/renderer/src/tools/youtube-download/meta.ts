@@ -8,5 +8,6 @@ export default {
   images: [youtubeLogo],
   color: '#dc2626',
   category: 'video',
+  requires: ['ytdlp', 'ffmpeg'],
   order: 3
 } satisfies ToolMeta

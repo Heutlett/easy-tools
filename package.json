@@ -1,6 +1,6 @@
 {
   "name": "easy-tools",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Herramientas sencillas para docentes",
   "main": "./out/main/index.js",
   "author": "heutlett",
@@ -17,9 +17,9 @@
     "build": "npm run typecheck && electron-vite build",
     "postinstall": "electron-builder install-app-deps",
     "setup": "node scripts/fetch-binaries.mjs && node scripts/prepare-models.mjs",
-    "build:unpack": "npm run setup && npm run build && electron-builder --dir",
-    "build:win": "node scripts/fetch-binaries.mjs win32 x64 && node scripts/prepare-models.mjs && npm run build && electron-builder --win --x64",
-    "build:linux": "node scripts/fetch-binaries.mjs linux x64 && node scripts/prepare-models.mjs && npm run build && electron-builder --linux --x64"
+    "build:unpack": "npm run build && electron-builder --dir",
+    "build:win": "npm run build && electron-builder --win --x64",
+    "build:linux": "npm run build && electron-builder --linux --x64"
   },
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.2",

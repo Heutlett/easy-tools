@@ -1637,3 +1637,46 @@ h1 {
 .welcome-card .btn.big {
   align-self: flex-end;
 }
+
+/* ---------- Piezas que se descargan la primera vez ---------- */
+.gate {
+  max-width: 620px;
+  margin: 24px auto;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+}
+.gate-icon {
+  font-size: 3rem;
+  line-height: 1;
+}
+.gate-title {
+  font-size: 1.5rem;
+}
+.gate-bar {
+  width: 100%;
+  height: 16px;
+  border-radius: 99px;
+  background: var(--border);
+  overflow: hidden;
+}
+.gate-bar > span {
+  display: block;
+  height: 100%;
+  border-radius: 99px;
+  background: var(--accent);
+  transition: width 0.3s;
+}
+.components-banner {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 22px;
+  border-color: color-mix(in srgb, var(--accent) 45%, white);
+  background: color-mix(in srgb, var(--accent) 6%, white);
+}
+.components-banner > div:first-child {
+  flex: 1;
+}
