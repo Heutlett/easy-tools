@@ -1,18 +1,14 @@
-import { app } from 'electron'
 import { writeFileSync } from 'fs'
-import { join } from 'path'
 import { pathToFileURL } from 'url'
 import { crc32, deflateSync } from 'zlib'
+import { requireModelDir } from '../components'
 import { handle } from '../ipc'
 import { UserError } from '../jobs'
 import { nameOf, outputDir, uniquePath } from '../paths'
 
-/** Carpeta con los modelos de IA (viajan dentro de la app como recurso). */
+/** Carpeta con el modelo de IA: se descarga la primera vez (ver components.ts). */
 function modelsUrl(): string {
-  const dir = app.isPackaged
-    ? join(process.resourcesPath, 'models')
-    : join(app.getAppPath(), 'node_modules', '@imgly', 'background-removal-node', 'dist')
-  return pathToFileURL(dir).href + '/'
+  return pathToFileURL(requireModelDir()).href + '/'
 }
 
 /** Escribe una imagen PNG con transparencia a partir de píxeles RGBA. */

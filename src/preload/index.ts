@@ -1,5 +1,6 @@
 import { contextBridge, ipcRenderer, webUtils } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
+import type { ComponentId, ComponentProgress, ComponentStatus } from '../shared/components'
 import type { UpdateStatus } from '../shared/update'
 import type { FileKind, MediaInfo, WordModel } from '../shared/types'
 
@@ -39,6 +40,19 @@ const api = {
       call<{ output: string }>('output:saveFile', p),
     saveInFolder: (p: { dir?: string; folderName: string; fileName: string; data: ArrayBuffer }) =>
       call<{ dir: string; output: string }>('output:saveInFolder', p)
+  },
+
+  components: {
+    status: () => call<ComponentStatus[]>('components:status'),
+    install: (id: ComponentId) => call<void>('components:install', id),
+    cancel: (id: ComponentId) => call<void>('components:cancel', id),
+    onProgress: (cb: (p: ComponentProgress) => void) => {
+      const listener = (_: unknown, p: ComponentProgress): void => cb(p)
+      ipcRenderer.on('components:progress', listener)
+      return () => {
+        ipcRenderer.removeListener('components:progress', listener)
+      }
+    }
   },
 
   update: {
