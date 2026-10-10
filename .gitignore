@@ -13,5 +13,6 @@ resources/models/
 /*.pdf
 /*.docx
 
-# Llave privada y lista de claves emitidas: NUNCA se suben
+
+# Carpeta local de las claves de uso que ya no existen (llave privada y lista de personas): nunca se sube
 /keys/

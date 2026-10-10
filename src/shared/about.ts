@@ -1,4 +1,7 @@
-/** Datos de contacto de quien hizo la app (se muestran en "Acerca de" y en la pantalla de activación). */
+/** Repositorio público con el código de la app */
+export const REPO_URL = 'https://github.com/Heutlett/easy-tools'
+
+/** Datos de contacto de quien hizo la app (se muestran en "Acerca de"). */
 export const AUTHOR = {
   name: 'Adrian Araya',
   email: 'adrian.araya.work@gmail.com',
@@ -9,11 +12,3 @@ export const AUTHOR = {
   sinpe: '+506 8839 3511',
   sinpeDigits: '88393511'
 } as const
-
-export interface LicenseState {
-  /** Si esta copia de la app exige clave (la versión instalada sí; en desarrollo no) */
-  required: boolean
-  unlocked: boolean
-  /** Código de este equipo, el que hay que enviar para pedir la clave */
-  code: string
-}

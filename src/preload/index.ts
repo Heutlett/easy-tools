@@ -1,6 +1,5 @@
 import { contextBridge, ipcRenderer, webUtils } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
-import type { LicenseState } from '../shared/about'
 import type { UpdateStatus } from '../shared/update'
 import type { FileKind, MediaInfo, WordModel } from '../shared/types'
 
@@ -54,11 +53,6 @@ const api = {
         ipcRenderer.removeListener('update:status', listener)
       }
     }
-  },
-
-  license: {
-    state: () => call<LicenseState>('license:state'),
-    activate: (key: string) => call<void>('license:activate', key)
   },
 
   video: {

@@ -1,9 +1,10 @@
 {
   "name": "easy-tools",
-  "version": "0.1.1",
+  "version": "0.1.0",
   "description": "Herramientas sencillas para docentes",
   "main": "./out/main/index.js",
   "author": "heutlett",
+  "license": "MIT",
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint --cache .",
@@ -18,8 +19,7 @@
     "setup": "node scripts/fetch-binaries.mjs && node scripts/prepare-models.mjs",
     "build:unpack": "npm run setup && npm run build && electron-builder --dir",
     "build:win": "node scripts/fetch-binaries.mjs win32 x64 && node scripts/prepare-models.mjs && npm run build && electron-builder --win --x64",
-    "build:linux": "node scripts/fetch-binaries.mjs linux x64 && node scripts/prepare-models.mjs && npm run build && electron-builder --linux --x64",
-    "keys": "node scripts/keys.mjs"
+    "build:linux": "node scripts/fetch-binaries.mjs linux x64 && node scripts/prepare-models.mjs && npm run build && electron-builder --linux --x64"
   },
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.2",

@@ -4,7 +4,6 @@ import { tools } from './tools/registry'
 import ToolIcon from './components/ToolIcon'
 import logo from './assets/logo.svg'
 import AboutPage from './components/AboutPage'
-import LicenseGate from './components/LicenseGate'
 import ToolLayout from './components/ToolLayout'
 import UpdateBanner from './components/UpdateBanner'
 
@@ -76,9 +75,9 @@ function Content(): React.JSX.Element {
 
 export default function App(): React.JSX.Element {
   return (
-    <LicenseGate>
+    <>
       <UpdateBanner />
       <Content />
-    </LicenseGate>
+    </>
   )
 }

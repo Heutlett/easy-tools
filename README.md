@@ -6,26 +6,26 @@ Los archivos se procesan en la propia computadora (nada se sube a internet) y lo
 
 ## Herramientas
 
-| Herramienta | Qué hace |
-|---|---|
-| Recortar video | Se elige el inicio y el final con una barra o escribiendo los tiempos |
-| Sacar el audio de un video | Video → MP3 |
-| Descargar de YouTube | Video (MP4) o solo audio (MP3) a partir de un enlace |
-| Unir videos | Junta varios videos en uno, en el orden elegido |
-| Unir PDFs | Junta varios PDFs en uno |
-| Separar páginas de un PDF | Elegir páginas con miniaturas, o un PDF por página |
-| PDF a Word | Deja el Word lo más parecido posible al PDF: cada texto, línea, tabla, color e imagen en su posición exacta |
-| Word a PDF | Usa Microsoft Word o LibreOffice si están instalados (queda igual al documento); si no, un método sencillo |
-| Recortar imagen | Marco que se mueve y se estira, con formas fijas (1:1, 4:3, 3:4, 16:9); guarda a la resolución original |
-| Quitar el fondo de una imagen | IA local (sin internet), resultado PNG transparente |
-| PDF a imagen | Una imagen JPG o PNG por página, a 200 ppp, en una carpeta |
-| Imagen a PDF | Varias imágenes en un PDF (hoja carta o del tamaño de cada imagen); respeta la rotación de las fotos de celular |
-| Temporizador para el aula | Cuenta regresiva grande, pantalla completa, aviso sonoro |
-| Número al azar | Número dentro de un rango, con opción de no repetir, historial y pantalla completa |
-| Bingo | Tómbola para cantar el bingo (75 bolitas B-I-N-G-O o 90): bolita grande, tablero con lo que ha salido, voz en español que canta cada número y revisor de cartones |
-| Lista de estudiantes | Guarda varios grupos con sus estudiantes (acepta listas pegadas desde Word o Excel) para usarlos en otras herramientas |
-| Estrellitas | Da estrellitas a tus estudiantes (con la razón: participó, ayudó…) y mira en vivo cuántas lleva cada quien; historial, deshacer y reinicio |
-| Ruleta | Gira para elegir un ganador de una lista editable (se recuerda); puede cargar un grupo de estudiantes y quitar a quien salga |
+| Herramienta                   | Qué hace                                                                                                                                                          |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Recortar video                | Se elige el inicio y el final con una barra o escribiendo los tiempos                                                                                             |
+| Sacar el audio de un video    | Video → MP3                                                                                                                                                       |
+| Descargar de YouTube          | Video (MP4) o solo audio (MP3) a partir de un enlace                                                                                                              |
+| Unir videos                   | Junta varios videos en uno, en el orden elegido                                                                                                                   |
+| Unir PDFs                     | Junta varios PDFs en uno                                                                                                                                          |
+| Separar páginas de un PDF     | Elegir páginas con miniaturas, o un PDF por página                                                                                                                |
+| PDF a Word                    | Deja el Word lo más parecido posible al PDF: cada texto, línea, tabla, color e imagen en su posición exacta                                                       |
+| Word a PDF                    | Usa Microsoft Word o LibreOffice si están instalados (queda igual al documento); si no, un método sencillo                                                        |
+| Recortar imagen               | Marco que se mueve y se estira, con formas fijas (1:1, 4:3, 3:4, 16:9); guarda a la resolución original                                                           |
+| Quitar el fondo de una imagen | IA local (sin internet), resultado PNG transparente                                                                                                               |
+| PDF a imagen                  | Una imagen JPG o PNG por página, a 200 ppp, en una carpeta                                                                                                        |
+| Imagen a PDF                  | Varias imágenes en un PDF (hoja carta o del tamaño de cada imagen); respeta la rotación de las fotos de celular                                                   |
+| Temporizador para el aula     | Cuenta regresiva grande, pantalla completa, aviso sonoro                                                                                                          |
+| Número al azar                | Número dentro de un rango, con opción de no repetir, historial y pantalla completa                                                                                |
+| Bingo                         | Tómbola para cantar el bingo (75 bolitas B-I-N-G-O o 90): bolita grande, tablero con lo que ha salido, voz en español que canta cada número y revisor de cartones |
+| Lista de estudiantes          | Guarda varios grupos con sus estudiantes (acepta listas pegadas desde Word o Excel) para usarlos en otras herramientas                                            |
+| Estrellitas                   | Da estrellitas a tus estudiantes (con la razón: participó, ayudó…) y mira en vivo cuántas lleva cada quien; historial, deshacer y reinicio                        |
+| Ruleta                        | Gira para elegir un ganador de una lista editable (se recuerda); puede cargar un grupo de estudiantes y quitar a quien salga                                      |
 
 ## Tamaño de la ventana
 
@@ -38,7 +38,7 @@ No hay modo de pantalla completa. La lógica está en `src/main/windowMode.ts`; 
 
 ## Desarrollo
 
-Requisitos: Node.js 22 o superior. La app es para **Windows**; en Linux solo se usa para desarrollar (las actualizaciones y las claves están pensadas para el instalador de Windows).
+Requisitos: Node.js 22 o superior. La app es para **Windows**; en Linux solo se usa para desarrollar (las actualizaciones están pensadas para el instalador de Windows).
 
 ```bash
 npm install
@@ -46,7 +46,7 @@ npm run setup   # descarga ffmpeg y yt-dlp (para tu sistema) y copia el modelo d
 npm run dev
 ```
 
-En algunas distribuciones de Linux (por ejemplo Ubuntu) `npm run dev` falla con *"The SUID sandbox helper binary was found, but is not configured correctly"*. En ese caso usa `npm run dev:linux`, que arranca con `--no-sandbox` (solo para desarrollo). En Windows no hace falta.
+En algunas distribuciones de Linux (por ejemplo Ubuntu) `npm run dev` falla con _"The SUID sandbox helper binary was found, but is not configured correctly"_. En ese caso usa `npm run dev:linux`, que arranca con `--no-sandbox` (solo para desarrollo). En Windows no hace falta.
 
 Otros comandos: `npm run typecheck`, `npm run lint`, `npm run format`.
 
@@ -58,43 +58,23 @@ Compilar para Windows desde Linux/macOS necesita Wine, así que lo más simple e
 npm run build:win   # genera dist/Easy-Tools-<versión>-instalador.exe
 ```
 
-El instalador se instala con un solo clic, sin asistente, y crea un acceso directo en el escritorio. No está firmado, así que Windows puede mostrar "Windows protegió su PC": hay que elegir *Más información → Ejecutar de todas formas*.
+El instalador se instala con un solo clic, sin asistente, y crea un acceso directo en el escritorio. No está firmado, así que Windows puede mostrar "Windows protegió su PC": hay que elegir _Más información → Ejecutar de todas formas_.
 
 ## Publicar una versión nueva (actualizaciones)
 
 La app instalada busca versiones nuevas sola (unos segundos después de abrir y cada 6 horas) y también con el botón de **Acerca de → Buscar actualizaciones**. Si hay una, muestra un aviso con **Actualizar ahora**; descarga, y al reiniciar se instala sola.
 
-**Una sola vez:**
-1. Crear un repositorio **público** vacío llamado `easy-tools-releases` (el código de la app puede seguir en el repositorio privado: ahí solo se publican los instaladores). Si usas otro nombre, cámbialo en `publish` de `electron-builder.yml`.
-2. Crear un token de GitHub (Settings → Developer settings → Fine-grained tokens) con permiso *Contents: Read and write* sobre `easy-tools-releases`, y guardarlo en el repositorio privado como secreto `RELEASES_TOKEN` (Settings → Secrets and variables → Actions).
+Los instaladores se publican como _Releases_ de este mismo repositorio, que tiene que ser **público** para que la app instalada pueda consultarlo sin ninguna clave. No hace falta crear tokens ni secretos: el workflow usa el permiso que GitHub le da por defecto.
 
 **Cada versión:**
-1. Subir la versión en `package.json` (por ejemplo `0.2.0`) y guardar los cambios.
-2. Crear y subir la etiqueta: `git tag v0.2.0 && git push origin v0.2.0`.
-3. GitHub Actions construye el instalador de Windows y lo publica en `easy-tools-releases`; las apps instaladas lo detectan.
 
-La etiqueta debe coincidir con la versión de `package.json`. Los instaladores no están firmados, así que Windows puede mostrar el aviso de SmartScreen la primera vez.
+1. Siguiendo [GITFLOW.md](GITFLOW.md), en la rama `release/vX.Y.Z`: subir la versión en `package.json` y en `VERSION`, y agregar la entrada de la versión en `CHANGELOG.md` (ese texto será la descripción del release).
+2. Crear la etiqueta anotada en `master` y subirla (`git tag -a vX.Y.Z` y `git push origin vX.Y.Z`).
+3. GitHub Actions construye el instalador de Windows y lo publica en la sección _Releases_; las apps instaladas lo detectan.
+
+La etiqueta debe coincidir con la versión de `package.json` y de `VERSION` (el workflow lo revisa antes de construir). Los instaladores no están firmados, así que Windows puede mostrar el aviso de SmartScreen la primera vez.
 
 Para probar sin publicar: `EASY_TOOLS_FAKE_UPDATE=1 npm run dev` simula una versión nueva (solo para ver el aviso), y `EASY_TOOLS_UPDATE_URL=http://…` busca en un servidor propio.
-
-## Claves de uso (para quien publica la app)
-
-La versión instalada pide una clave la primera vez que se abre, y mientras no la tenga el proceso principal rechaza todas las funciones. Cada clave sirve **para una sola computadora**: es la firma digital del *código del equipo* que muestra la pantalla de activación. La app solo lleva la llave pública, así que puede comprobar claves pero no fabricarlas.
-
-**Cuando alguien te pide una clave:** te manda el código de su equipo (por ejemplo `1008-57F8-F7D6-9083`) y tú corres:
-
-```bash
-npm run keys -- new 1008-57F8-F7D6-9083 "Nombre de la persona"   # imprime la clave y la anota en keys/emitidas.csv
-npm run keys -- list                                              # ver las claves emitidas
-```
-
-La primera vez hay que crear el par de llaves (**ya está hecho** en esta computadora): `npm run keys -- init`.
-
-> ⚠️ `keys/private.pem` es lo que permite emitir claves. **Guarda una copia segura y no la subas a git** (ya está ignorada). Si se pierde, las claves ya emitidas siguen funcionando, pero no podrás emitir más sin generar un par nuevo, y eso invalida todas las claves anteriores. `src/main/license/public.pem` sí se sube a git (va dentro de la app).
-
-Al desarrollar no se pide clave (`npm run dev`); para probar la pantalla de activación: `EASY_TOOLS_REQUIRE_KEY=1 npm run dev`.
-
-Límites: es una puerta pensada para pedir que te contacten primero, no una protección infalible. Una clave no se puede revocar a distancia (para dejar sin acceso a alguien habría que cambiar la llave pública en una versión nueva, y eso invalida a todos). Y quien tenga el código fuente puede quitarle la comprobación a su propia copia.
 
 ## Ícono
 
@@ -139,3 +119,7 @@ scripts/        Descarga de binarios y modelos para el empaquetado
 - **Estudiantes y estrellitas:** los grupos se guardan en la computadora (almacenamiento local de la app, en `src/renderer/src/lib/classrooms.ts`) y cada estudiante tiene un identificador propio, así que renombrar a alguien o tener dos con el mismo nombre no mezcla sus estrellitas. Las estrellitas se guardan como eventos (quién, por qué razón y cuándo), de donde salen el conteo y el historial. Otras herramientas pueden usar los grupos con `useClassrooms()`.
 - **Bingo** narra con `speechSynthesis` usando una voz en español del sistema (`src/renderer/src/lib/useSpanishVoice.ts`). En Windows 10/11 vienen voces como Sabina o Helena; en Linux puede no haber ninguna, y entonces la herramienta lo avisa y funciona sin voz. El juego en curso se guarda al cerrar la app.
 - YouTube a veces bloquea la descarga pidiendo "confirmar que no eres un robot" (pasa casi siempre desde servidores, rara vez en una casa). La app muestra un mensaje claro y basta con reintentar más tarde.
+
+## Licencia
+
+[MIT](LICENSE): puedes usar, copiar y modificar Easy Tools libremente.

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import adrian from '../assets/adrian.jpg'
 import logo from '../assets/logo.svg'
-import { AUTHOR } from '../../../shared/about'
+import { AUTHOR, REPO_URL } from '../../../shared/about'
 import { useUpdate } from '../lib/useUpdate'
 import CopyButton from './CopyButton'
 
@@ -100,6 +100,20 @@ export default function AboutPage({ onBack }: { onBack: () => void }): React.JSX
             <CopyButton text={AUTHOR.sinpeDigits} label="Copiar número" />
           </div>
           <p className="muted">A nombre de {AUTHOR.name}.</p>
+        </section>
+
+        <section className="panel">
+          <h2 className="panel-title">Para desarrolladores</h2>
+          <p>
+            Easy Tools es de código abierto. Puedes ver el código, reportar errores o proponer
+            mejoras en GitHub.
+          </p>
+          <div className="row start">
+            <a className="repo-link selectable" href={REPO_URL} target="_blank" rel="noreferrer">
+              {REPO_URL.replace('https://', '')}
+            </a>
+            <CopyButton text={REPO_URL} label="Copiar enlace" />
+          </div>
         </section>
       </main>
     </div>
