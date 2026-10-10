@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Easy Tools">
+  <title>Easy Tools</title>
+  <defs>
+    <linearGradient id="fondo" x1="0.1" y1="0" x2="0.9" y2="1">
+      <stop offset="0" stop-color="#4f46e5"/>
+      <stop offset="1" stop-color="#c026d3"/>
+    </linearGradient>
+    <radialGradient id="luz" cx="0.22" cy="0.12" r="0.75">
+      <stop offset="0" stop-color="#fff" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Fondo: cuadrado redondeado con degradado -->
+  <rect width="512" height="512" rx="116" fill="url(#fondo)"/>
+  <!-- Una luz suave desde arriba a la izquierda, para darle volumen -->
+  <rect width="512" height="512" rx="116" fill="url(#luz)"/>
+
+  <g transform="translate(-30 10)">
+    <!-- La palomita que va dejando el lápiz (el trazo corto) -->
+    <path d="M236 352 150 266" fill="none" stroke="#fff" stroke-width="40" stroke-linecap="round"/>
+
+    <!-- El lápiz: su punta es el vértice de la palomita y su cuerpo, el trazo largo -->
+    <g transform="translate(236 352) rotate(-45)">
+      <!-- Madera de la punta -->
+      <path d="M0 0 62-34V34z" fill="#fcd9a8"/>
+      <!-- Mina -->
+      <path d="M0 0 21-11.5V11.5z" fill="#1e1b4b"/>
+      <!-- Cuerpo: mitad clara arriba, mitad apenas más oscura abajo -->
+      <path d="M62-34H222V0H62z" fill="#fff"/>
+      <path d="M62 0H222V34H62z" fill="#e4dcfb"/>
+      <!-- Virola (la banda de metal) -->
+      <rect x="222" y="-34" width="26" height="68" fill="#c7c2e6"/>
+      <rect x="222" y="-34" width="26" height="14" fill="#fff" opacity="0.55"/>
+      <!-- Borrador -->
+      <path d="M248-34H274a34 34 0 0 1 0 68H248z" fill="#fb7185"/>
+    </g>
+  </g>
+</svg>
