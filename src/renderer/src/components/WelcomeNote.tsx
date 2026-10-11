@@ -8,7 +8,7 @@ import { usePersistentState } from '../lib/usePersistentState'
  * Explica qué es, dónde encontrar el contacto y cómo apoyar el proyecto.
  */
 export default function WelcomeNote(): React.JSX.Element | null {
-  const [seen, setSeen] = usePersistentState('welcome-seen', false)
+  const [seen, setSeen] = usePersistentState('welcome-seen-2', false)
   const button = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
@@ -39,6 +39,18 @@ export default function WelcomeNote(): React.JSX.Element | null {
         <p className="welcome-lead">
           Herramientas y más de 30 juegos para tu clase. Sin internet y sin anuncios.
         </p>
+
+        <div className="welcome-important" role="note">
+          <p className="welcome-important-title">⚠️ MUY IMPORTANTE</p>
+          <p>
+            Educando es <b>totalmente GRATUITO y NO se vende</b>. Solo se aceptan donaciones{' '}
+            <b>100 % voluntarias</b>.
+          </p>
+          <p>
+            Si alguien te lo está vendiendo, por favor avísame:{' '}
+            <b className="selectable">{AUTHOR.phone}</b>
+          </p>
+        </div>
 
         <div className="welcome-author">
           <img className="avatar" src={adrian} width={72} height={72} alt={AUTHOR.name} />
