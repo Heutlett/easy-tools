@@ -40,6 +40,19 @@ export default function AboutPage({ onBack }: { onBack: () => void }): React.JSX
           </div>
         </section>
 
+        <section className="panel important" role="note">
+          <h2 className="panel-title">⚠️ Educando es gratuito y NO se vende</h2>
+          <p>
+            Este programa es <b>totalmente gratuito</b>. Lo único que se acepta son{' '}
+            <b>donaciones 100 % voluntarias</b>.
+          </p>
+          <p>
+            Si alguien te lo está vendiendo, por favor <b>contáctame</b> al{' '}
+            <b className="selectable">{AUTHOR.phone}</b> o a{' '}
+            <b className="selectable">{AUTHOR.email}</b>.
+          </p>
+        </section>
+
         <section className="panel">
           <h2 className="panel-title">Actualizaciones</h2>
           <div className="row start">
