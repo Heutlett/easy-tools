@@ -2,6 +2,11 @@
 
 Cada versión se publica con una etiqueta `vX.Y.Z` (ver [GITFLOW.md](GITFLOW.md)). El texto de cada entrada es el que aparece en la descripción del release en GitHub.
 
+## [0.2.2] - 2026-10-10
+
+- Aviso MUY IMPORTANTE de que Educando es totalmente gratuito y NO se vende: solo se aceptan donaciones 100 % voluntarias, y se pide avisar si alguien lo está vendiendo
+- El aviso está en la nota de bienvenida (que se muestra una vez más a quienes ya la habían cerrado) y en «Acerca de»
+
 ## [0.2.1] - 2026-10-10
 
 - Instalador mucho más liviano: el procesador de video, el descargador de YouTube y la inteligencia artificial para quitar fondos ya no vienen dentro; se descargan una sola vez
