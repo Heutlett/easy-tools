@@ -1,6 +1,6 @@
 {
   "name": "easy-tools",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Herramientas sencillas para docentes",
   "main": "./out/main/index.js",
   "author": "heutlett",

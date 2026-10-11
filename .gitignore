@@ -12,6 +12,7 @@ resources/models/
 # Documentos de ejemplo personales en la raíz (facturas, etc.): no se suben
 /*.pdf
 /*.docx
+/*.mp4
 
 # Carpeta local de las claves de uso que ya no existen (tiene una llave privada): nunca se sube
 /keys/
