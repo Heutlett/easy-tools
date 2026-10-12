@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import BackupPanel from '../../components/BackupPanel'
 import AddStudents from '../../components/AddStudents'
 import { newStudents, useClassrooms, type Group } from '../../lib/classrooms'
 import { usePersistentState } from '../../lib/usePersistentState'
@@ -150,6 +151,9 @@ export default function Students(): React.JSX.Element {
           </div>
         </section>
       )}
+      <div className="students-backup">
+        <BackupPanel />
+      </div>
     </div>
   )
 }

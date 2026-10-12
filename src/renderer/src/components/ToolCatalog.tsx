@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { categories, type CategoryId } from '../tools/categories'
 import type { Tool } from '../tools/registry'
+import { games } from '../games/registry'
 import { matchesQuery } from '../lib/search'
 import { useFavorites } from '../lib/useFavorites'
 import FavoriteButton from './FavoriteButton'
@@ -23,11 +24,13 @@ export default function ToolCatalog({ tools, onOpen }: Props): React.JSX.Element
   )
   const favorite = visible.filter((t) => favorites.has(t.id))
   const filtering = query.trim() !== '' || category !== 'all'
+  // El banner de juegos se ve siempre, salvo cuando se está buscando otra cosa
+  const showGamesPromo = query.trim() === '' && (category === 'all' || category === 'classroom')
 
   const card = (t: Tool): React.JSX.Element => (
     <div
       key={t.id}
-      className="tool-card-wrap"
+      className={`tool-card-wrap ${t.featured ? 'featured' : ''}`}
       style={{ '--accent': t.color } as React.CSSProperties}
     >
       <button className="tool-card" onClick={() => onOpen(t.id)}>
@@ -74,6 +77,22 @@ export default function ToolCatalog({ tools, onOpen }: Props): React.JSX.Element
           ))}
         </div>
       </div>
+
+      {showGamesPromo && (
+        <button className="games-promo" onClick={() => onOpen('games')}>
+          <span className="games-promo-icon" aria-hidden>
+            🎮
+          </span>
+          <span className="games-promo-text">
+            <b>¡{games.length} juegos para tu clase!</b>
+            <small>
+              Preguntas tipo concurso, palabras, matemática, inglés, música y más. Con equipos,
+              marcador y ranking.
+            </small>
+          </span>
+          <span className="games-promo-cta">Jugar ahora →</span>
+        </button>
+      )}
 
       {favorite.length > 0 && (
         <section className="category favorites">

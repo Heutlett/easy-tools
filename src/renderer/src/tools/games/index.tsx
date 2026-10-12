@@ -7,6 +7,7 @@ import { GRADES, type Grade, type SubjectId } from '../../content/types'
 import { games, type Game } from '../../games/registry'
 import { GAME_MODES, type GameMode } from '../../games/types'
 import { matchesQuery } from '../../lib/search'
+import { GameInfoContext } from '../../lib/games/ranking'
 import { useFavorites } from '../../lib/useFavorites'
 
 type SubjectFilter = SubjectId | 'general'
@@ -37,9 +38,11 @@ export default function Games(): React.JSX.Element {
   if (open) {
     return (
       <div className="game-frame" style={{ '--accent': open.color } as React.CSSProperties}>
-        <Suspense fallback={<p className="muted">Cargando…</p>}>
-          <open.Component />
-        </Suspense>
+        <GameInfoContext.Provider value={{ id: open.id, title: open.title }}>
+          <Suspense fallback={<p className="muted">Cargando…</p>}>
+            <open.Component />
+          </Suspense>
+        </GameInfoContext.Provider>
       </div>
     )
   }

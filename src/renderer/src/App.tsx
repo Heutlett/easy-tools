@@ -5,6 +5,7 @@ import ToolCatalog from './components/ToolCatalog'
 import logo from './assets/logo.svg'
 import AboutPage from './components/AboutPage'
 import ToolLayout from './components/ToolLayout'
+import RecoveredNotice from './components/RecoveredNotice'
 import UpdateBanner from './components/UpdateBanner'
 import WelcomeNote from './components/WelcomeNote'
 
@@ -55,6 +56,7 @@ export default function App(): React.JSX.Element {
   return (
     <>
       <UpdateBanner />
+      <RecoveredNotice />
       <Content />
       <WelcomeNote />
     </>

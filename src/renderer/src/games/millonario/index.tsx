@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import './style.css'
 import type { Question } from '../../content/types'
 import type { Player } from '../../lib/games/players'
+import { useRecordSession } from '../../lib/games/ranking'
 import { sfx } from '../../lib/games/sfx'
 import { LADDER_10, LADDER_15, ladderFor } from './data'
 import { buildLadder, colones, type TurnResult } from './logic'
@@ -291,6 +292,15 @@ function Final({
           : `Falló la ${r.lostAt}`
 
   useEffect(() => sfx.win(), [])
+
+  // El resultado (lo que ganó cada quien, en colones) también va al ranking de juegos
+  const record = useRecordSession()
+  const recorded = useRef(false)
+  useEffect(() => {
+    if (recorded.current) return
+    recorded.current = true
+    record(results.flatMap((r) => (r.playerId ? [{ id: r.playerId, score: r.amount }] : [])))
+  }, [record, results])
 
   return (
     <Screen>
