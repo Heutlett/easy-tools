@@ -3,6 +3,7 @@ import BackupPanel from '../../components/BackupPanel'
 import AddStudents from '../../components/AddStudents'
 import { newStudents, useClassrooms, type Group } from '../../lib/classrooms'
 import { usePersistentState } from '../../lib/usePersistentState'
+import Hint from '../../components/Hint'
 
 export default function Students(): React.JSX.Element {
   const { groups, setGroups, addGroup } = useClassrooms()
@@ -32,6 +33,9 @@ export default function Students(): React.JSX.Element {
 
   return (
     <div className="students-layout">
+      <Hint id="groups-use">
+        Tus grupos se guardan solos y se usan en los juegos, la ruleta, los puntos y el ranking.
+      </Hint>
       <aside className="panel students-groups">
         <p className="panel-title">Mis grupos</p>
         {groups.map((g) => (

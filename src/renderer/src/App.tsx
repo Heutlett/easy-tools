@@ -1,9 +1,13 @@
 import { Suspense, useState } from 'react'
+import { requestGame } from './lib/openIntent'
+import type { HelpTopic } from './help/topics'
 import { tools } from './tools/registry'
 import ComponentsBanner from './components/ComponentsBanner'
 import ToolCatalog from './components/ToolCatalog'
 import logo from './assets/logo.svg'
 import AboutPage from './components/AboutPage'
+import HelpPage from './components/HelpPage'
+import TipCard from './components/TipCard'
 import ToolLayout from './components/ToolLayout'
 import RecoveredNotice from './components/RecoveredNotice'
 import UpdateBanner from './components/UpdateBanner'
@@ -12,9 +16,32 @@ import WelcomeNote from './components/WelcomeNote'
 function Content(): React.JSX.Element {
   const [toolId, setToolId] = useState<string | null>(null)
   const [about, setAbout] = useState(false)
+  // Ayuda abierta (con la pregunta que se debe mostrar, si la hay)
+  const [help, setHelp] = useState<{ topic: string | null } | null>(null)
   const tool = tools.find((t) => t.id === toolId)
 
+  const goTo = (topic: HelpTopic): void => {
+    const to = topic.target
+    if (!to) return
+    setHelp(null)
+    if (to.kind === 'about') setAbout(true)
+    else {
+      if (to.kind === 'game') requestGame(to.id)
+      setToolId(to.kind === 'game' ? 'games' : to.id)
+    }
+  }
+
   if (about) return <AboutPage onBack={() => setAbout(false)} />
+
+  if (help)
+    return (
+      <HelpPage
+        key={help.topic ?? ''}
+        openId={help.topic}
+        onBack={() => setHelp(null)}
+        onGo={goTo}
+      />
+    )
 
   if (tool) {
     return (
@@ -37,6 +64,9 @@ function Content(): React.JSX.Element {
           </div>
         </div>
         <div className="header-actions">
+          <button className="btn secondary" onClick={() => setHelp({ topic: null })}>
+            ❓ Ayuda
+          </button>
           <button className="btn secondary" onClick={() => setAbout(true)}>
             💜 Acerca de
           </button>
@@ -47,7 +77,8 @@ function Content(): React.JSX.Element {
       </header>
       <h2 className="home-question">¿Qué quieres hacer hoy?</h2>
       <ComponentsBanner />
-      <ToolCatalog tools={tools} onOpen={setToolId} />
+      <TipCard onHelp={(topic) => setHelp({ topic })} />
+      <ToolCatalog tools={tools} onOpen={setToolId} onHelp={(topic) => setHelp({ topic })} />
     </main>
   )
 }

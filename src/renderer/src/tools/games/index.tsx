@@ -1,4 +1,4 @@
-import { Suspense, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import '../../components/games/games.css'
 import FavoriteButton from '../../components/FavoriteButton'
 import { useToolHeader } from '../../components/ToolHeaderContext'
@@ -6,9 +6,11 @@ import { SUBJECTS, gradeLabel, gradesLabel } from '../../content/subjects'
 import { GRADES, type Grade, type SubjectId } from '../../content/types'
 import { games, type Game } from '../../games/registry'
 import { GAME_MODES, type GameMode } from '../../games/types'
+import { clearRequestedGame, peekRequestedGame } from '../../lib/openIntent'
 import { matchesQuery } from '../../lib/search'
 import { GameInfoContext } from '../../lib/games/ranking'
 import { useFavorites } from '../../lib/useFavorites'
+import Hint from '../../components/Hint'
 
 type SubjectFilter = SubjectId | 'general'
 
@@ -19,7 +21,9 @@ export default function Games(): React.JSX.Element {
   const [subject, setSubject] = useState<SubjectFilter | null>(null)
   const [grade, setGrade] = useState<Grade | null>(null)
   const [mode, setMode] = useState<GameMode | null>(null)
-  const [openId, setOpenId] = useState<string | null>(null)
+  // Si se llegó desde «Ayuda» con «Llévame ahí», se abre ese juego directo
+  const [openId, setOpenId] = useState<string | null>(() => peekRequestedGame())
+  useEffect(() => clearRequestedGame(), [])
   const favorites = useFavorites('favorite-games')
   const open = games.find((g) => g.id === openId) ?? null
 
@@ -100,6 +104,10 @@ export default function Games(): React.JSX.Element {
 
   return (
     <div className="games-hub">
+      <Hint id="games-hub">
+        Usa el buscador y los filtros para encontrar un juego, y la ⭐ para dejar tus favoritos
+        arriba. En los juegos de preguntas puedes agregar las tuyas.
+      </Hint>
       <div className="catalog-controls">
         <input
           className="field catalog-search"

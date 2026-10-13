@@ -9,6 +9,7 @@ import {
   makeTeams,
   type Player
 } from '../../lib/games/players'
+import Hint from '../Hint'
 
 interface Props {
   /** Texto del botón para empezar */
@@ -58,6 +59,10 @@ export default function PlayerSetup({
 
   return (
     <section className="panel player-setup">
+      <Hint id="ranking-students">
+        Para que el resultado cuente en el ranking, elige «Estudiantes de mi grupo». Con equipos no
+        se guarda.
+      </Hint>
       <div className="pills" role="group" aria-label="Quiénes juegan">
         <button
           className={`pill ${mode === 'teams' ? 'selected' : ''}`}

@@ -1942,3 +1942,137 @@ h1 {
 .students-backup {
   grid-column: 1 / -1;
 }
+
+/* Ayuda, pistas y consejos: discretos, en un tono suave */
+.hint {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0 0 4px;
+  padding: 9px 12px;
+  border-radius: 12px;
+  background: #fff8e1;
+  border: 1px solid #f1dfa1;
+  color: #5b4a12;
+  font-size: 0.93rem;
+  line-height: 1.4;
+}
+.hint-text {
+  flex: 1;
+}
+.hint-close {
+  flex: none;
+  min-width: 32px;
+  min-height: 32px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  opacity: 0.7;
+}
+.hint-close:hover {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.07);
+}
+.students-layout > .hint {
+  grid-column: 1 / -1;
+}
+.tip-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 0 0 18px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: #fff8e1;
+  border: 1px solid #f1dfa1;
+  color: #5b4a12;
+}
+.tip-icon {
+  font-size: 1.4rem;
+}
+.tip-text {
+  flex: 1 1 320px;
+  margin: 0;
+  font-size: 0.97rem;
+  line-height: 1.4;
+}
+.tip-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.help-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 28px 24px 48px;
+}
+.help-list {
+  display: grid;
+  gap: 10px;
+}
+.help-item {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: 4px 16px;
+}
+.help-item summary {
+  display: flex;
+  gap: 10px;
+  padding: 12px 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.help-item[open] summary {
+  color: var(--accent);
+}
+.help-steps {
+  margin: 0 0 12px;
+  padding-left: 24px;
+  display: grid;
+  gap: 6px;
+  line-height: 1.45;
+}
+.help-item > .btn {
+  margin: 0 0 14px;
+}
+.help-prefs {
+  margin-top: 28px;
+}
+.help-found {
+  display: grid;
+  gap: 8px;
+}
+.help-found-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #f1dfa1;
+  border-radius: 14px;
+  background: #fff8e1;
+  color: #5b4a12;
+  font: inherit;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+.help-found-item:hover {
+  background: #fff1c2;
+}
+.help-found-cta {
+  margin-left: auto;
+  white-space: nowrap;
+}
+.help-page .catalog-search {
+  width: 100%;
+  max-width: none;
+  margin: 4px 0 24px;
+}

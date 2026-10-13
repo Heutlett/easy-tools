@@ -1,6 +1,7 @@
 import { usePersistentState } from '../../lib/usePersistentState'
 import Points from './Points'
 import Ranking from './Ranking'
+import Hint from '../../components/Hint'
 
 type Tab = 'points' | 'ranking'
 
@@ -42,6 +43,10 @@ export default function PointsAndRanking(): React.JSX.Element {
 
       {tab === 'points' ? (
         <div className="pr-pane points">
+          <Hint id="points-vs-ranking">
+            Los puntos de los juegos no están aquí: se guardan aparte en la pestaña «🏆 Ranking de
+            juegos».
+          </Hint>
           <p className="pr-note points">
             ⭐ Estos puntos <b>los das tú</b>, cuando quieras. No se mezclan con el ranking de los
             juegos.

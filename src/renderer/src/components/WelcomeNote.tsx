@@ -75,6 +75,9 @@ export default function WelcomeNote(): React.JSX.Element | null {
           </a>
         </p>
         <p className="welcome-where">Todo esto está en «💜 Acerca de», en el inicio.</p>
+        <p className="welcome-where">
+          ¿Te pierdes entre tantas cosas? Toca «❓ Ayuda» en el inicio: te dice cómo hacer cada una.
+        </p>
 
         <button ref={button} className="btn big" onClick={() => setSeen(true)}>
           ¡Empezar!

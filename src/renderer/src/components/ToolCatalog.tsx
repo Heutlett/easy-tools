@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { categories, type CategoryId } from '../tools/categories'
 import type { Tool } from '../tools/registry'
 import { games } from '../games/registry'
+import { HELP } from '../help/topics'
 import { matchesQuery } from '../lib/search'
 import { useFavorites } from '../lib/useFavorites'
 import FavoriteButton from './FavoriteButton'
@@ -10,10 +11,12 @@ import ToolIcon from './ToolIcon'
 interface Props {
   tools: Tool[]
   onOpen: (id: string) => void
+  /** Abre la ayuda en una pregunta */
+  onHelp: (topicId: string) => void
 }
 
 /** El catálogo de la pantalla de inicio: buscador, filtro por sección, favoritos arriba y el resto por secciones. */
-export default function ToolCatalog({ tools, onOpen }: Props): React.JSX.Element {
+export default function ToolCatalog({ tools, onOpen, onHelp }: Props): React.JSX.Element {
   const [query, setQuery] = useState('')
   const [category, setCategory] = useState<CategoryId | 'all'>('all')
   const favorites = useFavorites('favorite-tools')
@@ -22,6 +25,11 @@ export default function ToolCatalog({ tools, onOpen }: Props): React.JSX.Element
     (t) =>
       (category === 'all' || t.category === category) && matchesQuery(query, t.title, t.description)
   )
+  // Al buscar, también se ofrece la ayuda que encaja («preguntas propias» lleva a cómo agregarlas)
+  const helpFound =
+    query.trim() === ''
+      ? []
+      : HELP.filter((h) => matchesQuery(query, h.question, ...(h.keywords ?? []))).slice(0, 3)
   const favorite = visible.filter((t) => favorites.has(t.id))
   const filtering = query.trim() !== '' || category !== 'all'
   // El banner de juegos se ve siempre, salvo cuando se está buscando otra cosa
@@ -116,7 +124,24 @@ export default function ToolCatalog({ tools, onOpen }: Props): React.JSX.Element
         )
       })}
 
-      {visible.length === 0 && (
+      {helpFound.length > 0 && (
+        <section className="category help-results">
+          <h3 className="category-title">
+            <span aria-hidden>❓</span> Ayuda
+          </h3>
+          <div className="help-found">
+            {helpFound.map((h) => (
+              <button key={h.id} className="help-found-item" onClick={() => onHelp(h.id)}>
+                <span aria-hidden>{h.icon}</span>
+                <span>{h.question}</span>
+                <span className="help-found-cta">Ver cómo →</span>
+              </button>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {visible.length === 0 && helpFound.length === 0 && (
         <div className="notice catalog-empty">
           <p>No encontré ninguna herramienta{query.trim() ? ` para «${query.trim()}»` : ''}.</p>
           {filtering && (
