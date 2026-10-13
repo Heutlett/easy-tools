@@ -7,5 +7,6 @@ export default {
   icon: '🎮',
   color: '#7c3aed',
   category: 'classroom',
-  order: 4
+  featured: true,
+  order: 0
 } satisfies ToolMeta

@@ -9,6 +9,7 @@ import { usePersistentState } from '../../lib/usePersistentState'
 import Guide from './Guide'
 import { useGuide } from './useGuide'
 import type { MusicControls } from './music'
+import Hint from '../../components/Hint'
 
 /** Cómo se eligen las preguntas */
 export type Way = 'auto' | 'pick'
@@ -59,6 +60,10 @@ export function StepQuestions({ onAuto, onPick }: StepQuestionsProps): React.JSX
       </div>
       {guide.open && <Guide onHide={guide.hide} />}
       <h2 className="mi-setup-title">¿Con qué preguntas jugamos?</h2>
+      <Hint id="own-questions">
+        Abajo, «✏️ Escribir mis propias preguntas» te deja usar las tuyas (escribirlas o pegar
+        varias).
+      </Hint>
 
       <div className="mi-choices" role="radiogroup" aria-label="Cómo elegir las preguntas">
         <button

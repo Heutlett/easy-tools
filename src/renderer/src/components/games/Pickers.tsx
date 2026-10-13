@@ -12,6 +12,7 @@ import type { PairList, Question, Statement, WordList } from '../../content/type
 import { usePersistentState } from '../../lib/usePersistentState'
 import BankFilters from './BankFilters'
 import { PairListManager, QuestionManager, StatementManager, WordListManager } from './BankManager'
+import Hint from '..//Hint'
 
 interface CountProps {
   /** Opciones de cantidad (por ejemplo [10, 15, 20]) */
@@ -80,6 +81,10 @@ export function QuestionPicker({
   const pool = filterBank(bank.all, filter)
   return (
     <section className="panel picker">
+      <Hint id="own-questions">
+        Puedes usar tus propias preguntas: toca «✏️ Mis preguntas» (escribe una o pega varias de
+        golpe).
+      </Hint>
       <BankFilters items={bank.all} value={filter} onChange={setFilter} showDifficulty showSource />
       <CountChips
         counts={counts}
@@ -131,6 +136,9 @@ export function StatementPicker({
   const pool = filterBank(bank.all, filter)
   return (
     <section className="panel picker">
+      <Hint id="own-statements">
+        Puedes escribir tus propias afirmaciones con «✏️ Mis afirmaciones».
+      </Hint>
       <BankFilters items={bank.all} value={filter} onChange={setFilter} showSource />
       <CountChips
         counts={counts}
@@ -215,6 +223,7 @@ export function WordListPicker({
   const chosen = lists.filter((l) => selected.includes(l.id))
   return (
     <section className="panel picker">
+      <Hint id="own-words">Puedes crear tus propias listas de palabras con «✏️ Mis listas».</Hint>
       <BankFilters items={bank.all} value={filter} onChange={setFilter} showSource />
       <ListCards
         lists={lists}
@@ -271,6 +280,7 @@ export function PairListPicker({
   const chosen = lists.find((l) => l.id === selected)
   return (
     <section className="panel picker">
+      <Hint id="own-pairs">Puedes crear tus propias parejas con «✏️ Mis parejas».</Hint>
       <BankFilters items={bank.all} value={filter} onChange={setFilter} showSource />
       <ListCards
         lists={lists}

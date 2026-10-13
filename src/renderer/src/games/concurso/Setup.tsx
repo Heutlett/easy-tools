@@ -15,6 +15,7 @@ import {
   type Category,
   type Settings
 } from './board'
+import Hint from '../../components/Hint'
 
 function Choice<T extends string | number | boolean>({
   label,
@@ -88,6 +89,9 @@ export default function Setup({
 
   return (
     <section className="panel picker cq-setup">
+      <Hint id="own-questions">
+        Puedes usar tus propias preguntas: toca «Mis preguntas» y escribe o pega varias de golpe.
+      </Hint>
       <div className="cq-filters">
         <BankFilters items={bank.all} value={filter} onChange={setFilter} showSource />
       </div>

@@ -1,4 +1,5 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useContext, useEffect, useRef, useState } from 'react'
+import { GameInfoContext, recordSession } from './ranking'
 
 /** Quien juega: un equipo o un estudiante */
 export interface Player {
@@ -56,7 +57,32 @@ export function useScores(players: Player[]): {
     (id: string, value: number) => setScores((s) => ({ ...s, [id]: value })),
     []
   )
-  const reset = useCallback(() => setScores({}), [])
+  // El resultado de la partida va al ranking (solo estudiantes de grupos guardados): al empezar otra partida, al salir
+  // del juego o al cerrar la ventana. Lo último que se vio es lo que se guarda, aunque se salga sin avisar.
+  const game = useContext(GameInfoContext)
+  const latest = useRef({ scores, players, game })
+  useEffect(() => {
+    latest.current = { scores, players, game }
+  })
+  const commit = useCallback(() => {
+    const { scores: s, players: ps, game: g } = latest.current
+    if (!g) return
+    const results = ps.map((p) => ({ id: p.id, score: s[p.id] ?? 0 }))
+    if (results.some((r) => r.score > 0)) recordSession(g, results)
+  }, [])
+  useEffect(() => {
+    window.addEventListener('pagehide', commit)
+    return () => {
+      window.removeEventListener('pagehide', commit)
+      commit()
+    }
+  }, [commit])
+  const reset = useCallback(() => {
+    commit()
+    // Se vacía lo ya guardado para que la misma partida no se cuente dos veces
+    latest.current = { ...latest.current, scores: {} }
+    setScores({})
+  }, [commit])
   const ranking = players
     .map((p) => ({ ...p, score: scores[p.id] ?? 0 }))
     .sort((a, b) => b.score - a.score)

@@ -42,6 +42,15 @@ const api = {
       call<{ dir: string; output: string }>('output:saveInFolder', p)
   },
 
+  store: {
+    /** Todos los datos guardados, y de dónde se recuperaron si el archivo principal estaba dañado */
+    load: () => call<{ data: Record<string, unknown>; recoveredFrom: string | null }>('store:load'),
+    /** Guarda (o borra, si el valor es undefined) un dato; se escribe a disco enseguida y de forma segura */
+    set: (key: string, value: unknown) => ipcRenderer.send('store:set', key, value),
+    replaceAll: (data: Record<string, unknown>) =>
+      call<Record<string, unknown>>('store:replaceAll', data)
+  },
+
   components: {
     status: () => call<ComponentStatus[]>('components:status'),
     install: (id: ComponentId) => call<void>('components:install', id),
