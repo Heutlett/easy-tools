@@ -2,6 +2,16 @@
 
 Cada versión se publica con una etiqueta `vX.Y.Z` (ver [GITFLOW.md](GITFLOW.md)). El texto de cada entrada es el que aparece en la descripción del release en GitHub.
 
+## [0.3.0] - 2026-10-12
+
+- Corregido: las listas de estudiantes y los puntos ya no se borran; ahora se guardan en un archivo de la computadora, con una copia anterior, un respaldo por día y una copia visible en Documentos/Educando/Respaldo
+- Solo se puede abrir una copia de Educando a la vez, y si algún archivo se daña la app se recupera sola del respaldo más reciente y avisa
+- Copia de seguridad manual (guardar y restaurar) en «Acerca de» y en «Lista de estudiantes»
+- «Puntos» ahora es «Puntos y ranking»: los puntos que das a mano y el ranking de los juegos están en pestañas separadas, para no mezclarlos
+- Ranking de los juegos: se llena solo al terminar cada partida con estudiantes de un grupo guardado, y se puede filtrar por juego y por grupo
+- Los juegos se ven mucho más en el inicio, con un banner grande y una tarjeta destacada
+- Nueva ayuda: página «❓ Ayuda» con buscador y botón «Llévame ahí», pistas 💡 dentro de las pantallas y un consejo «¿Sabías que…?» en el inicio
+
 ## [0.2.2] - 2026-10-10
 
 - Aviso MUY IMPORTANTE de que Educando es totalmente gratuito y NO se vende: solo se aceptan donaciones 100 % voluntarias, y se pide avisar si alguien lo está vendiendo

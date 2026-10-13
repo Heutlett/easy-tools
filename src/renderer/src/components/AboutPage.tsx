@@ -3,6 +3,7 @@ import adrian from '../assets/adrian.jpg'
 import logo from '../assets/logo.svg'
 import { AUTHOR, REPO_URL } from '../../../shared/about'
 import { useUpdate } from '../lib/useUpdate'
+import BackupPanel from './BackupPanel'
 import CopyButton from './CopyButton'
 
 /** "Acerca de": versión, quién hizo la app y cómo apoyarla. */
@@ -51,6 +52,11 @@ export default function AboutPage({ onBack }: { onBack: () => void }): React.JSX
             <b className="selectable">{AUTHOR.phone}</b> o a{' '}
             <b className="selectable">{AUTHOR.email}</b>.
           </p>
+        </section>
+
+        <section className="panel">
+          <h2 className="panel-title">Mis datos</h2>
+          <BackupPanel />
         </section>
 
         <section className="panel">

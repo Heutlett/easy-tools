@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import './style.css'
 import '../_visual/visual.css'
 import PlayerSetup from '../../components/games/PlayerSetup'
@@ -6,6 +6,7 @@ import { QuestionPicker } from '../../components/games/Pickers'
 import { gradeLabel, subjectOf } from '../../content/subjects'
 import type { Question } from '../../content/types'
 import type { Player } from '../../lib/games/players'
+import { useRecordSession } from '../../lib/games/ranking'
 import { playTones, sfx } from '../../lib/games/sfx'
 import { shuffle, shuffleOptions } from '../../lib/games/shuffle'
 import { randomInt } from '../../lib/random'
@@ -267,6 +268,19 @@ function Track({
     [players, pos, arrival]
   )
   const leaderPos = pos[ranking[0]?.id] ?? 0
+
+  // Al terminar la carrera, la casilla a la que llegó cada quien va al ranking de juegos (el ganador llega a la meta)
+  const record = useRecordSession()
+  const recorded = useRef(false)
+  useEffect(() => {
+    if (!finished) {
+      recorded.current = false
+      return
+    }
+    if (recorded.current) return
+    recorded.current = true
+    record(players.map((p) => ({ id: p.id, score: pos[p.id] ?? 0 })))
+  }, [finished, record, players, pos])
   const current = players[turn % players.length]
 
   return (

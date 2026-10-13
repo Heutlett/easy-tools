@@ -13,6 +13,7 @@ import { registerPdfToWordTools } from './tools/pdfToWord'
 import { registerWordTools } from './tools/word'
 import { registerAppInfoHandlers } from './appInfo'
 import { registerComponentHandlers } from './components'
+import { registerStoreHandlers } from './store'
 import { setupUpdater } from './updater'
 import { fixedContentSize, setupWindowSizing } from './windowMode'
 
@@ -64,6 +65,20 @@ function createWindow(): void {
   }
 }
 
+// Solo una copia de la app a la vez: dos copias compartiendo la misma carpeta de datos pueden perder lo que se guarda.
+// Si ya hay una abierta, se trae esa al frente y esta se cierra.
+if (!app.requestSingleInstanceLock()) {
+  app.quit()
+} else {
+  app.on('second-instance', () => {
+    const win = BrowserWindow.getAllWindows()[0]
+    if (!win) return
+    if (win.isMinimized()) win.restore()
+    win.show()
+    win.focus()
+  })
+}
+
 app.whenReady().then(() => {
   electronApp.setAppUserModelId('cr.educando.app')
 
@@ -79,6 +94,7 @@ app.whenReady().then(() => {
 
   registerAppInfoHandlers()
   setupUpdater()
+  registerStoreHandlers()
   registerComponentHandlers()
   registerCommonHandlers()
   registerVideoTools()
