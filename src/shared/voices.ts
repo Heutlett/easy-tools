@@ -1,11 +1,12 @@
 /**
- * Voces para leer en voz alta: dos modelos de Piper, uno solo en español y otro solo en inglés, que corren sin internet con
- * sherpa-onnx. Cada modelo habla un solo idioma y pronuncia con las reglas de ese idioma (los textos se convierten a sonidos con
- * espeak-ng), así que no se confunden de idioma. Se descargan junto con las demás piezas grandes (ver src/shared/components.ts y
- * src/main/components.ts) de una revisión fija de Hugging Face, verificados con SHA-256.
+ * Voces para leer en voz alta: el modelo Kokoro-82M (Apache-2.0), que corre sin internet con sherpa-onnx. Es un solo modelo para
+ * varios idiomas, pero cada idioma se pronuncia con las reglas de ese idioma (los textos se convierten a sonidos con espeak-ng y,
+ * en inglés, con un diccionario), y el idioma se fija al cargar el motor: no se confunde de idioma. Hay una voz por idioma, las
+ * dos elegidas a oído: `em_alex` (hombre) en español y `af_heart` (mujer, la mejor calificada del modelo) en inglés.
  *
- * Licencias de las voces (cada una tiene su MODEL_CARD): es_MX-claude-high es Apache-2.0 y en_US-ljspeech-high es de dominio público. Los datos de pronunciación (espeak-ng-data) son de espeak-ng, que es GPL-3.0: viene como datos y el motor lo carga en
- * un proceso aparte.
+ * Se descarga junto con las demás piezas grandes (ver src/shared/components.ts y src/main/components.ts) de una revisión fija de
+ * Hugging Face, verificado con SHA-256. Los datos de pronunciación (espeak-ng) son GPL-3.0: se descargan como datos y el motor los
+ * carga en un proceso aparte.
  */
 export type VoiceLang = 'es' | 'en'
 /** Una voz por idioma: el identificador es el idioma */
@@ -14,46 +15,57 @@ export type VoiceId = VoiceLang
 export interface VoiceDef {
   id: VoiceId
   lang: VoiceLang
-  /** Repositorio de Hugging Face (copia con los metadatos que pide sherpa-onnx) y revisión exacta */
-  repo: string
-  revision: string
-  model: string
-  modelSha256: string
-  tokensSha256: string
-  /** Peso aproximado del modelo, en MB */
-  sizeMB: number
+  /** Número de la voz dentro del modelo (29 = em_alex, 3 = af_heart) */
+  sid: number
+  /** Idioma que se le dice al motor para convertir el texto en sonidos */
+  espeakLang: string
 }
 
 export const VOICES: VoiceDef[] = [
-  {
-    // Español de México, voz de mujer, calidad alta
-    id: 'es',
-    lang: 'es',
-    repo: 'csukuangfj/vits-piper-es_MX-claude-high',
-    revision: '802b53b82c60d3de4f8b965314ac99bbec2499b0',
-    model: 'es_MX-claude-high.onnx',
-    modelSha256: 'f5eceb904655a60141037d957f21e6257efa93b8c8b7b818c0c57396217bcb1c',
-    tokensSha256: 'ef3a7e4a8d1af0c9d4dc45aaae1a6242ebe24a7ed6f3d025a49eb29682784c6d',
-    sizeMB: 60
-  },
-  {
-    // Inglés de Estados Unidos, voz de mujer, calidad alta (lecturas de LibriVox, dominio público)
-    id: 'en',
-    lang: 'en',
-    repo: 'csukuangfj/vits-piper-en_US-ljspeech-high',
-    revision: '6356d891ee71f4bed94a2b44ec29c010c39c0733',
-    model: 'en_US-ljspeech-high.onnx',
-    modelSha256: 'fea8faae21240174e972568a004f1d7afb01a93dbc7b3a58c36ecdc1bae82e33',
-    tokensSha256: 'ef3a7e4a8d1af0c9d4dc45aaae1a6242ebe24a7ed6f3d025a49eb29682784c6d',
-    sizeMB: 109
-  }
+  { id: 'es', lang: 'es', sid: 29, espeakLang: 'es-419' },
+  { id: 'en', lang: 'en', sid: 3, espeakLang: 'en-us' }
 ]
 
 export const voiceOf = (lang: VoiceLang): VoiceDef =>
   VOICES.find((v) => v.lang === lang) ?? VOICES[0]
 export const voiceDef = (id: VoiceId): VoiceDef => VOICES.find((v) => v.id === id) ?? VOICES[0]
 
-/** Datos de pronunciación (espeak-ng) que comparten las dos voces */
+export interface PackFile {
+  name: string
+  sha256: string
+  /** Peso aproximado, para calcular el avance */
+  sizeMB: number
+}
+
+/** Los archivos del modelo (precisión completa: en las pruebas, la versión comprimida era 3 veces más lenta y fallaba más) */
+export const PACK = {
+  repo: 'csukuangfj/kokoro-multi-lang-v1_0',
+  revision: 'f7b96bb6bef5c5da4d3aa4f4e0498fbbf62dc78b',
+  files: [
+    {
+      name: 'model.onnx',
+      sha256: 'b40f62b166ac8164b0627ef48a0b358eda0985e272fb03ef5252e7206305da11',
+      sizeMB: 310
+    },
+    {
+      name: 'voices.bin',
+      sha256: '1c5a5b983d3d50d8586d437a51f3faa2da7919ce76a013c081e65671a3447c29',
+      sizeMB: 27
+    },
+    {
+      name: 'tokens.txt',
+      sha256: '6ebb6bb288f20f3ae8d004d3c2ca27697da27c037d75e81a60e2a6a663f95425',
+      sizeMB: 0.01
+    },
+    {
+      name: 'lexicon-us-en.txt',
+      sha256: '7daaab53a181be9885b853a8582bf1838186317e5dadacbcef9c426d6fa0da14',
+      sizeMB: 6
+    }
+  ] as PackFile[]
+}
+
+/** Datos de pronunciación (espeak-ng) */
 export const ESPEAK = {
   url: 'https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/espeak-ng-data.zip',
   sha256: 'bc4525eafe31b4e3f5e43aea495f3169e97dd2544f1bbfe95514ce8a61baee39',

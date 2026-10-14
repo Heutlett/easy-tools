@@ -148,8 +148,3 @@ export async function speakNatural(id: VoiceId, text: string, rate: number): Pro
     }
   }
 }
-
-/** Carga el motor con anticipación para que la primera frase no tarde */
-export function warmUpVoices(): void {
-  void window.api.voices.warmup().catch(() => undefined)
-}

@@ -1,6 +1,6 @@
 import { app, utilityProcess, type UtilityProcess, type WebContents } from 'electron'
 import { join } from 'path'
-import { voiceDef, type SpeechAudio, type VoiceId } from '../shared/voices'
+import { voiceDef, type SpeechAudio, type VoiceId, type VoiceLang } from '../shared/voices'
 import { voicesDir } from './components'
 import { handle } from './ipc'
 import { UserError } from './jobs'
@@ -13,10 +13,16 @@ const packDir = (): string | null => voicesDir()
 
 /** Si en este tiempo no llega nada del proceso de voz, se da por perdido */
 const STALL_MS = 60_000
-/** El motor ocupa memoria mientras está cargado: si nadie lo usa un rato, se cierra */
-const IDLE_MS = 10 * 60_000
+/**
+ * Cada idioma tiene su propio proceso, que solo existe mientras hace falta: el modelo ocupa unos 400 MB de memoria. Se carga cuando una
+ * pantalla que lee en ese idioma se abre (`acquire`) y se descarga poco después de que se cierre (`release`).
+ */
+const RELEASE_GRACE_MS = 20_000
+/** Si alguien pide leer sin haber avisado (pruebas), el proceso se cierra solo pasado este tiempo */
+const IDLE_MS = 60_000
 
 interface Stream {
+  lang: VoiceLang
   /** Quién pidió el audio (recibe los trozos); null si solo se junta todo (pruebas) */
   sender: WebContents | null
   parts: Float32Array[]
@@ -26,9 +32,14 @@ interface Stream {
   reject?: (e: Error) => void
 }
 
-let worker: UtilityProcess | null = null
-let idleTimer: ReturnType<typeof setTimeout> | null = null
+const workers = new Map<VoiceLang, UtilityProcess>()
+const killTimers = new Map<VoiceLang, ReturnType<typeof setTimeout>>()
 const streams = new Map<number, Stream>()
+/** Cuántas pantallas (por ventana) están usando cada idioma */
+const holders = new Map<number, Map<VoiceLang, number>>()
+
+const holdersOf = (lang: VoiceLang): number =>
+  [...holders.values()].reduce((n, m) => n + (m.get(lang) ?? 0), 0)
 
 function finish(id: number): Stream | undefined {
   const st = streams.get(id)
@@ -39,24 +50,43 @@ function finish(id: number): Stream | undefined {
   return st
 }
 
-function failAll(message: string): void {
-  for (const id of [...streams.keys()]) {
-    const st = finish(id)
-    if (st?.sender && !st.sender.isDestroyed())
+function failAll(lang: VoiceLang, message: string): void {
+  for (const [id, st] of [...streams]) {
+    if (st.lang !== lang) continue
+    finish(id)
+    if (st.sender && !st.sender.isDestroyed())
       st.sender.send('voices:chunk', { requestId: id, type: 'error', message })
-    st?.reject?.(new Error(message))
+    st.reject?.(new Error(message))
   }
 }
 
-export function stopWorker(): void {
-  if (idleTimer) clearTimeout(idleTimer)
-  idleTimer = null
-  const w = worker
-  worker = null
+function scheduleKill(lang: VoiceLang, ms: number): void {
+  const old = killTimers.get(lang)
+  if (old) clearTimeout(old)
+  killTimers.set(
+    lang,
+    setTimeout(() => {
+      killTimers.delete(lang)
+      if (holdersOf(lang) === 0) stopWorker(lang)
+    }, ms)
+  )
+}
+
+/** Cierra el proceso de un idioma: la memoria del modelo se libera de verdad */
+export function stopWorker(lang: VoiceLang): void {
+  const t = killTimers.get(lang)
+  if (t) clearTimeout(t)
+  killTimers.delete(lang)
+  const w = workers.get(lang)
+  workers.delete(lang)
   if (w) {
-    failAll('La voz se detuvo')
+    failAll(lang, 'La voz se detuvo')
     w.kill()
   }
+}
+
+export const stopAll = (): void => {
+  for (const lang of ['es', 'en'] as const) stopWorker(lang)
 }
 
 interface WorkerMessage {
@@ -68,10 +98,11 @@ interface WorkerMessage {
   error?: string
 }
 
-function ensureWorker(): UtilityProcess {
-  if (worker) return worker
+function ensureWorker(lang: VoiceLang): UtilityProcess {
+  const existing = workers.get(lang)
+  if (existing) return existing
   const child = utilityProcess.fork(join(__dirname, 'voiceWorker.js'), [], {
-    serviceName: 'Voz de Educando'
+    serviceName: `Voz de Educando (${lang})`
   })
   child.on('message', (m: WorkerMessage) => {
     const st = streams.get(m.id)
@@ -115,17 +146,17 @@ function ensureWorker(): UtilityProcess {
     }
   })
   child.on('exit', () => {
-    if (worker === child) worker = null
-    failAll('La voz se detuvo')
+    if (workers.get(lang) === child) workers.delete(lang)
+    failAll(lang, 'La voz se detuvo')
   })
-  worker = child
+  workers.set(lang, child)
   return child
 }
 
 function timeout(id: number): void {
   const st = finish(id)
   if (!st) return
-  worker?.postMessage({ type: 'cancel', id })
+  workers.get(st.lang)?.postMessage({ type: 'cancel', id })
   const message = 'La voz tardó demasiado'
   if (st.sender && !st.sender.isDestroyed())
     st.sender.send('voices:chunk', { requestId: id, type: 'error', message })
@@ -137,27 +168,30 @@ function start(
   id: VoiceId,
   text: string,
   speed: number,
-  stream: Omit<Stream, 'timer' | 'parts' | 'sampleRate'>
+  stream: Omit<Stream, 'timer' | 'parts' | 'sampleRate' | 'lang'>
 ): void {
   const dir = packDir()
   if (!dir) throw new UserError('Las voces todavía no están descargadas.')
   if (!text.trim()) throw new UserError('No hay nada que leer.')
+  const def = voiceDef(id)
   const safeSpeed = Math.min(2, Math.max(0.5, Number.isFinite(speed) ? speed : 1))
-  const child = ensureWorker()
-  if (idleTimer) clearTimeout(idleTimer)
-  idleTimer = setTimeout(stopWorker, IDLE_MS)
+  const child = ensureWorker(def.lang)
+  // Si ninguna pantalla lo está usando, no se queda cargado
+  if (holdersOf(def.lang) === 0) scheduleKill(def.lang, IDLE_MS)
   streams.set(requestId, {
     ...stream,
+    lang: def.lang,
     parts: [],
-    sampleRate: 44100,
+    sampleRate: 24000,
     timer: setTimeout(() => timeout(requestId), STALL_MS)
   })
-  const def = voiceDef(id)
   child.postMessage({
     type: 'speak',
     id: requestId,
     dir,
     lang: def.lang,
+    sid: def.sid,
+    espeakLang: def.espeakLang,
     text,
     speed: safeSpeed
   })
@@ -184,18 +218,55 @@ export function speakStream(
 }
 
 export function cancelSpeak(requestId: number): void {
-  if (finish(requestId)) worker?.postMessage({ type: 'cancel', id: requestId })
+  const st = finish(requestId)
+  if (st) workers.get(st.lang)?.postMessage({ type: 'cancel', id: requestId })
 }
 
-/** Carga el motor con anticipación, para que la primera frase no tarde */
-export function warmup(): void {
+const watched = new WeakSet<WebContents>()
+
+/** Una pantalla que lee en este idioma se abrió: se carga el modelo (si no estaba) */
+export function acquire(sender: WebContents, lang: VoiceLang): void {
   const dir = packDir()
+  const mine = holders.get(sender.id) ?? new Map<VoiceLang, number>()
+  holders.set(sender.id, mine)
+  mine.set(lang, (mine.get(lang) ?? 0) + 1)
+  // Si la ventana se recarga o se cierra, lo que tenía pedido se suelta
+  if (!watched.has(sender)) {
+    watched.add(sender)
+    const drop = (): void => {
+      const m = holders.get(sender.id)
+      holders.delete(sender.id)
+      for (const l of m?.keys() ?? []) if (holdersOf(l) === 0) scheduleKill(l, RELEASE_GRACE_MS)
+    }
+    sender.on('did-start-navigation', (_e, _url, isInPlace, isMainFrame) => {
+      if (isMainFrame && !isInPlace) drop()
+    })
+    sender.once('destroyed', drop)
+  }
+  const t = killTimers.get(lang)
+  if (t) clearTimeout(t)
+  killTimers.delete(lang)
   if (!dir) return
-  const child = ensureWorker()
-  for (const lang of ['es', 'en']) child.postMessage({ type: 'warmup', dir, lang })
-  if (idleTimer) clearTimeout(idleTimer)
-  idleTimer = setTimeout(stopWorker, IDLE_MS)
+  const def = voiceDef(lang)
+  ensureWorker(lang).postMessage({
+    type: 'warmup',
+    dir,
+    lang,
+    sid: def.sid,
+    espeakLang: def.espeakLang
+  })
 }
+
+/** La pantalla se cerró: si nadie más usa ese idioma, el modelo se descarga poco después (por si se vuelve enseguida) */
+export function release(sender: WebContents, lang: VoiceLang): void {
+  const mine = holders.get(sender.id)
+  if (!mine) return
+  mine.set(lang, Math.max(0, (mine.get(lang) ?? 0) - 1))
+  if (holdersOf(lang) === 0) scheduleKill(lang, RELEASE_GRACE_MS)
+}
+
+/** Cuántos idiomas tienen el modelo cargado (para pruebas) */
+export const loadedLanguages = (): VoiceLang[] => [...workers.keys()]
 
 export function registerVoiceHandlers(): void {
   handle('voices:speak', (_e, p: { id: VoiceId; text: string; speed: number }) =>
@@ -207,6 +278,7 @@ export function registerVoiceHandlers(): void {
       speakStream(e.sender, p.requestId, p.id, p.text, p.speed)
   )
   handle('voices:cancelSpeak', (_e, requestId: number) => cancelSpeak(requestId))
-  handle('voices:warmup', () => warmup())
-  app.on('before-quit', stopWorker)
+  handle('voices:acquire', (e, lang: VoiceLang) => acquire(e.sender, lang))
+  handle('voices:release', (e, lang: VoiceLang) => release(e.sender, lang))
+  app.on('before-quit', stopAll)
 }

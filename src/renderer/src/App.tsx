@@ -8,7 +8,6 @@ import logo from './assets/logo.svg'
 import AboutPage from './components/AboutPage'
 import HelpPage from './components/HelpPage'
 import VoiceIndicator from './components/VoiceIndicator'
-import { useWarmVoices } from './lib/voiceResources'
 import TipCard from './components/TipCard'
 import ToolLayout from './components/ToolLayout'
 import RecoveredNotice from './components/RecoveredNotice'
@@ -90,7 +89,6 @@ function Content(): React.JSX.Element {
 }
 
 export default function App(): React.JSX.Element {
-  useWarmVoices()
   return (
     <>
       <UpdateBanner />

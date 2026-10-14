@@ -16,7 +16,7 @@ import { pipeline } from 'stream/promises'
 import { createGunzip } from 'zlib'
 import type { ComponentId, ComponentProgress, ComponentStatus } from '../shared/components'
 import { COMPONENTS, componentDef } from '../shared/components'
-import { ESPEAK, VOICES } from '../shared/voices'
+import { ESPEAK, PACK } from '../shared/voices'
 import { unzipTo } from './unzip'
 import { handle } from './ipc'
 import { UserError } from './jobs'
@@ -88,24 +88,25 @@ export function requireModelDir(): string {
 }
 
 /** Carpeta de las voces (con el modelo), o null si faltan */
-const VOICE_FILES = [
-  ...VOICES.flatMap((v) => [join(v.id, 'model.onnx'), join(v.id, 'tokens.txt')]),
-  join('espeak-ng-data', '.completo')
-]
-/** Archivos de versiones anteriores de las voces (otro modelo) que ya no sirven */
+const VOICE_FILES = [...PACK.files.map((f) => f.name), join('espeak-ng-data', '.completo')]
+/** Archivos y carpetas de versiones anteriores de las voces (otros modelos) que ya no sirven */
 const OLD_VOICE_FILES = [
+  // Supertonic
   'duration_predictor.int8.onnx',
   'text_encoder.int8.onnx',
   'vector_estimator.int8.onnx',
   'vocoder.int8.onnx',
   'tts.json',
   'unicode_indexer.bin',
-  'voice.bin'
+  'voice.bin',
+  // Piper (una carpeta por idioma)
+  'es',
+  'en'
 ]
 
 /** Cambia cuando cambia alguna voz: así una instalación con otra voz se vuelve a bajar */
 const VOICES_VERSION = createHash('sha256')
-  .update(VOICES.map((v) => v.modelSha256 + v.tokensSha256).join() + ESPEAK.sha256)
+  .update(PACK.files.map((f) => f.sha256).join() + ESPEAK.sha256)
   .digest('hex')
   .slice(0, 16)
 
@@ -201,27 +202,16 @@ async function jobsFor(id: ComponentId, signal: AbortSignal): Promise<FileJob[]>
     return [{ url, dest: join(dir, `yt-dlp${exe}`), weight: 1, executable: true }]
   }
   if (id === 'voices') {
-    // Voces: dos modelos de Piper (español e inglés) en una revisión fija de Hugging Face y los datos de pronunciación; todo con SHA-256
-    const jobs: FileJob[] = []
-    for (const v of VOICES) {
-      const base = OVERRIDE
-        ? `${OVERRIDE}/voices/${v.id}`
-        : `https://huggingface.co/${v.repo}/resolve/${v.revision}`
-      jobs.push(
-        {
-          url: `${base}/${v.model}`,
-          dest: join(dir, v.id, 'model.onnx'),
-          sha256: v.modelSha256,
-          weight: v.sizeMB
-        },
-        {
-          url: `${base}/tokens.txt`,
-          dest: join(dir, v.id, 'tokens.txt'),
-          sha256: v.tokensSha256,
-          weight: 0.1
-        }
-      )
-    }
+    // Voces: el modelo Kokoro en una revisión fija de Hugging Face y los datos de pronunciación; todo con SHA-256
+    const base = OVERRIDE
+      ? `${OVERRIDE}/voices`
+      : `https://huggingface.co/${PACK.repo}/resolve/${PACK.revision}`
+    const jobs: FileJob[] = PACK.files.map((f) => ({
+      url: `${base}/${f.name}`,
+      dest: join(dir, f.name),
+      sha256: f.sha256,
+      weight: f.sizeMB
+    }))
     if (!existsSync(join(dir, 'espeak-ng-data', '.completo')))
       jobs.push({
         url: OVERRIDE ? `${OVERRIDE}/voices/espeak-ng-data.zip` : ESPEAK.url,
@@ -257,11 +247,11 @@ async function install(id: ComponentId, signal: AbortSignal): Promise<void> {
     // Si había una versión anterior de las voces (otro modelo), se borra: la marca de «completo» ya no es cierta
     const dir = componentDir(id)
     rmSync(join(dir, '.completo'), { force: true })
-    for (const f of OLD_VOICE_FILES) rmSync(join(dir, f), { force: true })
-    // Un modelo que ya no es el de ahora (por ejemplo, se cambió la voz en inglés) se borra para bajar el nuevo
-    for (const v of VOICES) {
-      const model = join(dir, v.id, 'model.onnx')
-      if (existsSync(model) && sha256Of(model) !== v.modelSha256) rmSync(model, { force: true })
+    for (const f of OLD_VOICE_FILES) rmSync(join(dir, f), { force: true, recursive: true })
+    // Un archivo que ya no es el de ahora (cambió el modelo) se borra para bajar el nuevo
+    for (const f of PACK.files) {
+      const file = join(dir, f.name)
+      if (existsSync(file) && sha256Of(file) !== f.sha256) rmSync(file, { force: true })
     }
   }
   const jobs = await jobsFor(id, signal)

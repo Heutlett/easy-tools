@@ -32,7 +32,7 @@ export const COMPONENTS: ComponentDef[] = [
     id: 'voices',
     label: 'Voces para leer en voz alta',
     forWhat: 'que los juegos lean en voz alta, en español y en inglés',
-    sizeMB: 180
+    sizeMB: 352
   }
 ]
 

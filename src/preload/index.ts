@@ -1,7 +1,7 @@
 import { contextBridge, ipcRenderer, webUtils } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 import type { ComponentId, ComponentProgress, ComponentStatus } from '../shared/components'
-import type { SpeechAudio, VoiceChunk, VoiceId } from '../shared/voices'
+import type { SpeechAudio, VoiceChunk, VoiceId, VoiceLang } from '../shared/voices'
 import type { UpdateStatus } from '../shared/update'
 import type { FileKind, MediaInfo, WordModel } from '../shared/types'
 
@@ -75,8 +75,9 @@ const api = {
     speakStream: (p: { requestId: number; id: VoiceId; text: string; speed: number }) =>
       call<void>('voices:speakStream', p),
     cancelSpeak: (requestId: number) => call<void>('voices:cancelSpeak', requestId),
-    /** Carga el motor con anticipación */
-    warmup: () => call<void>('voices:warmup'),
+    /** Una pantalla que lee en este idioma se abrió (se carga el modelo) o se cerró (se descarga). */
+    acquire: (lang: VoiceLang) => call<void>('voices:acquire', lang),
+    release: (lang: VoiceLang) => call<void>('voices:release', lang),
     onChunk: (cb: (m: VoiceChunk) => void) => {
       const listener = (_: unknown, m: VoiceChunk): void => cb(m)
       ipcRenderer.on('voices:chunk', listener)

@@ -286,3 +286,124 @@ export function expandNumbersEs(raw: string): string {
   })
   return text.replace(/ {2,}/g, ' ')
 }
+
+/* ---------- Números en inglés ---------- */
+
+const EN_UNITS = [
+  'zero',
+  'one',
+  'two',
+  'three',
+  'four',
+  'five',
+  'six',
+  'seven',
+  'eight',
+  'nine',
+  'ten',
+  'eleven',
+  'twelve',
+  'thirteen',
+  'fourteen',
+  'fifteen',
+  'sixteen',
+  'seventeen',
+  'eighteen',
+  'nineteen'
+]
+const EN_TENS = [
+  '',
+  '',
+  'twenty',
+  'thirty',
+  'forty',
+  'fifty',
+  'sixty',
+  'seventy',
+  'eighty',
+  'ninety'
+]
+
+function englishBelow1000(n: number): string {
+  const parts: string[] = []
+  const h = Math.floor(n / 100)
+  const r = n % 100
+  if (h) parts.push(`${EN_UNITS[h]} hundred`)
+  if (r)
+    parts.push(
+      r < 20 ? EN_UNITS[r] : EN_TENS[Math.floor(r / 10)] + (r % 10 ? `-${EN_UNITS[r % 10]}` : '')
+    )
+  return parts.join(' ')
+}
+
+/** Un entero como lo dice una persona en inglés («1500» → «one thousand five hundred») */
+export function englishNumber(n: number): string {
+  if (!Number.isFinite(n) || n < 0 || n >= 1e12)
+    return [...String(Math.trunc(Math.abs(n)))].map((d) => EN_UNITS[Number(d)]).join(' ')
+  if (n === 0) return 'zero'
+  const parts: string[] = []
+  const billions = Math.floor(n / 1e9)
+  const millions = Math.floor((n % 1e9) / 1e6)
+  const thousands = Math.floor((n % 1e6) / 1000)
+  const rest = n % 1000
+  if (billions) parts.push(`${englishBelow1000(billions)} billion`)
+  if (millions) parts.push(`${englishBelow1000(millions)} million`)
+  if (thousands) parts.push(`${englishBelow1000(thousands)} thousand`)
+  if (rest) parts.push(englishBelow1000(rest))
+  return parts.join(' ')
+}
+
+/** Un año como se dice en inglés («1999» → «nineteen ninety-nine», «2020» → «twenty twenty», «2005» → «two thousand five») */
+function englishYear(y: number): string {
+  if (y >= 2000 && y < 2010)
+    return y === 2000 ? 'two thousand' : `two thousand ${EN_UNITS[y - 2000]}`
+  const a = Math.floor(y / 100)
+  const b = y % 100
+  return b === 0
+    ? `${englishNumber(a)} hundred`
+    : `${englishNumber(a)} ${b < 10 ? `oh ${EN_UNITS[b]}` : englishNumber(b)}`
+}
+
+const EN_ORDINALS: Record<string, string> = {
+  one: 'first',
+  two: 'second',
+  three: 'third',
+  five: 'fifth',
+  eight: 'eighth',
+  nine: 'ninth',
+  twelve: 'twelfth'
+}
+
+/** Las cifras se escriben con letras antes de generar: dólares, porcentajes, ordinales, años, decimales y los signos de las cuentas */
+export function expandNumbersEn(raw: string): string {
+  let text = raw
+    .replace(/\$\s*(\d[\d,]*)(?:\.(\d{2}))?/g, (_m, d: string, c?: string) => {
+      const dollars = Number(d.replace(/,/g, ''))
+      return `${englishNumber(dollars)} ${dollars === 1 ? 'dollar' : 'dollars'}${c && c !== '00' ? ` and ${englishNumber(Number(c))} cents` : ''}`
+    })
+    .replace(/(\d)\s*%/g, '$1 percent')
+    .replace(/×|\s[xX*]\s/g, ' times ')
+    .replace(/÷/g, ' divided by ')
+    .replace(/(\d)\s*\+\s*(?=\d)/g, '$1 plus ')
+    .replace(/(\d)\s+[-−–]\s+(?=\d)/g, '$1 minus ')
+    .replace(/\s*=\s*/g, ' equals ')
+    // Ordinales: «1st», «22nd»
+    .replace(/\b(\d+)(st|nd|rd|th)\b/g, (_m, n: string) => {
+      const words = englishNumber(Number(n)).split(/([ -])/)
+      const last = words.pop() ?? ''
+      const ord =
+        EN_ORDINALS[last] ?? (last.endsWith('y') ? `${last.slice(0, -1)}ieth` : `${last}th`)
+      return [...words, ord].join('')
+    })
+    .replace(/\b(\d{1,3}(?:,\d{3})+)\b/g, (m) => m.replace(/,/g, ''))
+  // Años de cuatro cifras: «in 2020», «the year 1999»
+  text = text.replace(/\b(1[1-9]\d{2}|20\d{2})\b(?!\.\d)/g, (m) => englishYear(Number(m)))
+  // Decimales y enteros
+  text = text.replace(
+    /\b(\d+)\.(\d+)\b/g,
+    (_m, a: string, b: string) =>
+      `${englishNumber(Number(a))} point ${[...b].map((d) => EN_UNITS[Number(d)]).join(' ')}`
+  )
+  text = text.replace(/\d+/g, (m) => englishNumber(Number(m)))
+  return text.replace(/ {2,}/g, ' ')
+}

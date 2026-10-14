@@ -1,6 +1,5 @@
-import { useEffect, useSyncExternalStore } from 'react'
+import { useSyncExternalStore } from 'react'
 import { voiceOf, type VoiceId, type VoiceLang } from '../../../shared/voices'
-import { warmUpVoices } from './naturalSpeech'
 
 /**
  * Las voces para leer en voz alta (un modelo de Piper por idioma) se descargan junto con las demás piezas
@@ -48,12 +47,4 @@ export function useVoicesInstalled(): boolean | null {
 /** La voz con la que se lee en ese idioma, o null mientras las voces no estén descargadas */
 export function useActiveVoice(lang: VoiceLang): VoiceId | null {
   return useVoicesInstalled() ? voiceOf(lang).id : null
-}
-
-/** Cuando las voces están listas, se carga el motor con anticipación para que la primera frase no tarde */
-export function useWarmVoices(): void {
-  const ready = useVoicesInstalled()
-  useEffect(() => {
-    if (ready) warmUpVoices()
-  }, [ready])
 }

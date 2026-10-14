@@ -20,6 +20,16 @@ export function useVoice(lang: VoiceLang): {
   // Al salir de la pantalla se corta lo que esté sonando
   useEffect(() => () => stopNatural(), [])
 
+  // El modelo de este idioma se carga solo mientras haya una pantalla que lo use (ocupa unos 400 MB de memoria)
+  const ready = voiceId !== null
+  useEffect(() => {
+    if (!ready) return
+    void window.api.voices.acquire(lang).catch(() => undefined)
+    return () => {
+      void window.api.voices.release(lang).catch(() => undefined)
+    }
+  }, [ready, lang])
+
   const speak = useCallback(
     (text: string, rate = 0.9) => {
       if (voiceId) void speakNatural(voiceId, text, rate)
