@@ -1,68 +1,126 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import type { VoiceCatalog, VoiceEntry, VoiceLang } from '../../../../shared/voices'
 
-export type VoiceLang = 'es' | 'en'
+export type { VoiceLang }
 
-/** Orden de preferencia: primero el español de Costa Rica y de América, después el de España; en inglés, el de Estados Unidos */
-const PREFERRED: Record<VoiceLang, string[]> = {
-  es: ['es-CR', 'es-MX', 'es-US', 'es-419', 'es-CO', 'es-AR', 'es-ES'],
-  en: ['en-US', 'en-GB', 'en-AU', 'en-CA']
+/* ---------- Catálogo de audios (se lee una vez y se renueva cuando termina de bajar el paquete de voces) ---------- */
+
+interface Loaded {
+  dir: string
+  /** idioma + texto exacto → audio */
+  byText: Map<string, VoiceEntry>
 }
 
-function pickVoice(lang: VoiceLang): SpeechSynthesisVoice | null {
-  if (typeof speechSynthesis === 'undefined') return null
-  const voices = speechSynthesis.getVoices().filter((v) => v.lang.toLowerCase().startsWith(lang))
-  for (const wanted of PREFERRED[lang]) {
-    const found = voices.find(
-      (v) => v.lang.replace('_', '-').toLowerCase() === wanted.toLowerCase()
-    )
-    if (found) return found
-  }
-  return voices[0] ?? null
+let loaded: Loaded | null = null
+let loading: Promise<void> | null = null
+const listeners = new Set<() => void>()
+let watching = false
+
+const key = (lang: VoiceLang, text: string): string => `${lang}\n${text}`
+
+function load(): Promise<void> {
+  loading ??= window.api.voices
+    .catalog()
+    .then((c: VoiceCatalog | null) => {
+      loaded = c
+        ? {
+            dir: c.dir,
+            byText: new Map(Object.values(c.entries).map((e) => [key(e.lang, e.text), e]))
+          }
+        : null
+    })
+    .catch((err: unknown) => {
+      console.error('[voz]', err)
+      loaded = null
+    })
+    .finally(() => {
+      loading = null
+      listeners.forEach((l) => l())
+    })
+  return loading
+}
+
+/** Cuando termina de bajar el paquete de voces, se vuelve a leer el catálogo (sin tener que reabrir el juego) */
+function watchInstall(): void {
+  if (watching) return
+  watching = true
+  window.api.components.onProgress((p) => {
+    if (p.id === 'voices' && p.state === 'done') void load()
+  })
+}
+
+/* ---------- Reproducción ---------- */
+
+type Pace = 'slow' | 'normal' | 'fast'
+
+/** Los juegos piden una velocidad (como la de una voz de sistema); se elige el audio lento, normal o rápido que más se le parece */
+const paceOf = (rate: number): Pace => (rate <= 0.7 ? 'slow' : rate >= 1.1 ? 'fast' : 'normal')
+
+const SUFFIX: Record<Pace, string> = { slow: '.slow.opus', normal: '.opus', fast: '.fast.opus' }
+/** Si el audio no tiene esa versión, se usa el normal cambiando la velocidad (conserva el tono) */
+const FALLBACK_RATE: Record<Pace, number> = { slow: 0.7, normal: 1, fast: 1.2 }
+
+function fileFor(entry: VoiceEntry, pace: Pace): { file: string; playbackRate: number } {
+  const exact = entry.files.find(
+    (f) => f.endsWith(SUFFIX[pace]) && (pace !== 'normal' || !/\.(slow|fast)\.opus$/.test(f))
+  )
+  if (exact) return { file: exact, playbackRate: 1 }
+  const normal = entry.files.find((f) => !/\.(slow|fast)\.opus$/.test(f)) ?? entry.files[0]
+  return { file: normal, playbackRate: FALLBACK_RATE[pace] }
 }
 
 /**
- * Voz del equipo para leer en voz alta en español o en inglés (usa las voces que ya trae el sistema, sin internet).
- * `available` es falso si el equipo no tiene ninguna voz de ese idioma: los juegos deben funcionar igual sin ella.
+ * Voz para leer en voz alta en español o en inglés: reproduce los audios ya hechos que se descargan con la app (carpeta tools/tts-lab).
+ * El audio se busca por el texto EXACTO, así que los juegos deben leer justo lo que dicen los «collectors» del laboratorio.
+ * `available` es falso mientras las voces no estén descargadas: los juegos deben funcionar igual sin ellas.
  */
 export function useVoice(lang: VoiceLang): {
   available: boolean
   speak: (text: string, rate?: number) => void
   stop: () => void
 } {
-  const [voice, setVoice] = useState<SpeechSynthesisVoice | null>(null)
+  const [catalog, setCatalog] = useState<Loaded | null>(loaded)
+  const audio = useRef<HTMLAudioElement | null>(null)
 
   useEffect(() => {
-    if (typeof speechSynthesis === 'undefined') return
-    // Las voces pueden tardar un momento en cargarse
-    const update = (): void => setVoice(pickVoice(lang))
-    update()
-    speechSynthesis.addEventListener('voiceschanged', update)
+    watchInstall()
+    const update = (): void => setCatalog(loaded)
+    listeners.add(update)
+    void load()
     return () => {
-      speechSynthesis.removeEventListener('voiceschanged', update)
-      speechSynthesis.cancel()
+      listeners.delete(update)
+      audio.current?.pause()
+      audio.current = null
     }
-  }, [lang])
+  }, [])
+
+  const stop = useCallback(() => {
+    audio.current?.pause()
+  }, [])
 
   const speak = useCallback(
     (text: string, rate = 0.9) => {
-      if (!voice) return
+      if (!catalog) return
+      // Si algo falla, el juego sigue funcionando sin la voz
       try {
-        speechSynthesis.cancel()
-        const utterance = new SpeechSynthesisUtterance(text)
-        utterance.voice = voice
-        utterance.lang = voice.lang
-        utterance.rate = rate
-        speechSynthesis.speak(utterance)
+        const entry = catalog.byText.get(key(lang, text))
+        if (!entry) {
+          console.warn(`[voz] No hay audio para (${lang}): ${text}`)
+          return
+        }
+        audio.current?.pause()
+        const { file, playbackRate } = fileFor(entry, paceOf(rate))
+        const el = new Audio(window.api.mediaUrl(`${catalog.dir}/${file}`))
+        el.playbackRate = playbackRate
+        el.preservesPitch = true
+        audio.current = el
+        void el.play().catch((err: unknown) => console.error('[voz]', err))
       } catch (err) {
         console.error('[voz]', err)
       }
     },
-    [voice]
+    [catalog, lang]
   )
 
-  const stop = useCallback(() => {
-    if (typeof speechSynthesis !== 'undefined') speechSynthesis.cancel()
-  }, [])
-
-  return useMemo(() => ({ available: voice !== null, speak, stop }), [voice, speak, stop])
+  return useMemo(() => ({ available: catalog !== null, speak, stop }), [catalog, speak, stop])
 }

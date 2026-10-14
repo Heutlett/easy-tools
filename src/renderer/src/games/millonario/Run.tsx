@@ -4,7 +4,6 @@ import type { Question } from '../../content/types'
 import { useCountdown } from '../../lib/games/useCountdown'
 import { playTones, sfx } from '../../lib/games/sfx'
 import { pickOne, shuffle, shuffleOptions } from '../../lib/games/shuffle'
-import { useVoice } from '../../lib/games/useVoice'
 import type { Player } from '../../lib/games/players'
 import { CONSOLATION, CONSULT_SECONDS, PRAISE, SUSPENSE_MS, type LadderSpec } from './data'
 import { useMood, type MusicControls } from './music'
@@ -59,7 +58,6 @@ export default function Run({
   const [phrase, setPhrase] = useState('')
   const optionRefs = useRef<(HTMLButtonElement | null)[]>([])
   const nextRef = useRef<HTMLButtonElement | null>(null)
-  const voice = useVoice('es')
   const consult = useCountdown({ ticks: true })
 
   const question = ladder[level]
@@ -122,7 +120,6 @@ export default function Run({
       onFinish({ outcome: 'won', amount: spec.prizes[level], answered: ladder.length })
     } else {
       const n = level + 1
-      voice.stop()
       setLevel(n)
       setView(shuffleOptions(ladder[n]))
       setPicked(null)
@@ -164,9 +161,6 @@ export default function Run({
     consult.stop()
     onFinish({ outcome: 'walked', amount: wonSoFar(spec, level), answered: level })
   }
-
-  // No dejar nada sonando al salir
-  useEffect(() => voice.stop, [voice.stop])
 
   // Teclado: A-D eligen, Enter confirma o sigue (sin pisar a un botón enfocado, que Enter activa por sí solo)
   useEffect(() => {
@@ -225,19 +219,6 @@ export default function Run({
             </div>
           )}
           <div className="mi-top-actions">
-            {voice.available && (
-              <button
-                className="mi-mini"
-                aria-label="Leer la pregunta en voz alta"
-                onClick={() =>
-                  voice.speak(
-                    `${question.text}. ${view.options.map((o, i) => `${LETTERS[i]}: ${o}`).join('. ')}`
-                  )
-                }
-              >
-                🔊
-              </button>
-            )}
             <button
               className="mi-mini"
               aria-label={music.settings.on ? 'Quitar la música' : 'Poner la música'}

@@ -1,0 +1,5 @@
+# PyTorch se instala aparte (ver setup.sh): hace falta la versión para tu tarjeta (cu128 para las RTX 50).
+qwen-tts==0.1.1
+numpy
+soundfile
+huggingface_hub
