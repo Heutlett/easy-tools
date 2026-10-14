@@ -4,7 +4,7 @@ export default {
   title: 'Ortografía',
   description: 'Elegir la letra o la palabra bien escrita, con la regla que ayuda a recordarla.',
   icon: '✍️',
-  color: '#0d9488',
+  type: 'lectura',
   subjects: ['espanol'],
   grades: [1, 2, 3, 4, 5, 6],
   modes: ['clase', 'equipos', 'turnos'],

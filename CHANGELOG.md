@@ -2,6 +2,18 @@
 
 Cada versión se publica con una etiqueta `vX.Y.Z` (ver [GITFLOW.md](GITFLOW.md)). El texto de cada entrada es el que aparece en la descripción del release en GitHub.
 
+## [0.5.0] - 2026-10-14
+
+- Nuevo diseño de toda la app: colores cálidos, letras más amigables y una barra lateral fija con Inicio, Juegos, En el aula, Mi clase y Archivos
+- Inicio nuevo: «Seguir donde quedaste» (con «Jugar otra vez»), accesos rápidos al temporizador, la ruleta, el número al azar y los puntos, y los juegos por materia
+- Juegos agrupados por tipo, con buscador, filtros más compactos y favoritos
+- «¿Quién quiere ser millonario?» se prepara en tres pasos (preguntas, quién juega y detalles) con un resumen siempre a la vista, y termina con un podio
+- «¿Quién juega?» es igual en todos los juegos: toda la clase, equipos con nombre de animalito o estudiantes de tu grupo
+- En el aula: temporizador, ruleta y número al azar en un solo lugar, con el botón «📺 Proyectar» para verlos más grandes
+- Mi clase: los puntos, el ranking de los juegos y la lista de estudiantes en pestañas
+- Archivos: cada herramienta muestra sus tres pasos (elegir, revisar y guardar)
+- Mientras se juega, el juego ocupa toda la ventana
+
 ## [0.4.0] - 2026-10-14
 
 - Los juegos ahora leen en voz alta con voces nuevas, naturales y siempre iguales, en español y en inglés: Comprensión de lectura, Bingo, Listen and choose, What is it?, Build the sentence, Simon says, Arma la palabra, Ordena la oración y Trabalenguas y rimas

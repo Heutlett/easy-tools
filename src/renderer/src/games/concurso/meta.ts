@@ -5,7 +5,7 @@ export default {
   description:
     'Tablero de categorías y puntos: cada equipo elige una casilla, responde y suma. Hay casillas de «Doble o nada».',
   icon: '🏆',
-  color: '#b45309',
+  type: 'preguntas',
   subjects: ['matematica', 'espanol', 'ciencias', 'sociales', 'ingles', 'musica', 'cultura'],
   grades: [1, 2, 3, 4, 5, 6],
   modes: ['equipos', 'turnos'],

@@ -7,7 +7,8 @@ export default {
   description: 'Junta una o varias imágenes en un solo PDF, una por página.',
   icon: '🖼️',
   images: [imageLogo, pdfLogo],
-  color: '#c2410c',
+  color: '#4fae6a',
   category: 'images',
+  steps: ['Elige las imágenes', 'Ordénalas', 'Guarda'],
   order: 4
 } satisfies ToolMeta

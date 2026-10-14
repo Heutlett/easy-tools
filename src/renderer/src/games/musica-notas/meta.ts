@@ -5,7 +5,7 @@ export default {
   description:
     'Una nota aparece en el pentagrama: ¿cómo se llama? También se puede escuchar una nota y elegir cuál es.',
   icon: '🎼',
-  color: '#db2777',
+  type: 'musica',
   subjects: ['musica'],
   grades: [3, 4, 5, 6],
   modes: ['clase', 'equipos', 'turnos', 'individual'],

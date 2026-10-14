@@ -62,9 +62,12 @@ export default function FileDrop({
           accept(Array.from(e.dataTransfer.files).map((f) => window.api.pathForFile(f)))
         }}
       >
-        <span className="dropzone-icon">{compact ? '＋' : '📂'}</span>
+        <span className="dropzone-icon" aria-hidden>
+          {compact ? '＋' : '📂'}
+        </span>
         <span className="dropzone-title">{title}</span>
         <span className="muted">{hint ?? 'Arrastra el archivo aquí o haz clic para buscarlo'}</span>
+        {!compact && <span className="btn dropzone-btn">Buscar en mi computadora</span>}
       </button>
       {warning && <p className="notice error">{warning}</p>}
     </div>

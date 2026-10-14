@@ -5,7 +5,7 @@ export default {
   description:
     'Una imagen tapada por cuadros que se van quitando: la clase adivina qué es. Mientras menos cuadros, más puntos.',
   icon: '🕵️',
-  color: '#0d9488',
+  type: 'palabras',
   subjects: ['matematica', 'espanol', 'ciencias', 'sociales', 'ingles', 'musica', 'cultura'],
   grades: [1, 2, 3, 4, 5, 6],
   modes: ['clase', 'equipos', 'turnos'],

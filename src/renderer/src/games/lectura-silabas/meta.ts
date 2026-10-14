@@ -5,7 +5,7 @@ export default {
   description:
     'Con las sílabas desordenadas se arma la palabra del dibujo. También se dan palmadas.',
   icon: '🧱',
-  color: '#ea580c',
+  type: 'lectura',
   subjects: ['espanol'],
   grades: [1, 2, 3],
   modes: ['clase', 'turnos', 'equipos', 'individual'],

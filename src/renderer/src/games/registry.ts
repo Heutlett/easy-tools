@@ -1,8 +1,10 @@
 import { lazy, type ComponentType, type LazyExoticComponent } from 'react'
-import type { GameMeta } from './types'
+import { gameTypeOf, type GameMeta } from './types'
 
 export interface Game extends GameMeta {
   id: string
+  /** Color de acento: el de su grupo */
+  color: string
   Component: LazyExoticComponent<ComponentType>
 }
 
@@ -15,6 +17,11 @@ export const games: Game[] = Object.entries(metas)
   .filter(([path]) => components[`./${path.split('/')[1]}/index.tsx`])
   .map(([path, mod]) => {
     const id = path.split('/')[1]
-    return { id, ...mod.default, Component: lazy(components[`./${id}/index.tsx`]) }
+    return {
+      id,
+      ...mod.default,
+      color: gameTypeOf(mod.default.type).color,
+      Component: lazy(components[`./${id}/index.tsx`])
+    }
   })
   .sort((a, b) => (a.order ?? 50) - (b.order ?? 50) || a.title.localeCompare(b.title, 'es'))

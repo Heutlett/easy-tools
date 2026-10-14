@@ -2,6 +2,7 @@ import { useState } from 'react'
 import pdfLogo from '../../assets/icons/pdf.svg'
 import FileDrop from '../../components/FileDrop'
 import JobStatus from '../../components/JobStatus'
+import { stepOf, useToolStep } from '../../lib/toolStep'
 import { baseName } from '../../lib/format'
 import { pdfToWordModel } from '../../lib/pdfToWord'
 import { useJob } from '../../lib/useJob'
@@ -9,6 +10,7 @@ import { useJob } from '../../lib/useJob'
 export default function PdfToWord(): React.JSX.Element {
   const [file, setFile] = useState<string | null>(null)
   const job = useJob<{ output: string }>()
+  useToolStep(stepOf(file !== null, job.status))
 
   const again = (): void => {
     job.reset()

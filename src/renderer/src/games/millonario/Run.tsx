@@ -197,14 +197,17 @@ export default function Run({
       <div className="mi-main">
         <div className="mi-top">
           <div className="mi-badges">
-            {player && (
-              <span className="mi-badge mi-who" style={{ borderColor: player.color }}>
-                {player.emoji} {player.name}
-              </span>
-            )}
+            <button className="mi-mini" onClick={() => setConfirm('exit')}>
+              ✕ Salir
+            </button>
             <span className="mi-badge">
               {subject.icon} {subject.title} · {gradeLabel(question.grade)}
             </span>
+            {player && (
+              <span className="mi-badge mi-who">
+                {player.emoji} Turno de {player.name}
+              </span>
+            )}
           </div>
           {consultOpen && (
             <div className={`mi-timer ${consult.seconds <= 5 ? 'low' : ''}`} role="timer">
@@ -225,10 +228,7 @@ export default function Run({
               title={music.settings.on ? 'Quitar la música' : 'Poner la música'}
               onClick={music.toggle}
             >
-              {music.settings.on ? '🎵' : '🔇'}
-            </button>
-            <button className="mi-mini" onClick={() => setConfirm('exit')}>
-              Salir
+              {music.settings.on ? '🎵 Música' : '🔇 Sin música'}
             </button>
           </div>
         </div>

@@ -7,7 +7,7 @@ export default {
   description: 'Convierte un PDF en un documento de Word que puedes editar.',
   icon: '📝',
   images: [pdfLogo, wordLogo],
-  color: '#7c3aed',
+  color: '#e8644a',
   category: 'documents',
   order: 3
 } satisfies ToolMeta

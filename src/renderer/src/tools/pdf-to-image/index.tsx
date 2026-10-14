@@ -2,6 +2,7 @@ import { useState } from 'react'
 import pdfLogo from '../../assets/icons/pdf.svg'
 import FileDrop from '../../components/FileDrop'
 import JobStatus from '../../components/JobStatus'
+import { stepOf, useToolStep } from '../../lib/toolStep'
 import { baseName, nameWithoutExtension } from '../../lib/format'
 import { openPdf, renderPageImage } from '../../lib/pdf'
 import { useJob } from '../../lib/useJob'
@@ -14,6 +15,7 @@ export default function PdfToImage(): React.JSX.Element {
   const [file, setFile] = useState<string | null>(null)
   const [format, setFormat] = usePersistentState<Format>('pdf-to-image-format', 'jpg')
   const job = useJob<Saved>()
+  useToolStep(stepOf(file !== null, job.status))
 
   const again = (): void => {
     job.reset()

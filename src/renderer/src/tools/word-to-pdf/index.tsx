@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import FileDrop from '../../components/FileDrop'
 import JobStatus from '../../components/JobStatus'
+import { stepOf, useToolStep } from '../../lib/toolStep'
 import wordLogo from '../../assets/icons/word.svg'
 import { baseName } from '../../lib/format'
 import { useJob } from '../../lib/useJob'
@@ -20,6 +21,7 @@ export default function WordToPdf(): React.JSX.Element {
     window.api.word.engine().then(setEngine, () => setEngine(null))
   }, [])
   const job = useJob<{ output: string }>()
+  useToolStep(stepOf(file !== null, job.status))
 
   const again = (): void => {
     job.reset()

@@ -5,7 +5,7 @@ export default {
   description:
     'Suena un instrumento y hay que reconocerlo; también se clasifican por familias: cuerdas, viento madera, viento metal y percusión.',
   icon: '🎷',
-  color: '#b45309',
+  type: 'musica',
   subjects: ['musica'],
   grades: [1, 2, 3, 4, 5, 6],
   modes: ['clase', 'equipos', 'turnos', 'individual'],

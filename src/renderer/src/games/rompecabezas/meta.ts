@@ -5,7 +5,7 @@ export default {
   description:
     'Rompecabezas deslizante con ilustraciones o una imagen propia: libre, por turnos o contrarreloj.',
   icon: '🧩',
-  color: '#7c3aed',
+  type: 'palabras',
   subjects: [],
   grades: [1, 2, 3, 4, 5, 6],
   modes: ['clase', 'equipos', 'turnos'],

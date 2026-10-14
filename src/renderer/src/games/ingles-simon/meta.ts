@@ -5,7 +5,7 @@ export default {
   description:
     'Órdenes en inglés con voz: obedécelas solo si empiezan con «Simon says». ¡Cuidado con las trampas!',
   icon: '🗣️',
-  color: '#ea580c',
+  type: 'ingles',
   subjects: ['ingles'],
   grades: [1, 2, 3, 4, 5, 6],
   modes: ['clase', 'equipos', 'individual'],

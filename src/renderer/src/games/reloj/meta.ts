@@ -5,7 +5,7 @@ export default {
   description:
     'Un reloj grande con manecillas que se arrastran: explorar, decir qué hora es y poner la hora.',
   icon: '🕒',
-  color: '#0e7490',
+  type: 'mate',
   subjects: ['matematica'],
   grades: [2, 3, 4],
   modes: ['clase', 'equipos', 'turnos'],

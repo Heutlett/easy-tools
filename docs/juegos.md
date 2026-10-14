@@ -65,11 +65,11 @@ Quien usa la app puede crear sus propias preguntas, afirmaciones y listas desde 
 
 ## Cómo se hace un juego
 
-Los juegos viven en `src/renderer/src/games/<id>/` y aparecen solos en **Para el aula → Juegos** (con buscador y filtros por asignatura, grado y modo). No hay que registrar nada: basta con crear la carpeta con dos archivos.
+Los juegos viven en `src/renderer/src/games/<id>/` y aparecen solos en **Juegos** (con buscador y filtros por asignatura, grado y modo). No hay que registrar nada: basta con crear la carpeta con dos archivos.
 
 ```
 games/mi-juego/
-  meta.ts      export default { title, description, icon, color, subjects, grades, modes, keywords } satisfies GameMeta
+  meta.ts      export default { title, description, icon, type, subjects, grades, modes, keywords } satisfies GameMeta
   index.tsx    export default function MiJuego(): React.JSX.Element   (sin props)
   style.css    estilos propios (opcional); todas las clases empiezan por un prefijo único del juego (.mj-…)
   data.ts      contenido propio del juego (opcional), si no encaja en content/
@@ -77,24 +77,27 @@ games/mi-juego/
 
 Una carpeta sin `meta.ts` no se registra como juego (sirve para código compartido entre varios juegos).
 
+`type` es el grupo del catálogo (`preguntas`, `palabras`, `lectura`, `mate`, `ingles`, `musica` o `azar`, ver `GAME_TYPES` en `games/types.ts`): de él salen la sección donde aparece el juego y su color de acento (`--accent`), así que **un juego no elige su propio color**.
+
 **Modelos para copiar:** `games/verdadero-falso/` (elegir contenido → equipos → jugar → final con marcador) y `games/bingo/`.
 
 ### Piezas compartidas (no se modifican desde un juego)
 
-| Pieza                              | Para qué                                                                                                                                                                                                                                  |
-| ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `components/games/Pickers.tsx`     | `QuestionPicker`, `StatementPicker`, `WordListPicker`, `PairListPicker`: pantallas para elegir el contenido (filtros por asignatura, grado, tema y dificultad; «Mis preguntas / listas» para agregar lo propio, guardar y abrir archivos) |
-| `components/games/PlayerSetup.tsx` | Armar equipos (2 a 8, con nombre, color y emoji) o elegir estudiantes de un grupo guardado. Devuelve `Player[]`                                                                                                                           |
-| `components/games/Scoreboard.tsx`  | Marcador grande con botones − y +, resalta al que va ganando y al que le toca                                                                                                                                                             |
-| `lib/games/players.ts`             | `Player`, `useScores(players)` (puntajes, ranking, líderes), `makeTeams`                                                                                                                                                                  |
-| `lib/games/shuffle.ts`             | `shuffle`, `pick`, `pickOne`, `shuffleOptions(q)` (al mostrar una pregunta hay que mezclar sus opciones)                                                                                                                                  |
-| `lib/games/sfx.ts`                 | Sonidos: `sfx.correct/wrong/pop/tick/timeUp/win`, `playTones`, `noteFreq('A4')`                                                                                                                                                           |
-| `lib/games/useVoice.ts`            | `useVoice('es' \| 'en')`: leer en voz alta con las voces del sistema (sin internet; puede no haber voz: el juego debe funcionar igual)                                                                                                    |
-| `lib/games/useCountdown.ts`        | Cuenta regresiva con sonido de fin                                                                                                                                                                                                        |
-| `lib/random.ts`                    | `randomInt(min, max)` seguro                                                                                                                                                                                                              |
-| `lib/usePersistentState.ts`        | Guardar preferencias del juego en la computadora (usar claves que empiecen por `game:<id>:`)                                                                                                                                              |
-| `content/banks.ts`                 | `useQuestionBank()` y similares (lo incluido + lo propio), `filterBank`                                                                                                                                                                   |
-| `components/games/games.css`       | Clases listas: `.g-stage`, `.g-center`, `.g-question`, `.g-options` + `.g-option` (A–D, con `.correct`, `.wrong`, `.dim`), `.g-badge`, `.g-timer`, `.g-win`, y las de `Scoreboard`/`Pickers`                                              |
+| Pieza                              | Para qué                                                                                                                                                                                                                                                                                                                     |
+| ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `components/games/Pickers.tsx`     | `QuestionPicker`, `StatementPicker`, `WordListPicker`, `PairListPicker`: pantallas para elegir el contenido (filtros por asignatura, grado, tema y dificultad; «Mis preguntas / listas» para agregar lo propio, guardar y abrir archivos)                                                                                    |
+| `components/games/PlayerSetup.tsx` | «¿Quién juega?»: toda la clase (con `optional`), equipos (2 a 8, con nombre, color y emoji) o estudiantes de un grupo guardado. Devuelve `Player[]`. Si el juego arma su propia pantalla, `usePlayerChoice` (`lib/games/playerChoice.ts`) + `PlayerPicker` dan lo mismo por separado                                         |
+| `components/games/Scoreboard.tsx`  | Marcador grande con botones − y +, resalta al que va ganando y al que le toca                                                                                                                                                                                                                                                |
+| `lib/games/players.ts`             | `Player`, `useScores(players)` (puntajes, ranking, líderes), `makeTeams`                                                                                                                                                                                                                                                     |
+| `lib/games/shuffle.ts`             | `shuffle`, `pick`, `pickOne`, `shuffleOptions(q)` (al mostrar una pregunta hay que mezclar sus opciones)                                                                                                                                                                                                                     |
+| `lib/games/sfx.ts`                 | Sonidos: `sfx.correct/wrong/pop/tick/timeUp/win`, `playTones`, `noteFreq('A4')`                                                                                                                                                                                                                                              |
+| `lib/games/useVoice.ts`            | `useVoice('es' \| 'en')`: reproduce audios ya hechos (se descargan con la app; ver `tools/tts-lab/README.md`). Busca el audio por el **texto exacto**, así que lo que el juego dice tiene que ser lo mismo que dice su «collector». Puede no haber voces: el juego debe funcionar igual                                      |
+| `lib/games/useCountdown.ts`        | Cuenta regresiva con sonido de fin                                                                                                                                                                                                                                                                                           |
+| `lib/random.ts`                    | `randomInt(min, max)` seguro                                                                                                                                                                                                                                                                                                 |
+| `lib/nav.ts`                       | `useNav()` (ir a otra pantalla o abrir un juego) y `useGameChrome({ sidebar, ownHeader })`: por omisión un juego ocupa **toda la ventana** (sin barra lateral) bajo un encabezado con «← Juegos»; una pantalla de preparación puede pedir la barra lateral y dibujar su propio encabezado (ver `games/millonario/Setup.tsx`) |
+| `lib/usePersistentState.ts`        | Guardar preferencias del juego en la computadora (usar claves que empiecen por `game:<id>:`)                                                                                                                                                                                                                                 |
+| `content/banks.ts`                 | `useQuestionBank()` y similares (lo incluido + lo propio), `filterBank`                                                                                                                                                                                                                                                      |
+| `components/games/games.css`       | Clases listas: `.g-stage`, `.g-center`, `.g-question`, `.g-options` + `.g-option` (A–D, con `.correct`, `.wrong`, `.dim`), `.g-badge`, `.g-timer`, `.g-win`, y las de `Scoreboard`/`Pickers`                                                                                                                                 |
 
 Además están las clases de siempre (`.btn`, `.btn.big`, `.btn.secondary`, `.pill`, `.panel`, `.field`, `.notice`, `.row`, `.muted`) y los emojis, que funcionan sin internet y sirven de dibujos.
 
@@ -117,7 +120,7 @@ Además están las clases de siempre (`.btn`, `.btn.big`, `.btn.secondary`, `.pi
 npm run dev:linux      # (en Windows: npm run dev)
 ```
 
-Abre **Para el aula → Juegos**, entra al juego y recórrelo completo: elegir contenido, jugar con y sin equipos, el final, reiniciar y salir. Hay que revisarlo en la ventana normal y también **maximizada** (el botón de maximizar de la ventana), y fijarse en que no salgan errores en la consola de desarrollo (Ctrl + Shift + I).
+Abre **Juegos**, entra al juego y recórrelo completo: elegir contenido, jugar con y sin equipos, el final, reiniciar y salir. Hay que revisarlo en la ventana normal y también **maximizada** (el botón de maximizar de la ventana), y fijarse en que no salgan errores en la consola de desarrollo (Ctrl + Shift + I).
 
 Antes de entregar un juego o contenido nuevo:
 

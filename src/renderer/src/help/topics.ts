@@ -48,7 +48,7 @@ export const HELP: HelpTopic[] = [
     question: 'Quiero poner mis propias preguntas',
     steps: [
       'Abre «Juegos» y elige un juego de preguntas (por ejemplo «Concurso» o «¿Quién quiere ser millonario?»).',
-      'Toca «✏️ Mis preguntas» (en el millonario se llama «✏️ Escribir mis propias preguntas»).',
+      'Toca «✏️ Mis preguntas» (en el millonario está en el primer paso, «Preguntas»).',
       'Escribe una pregunta, o pega varias de golpe. Quedan guardadas en tu computadora.',
       'Para jugar solo con las tuyas, activa «Usar solo mis preguntas» o el filtro de las propias.',
       'También puedes guardarlas en un archivo y abrirlas en otra computadora.'
@@ -94,13 +94,13 @@ export const HELP: HelpTopic[] = [
     icon: '👥',
     question: 'Quiero jugar con mis estudiantes, por nombre o en equipos',
     steps: [
-      'Primero guarda tu grupo en «Lista de estudiantes» (en «Para el aula»).',
-      'Al empezar un juego, elige «🙋 Estudiantes de mi grupo» en lugar de «👥 Equipos».',
+      'Primero guarda tu grupo en «Mi clase», pestaña «📋 Estudiantes».',
+      'Al preparar un juego, en «¿Quién juega?» elige «🙋 Estudiantes de mi grupo» en lugar de «👥 Equipos».',
       'Quita a quien no vino hoy y empieza.'
     ],
     keywords: ['equipos', 'jugadores', 'turnos', 'nombres'],
-    target: { kind: 'tool', id: 'students', label: 'Abrir «Lista de estudiantes»' },
-    tip: 'Para que los juegos usen los nombres de tus estudiantes, elige «Estudiantes de mi grupo» al empezar.'
+    target: { kind: 'tool', id: 'students', label: 'Abrir «Mi clase»' },
+    tip: 'Para que los juegos usen los nombres de tus estudiantes, elige «Estudiantes de mi grupo» en «¿Quién juega?».'
   },
   {
     id: 'groups',
@@ -108,14 +108,14 @@ export const HELP: HelpTopic[] = [
     icon: '📋',
     question: 'Quiero guardar la lista de mis estudiantes',
     steps: [
-      'Abre «Lista de estudiantes» (en «Para el aula»).',
+      'Abre «Mi clase» y ve a la pestaña «📋 Estudiantes».',
       'Toca «＋ Nuevo grupo» y ponle nombre.',
       'Escribe los nombres o pégalos todos juntos.',
       'Se guarda sola. No hace falta tocar nada más.'
     ],
     keywords: ['grupo', 'lista', 'nombres', 'seccion', 'clase', 'guardar'],
-    target: { kind: 'tool', id: 'students', label: 'Abrir «Lista de estudiantes»' },
-    tip: 'Guarda la lista de tus estudiantes una vez en «Lista de estudiantes» y úsala en los juegos, los puntos y la ruleta.',
+    target: { kind: 'tool', id: 'students', label: 'Abrir «Mi clase»' },
+    tip: 'Guarda la lista de tus estudiantes una vez en «Mi clase» y úsala en los juegos, los puntos y la ruleta.',
     done: () => {
       const d = getDurable<{ groups?: unknown[] }>('classrooms', {})
       return (d.groups?.length ?? 0) > 0
@@ -127,14 +127,14 @@ export const HELP: HelpTopic[] = [
     icon: '⭐',
     question: 'Quiero dar puntos a mis estudiantes',
     steps: [
-      'Abre «Puntos y ranking» y ve a la pestaña «⭐ Puntos».',
+      'Abre «Mi clase» y ve a la pestaña «⭐ Puntos».',
       'Elige el grupo y escribe o elige la razón (por ejemplo «Buen comportamiento»).',
-      'Toca el emoji para dar el punto: ⭐ 1, 💎 5, 👑 10, 💯 100.',
-      'Si te equivocas, usa «Deshacer». Los puntos quedan guardados aunque cierres la app.'
+      'Toca «⭐ +1» en el estudiante para darle el punto. Con los puntos juntos salen 💎 5, 👑 10 y 💯 100.',
+      'Si te equivocas, usa «↶ Deshacer». Los puntos quedan guardados aunque cierres la app.'
     ],
     keywords: ['puntos', 'estrellas', 'premio', 'conducta', 'comportamiento'],
-    target: { kind: 'tool', id: 'stars', label: 'Abrir «Puntos y ranking»' },
-    tip: 'Los puntos que das tú se guardan por estudiante, con la razón y la fecha. Los ves en «Puntos y ranking».',
+    target: { kind: 'tool', id: 'stars', label: 'Abrir «Mi clase»' },
+    tip: 'Los puntos que das tú se guardan por estudiante, con la razón y la fecha. Los ves en «Mi clase».',
     done: () => {
       const d = getDurable<{ events?: unknown[] }>('stars', {})
       return (d.events?.length ?? 0) > 0
@@ -148,11 +148,11 @@ export const HELP: HelpTopic[] = [
     steps: [
       'Juega en «Juegos» eligiendo «🙋 Estudiantes de mi grupo» (con equipos no se guarda).',
       'Al terminar la partida, los puntajes pasan solos al ranking.',
-      'Abre «Puntos y ranking» y ve a la pestaña «🏆 Ranking de juegos». Puedes filtrar por juego y por grupo.',
+      'Abre «Mi clase» y ve a la pestaña «🏆 Ranking de juegos». Puedes filtrar por juego y por grupo.',
       'El ranking no se mezcla con los puntos que das a mano.'
     ],
     keywords: ['ranking', 'puntajes', 'ganador', 'tabla', 'posiciones', 'mejores'],
-    target: { kind: 'tool', id: 'stars', label: 'Abrir «Puntos y ranking»' },
+    target: { kind: 'tool', id: 'stars', label: 'Abrir «Mi clase»' },
     tip: 'Los juegos que juegas con estudiantes de un grupo guardado llenan solos un ranking, que puedes filtrar por juego.',
     done: () => getDurable<RankingData>('ranking', { sessions: [] }).sessions.length > 0
   },
@@ -162,20 +162,38 @@ export const HELP: HelpTopic[] = [
     icon: '🎡',
     question: 'Quiero sortear a un estudiante',
     steps: [
-      'Abre «Ruleta», escribe los nombres o carga un grupo que ya guardaste, y gírala.',
-      'Para un número al azar usa «Número al azar».'
+      'Abre «En el aula» y elige «🎡 Ruleta». Escribe los nombres o carga un grupo que ya guardaste, y gírala.',
+      'Para un número al azar usa «🎲 Número al azar».'
     ],
     keywords: ['sorteo', 'azar', 'ruleta', 'rifa', 'escoger'],
-    target: { kind: 'tool', id: 'wheel', label: 'Abrir «Ruleta»' }
+    target: { kind: 'tool', id: 'wheel', label: 'Ir a «En el aula»' }
+  },
+  {
+    id: 'project',
+    group: 'tools',
+    icon: '📺',
+    question: 'Quiero que se vea grande en la pizarra o el proyector',
+    steps: [
+      'Abre «En el aula» y elige el temporizador, la ruleta o el número al azar.',
+      'Toca «📺 Proyectar»: se esconde el menú y todo se ve más grande.',
+      'Para volver, toca «✕ Salir de proyección».',
+      'Los juegos ya ocupan toda la pantalla mientras se juega.'
+    ],
+    keywords: ['proyectar', 'proyector', 'pantalla', 'grande', 'pizarra', 'televisor'],
+    target: { kind: 'tool', id: 'timer', label: 'Ir a «En el aula»' },
+    tip: 'En «En el aula», el botón «📺 Proyectar» agranda el temporizador, la ruleta y el número para que todo el grupo los vea.'
   },
   {
     id: 'timer',
     group: 'tools',
     icon: '⏱️',
     question: 'Quiero un temporizador para la clase',
-    steps: ['Abre «Temporizador para el aula», pon el tiempo y empieza.'],
+    steps: [
+      'Abre «En el aula» y elige «⏱️ Temporizador».',
+      'Toca un tiempo (o escribe el que quieras) y «▶ Iniciar».'
+    ],
     keywords: ['cronometro', 'tiempo', 'minutos', 'reloj'],
-    target: { kind: 'tool', id: 'timer', label: 'Abrir el temporizador' }
+    target: { kind: 'tool', id: 'timer', label: 'Ir a «En el aula»' }
   },
   {
     id: 'first-download',
@@ -206,7 +224,7 @@ export const HELP: HelpTopic[] = [
     question: '¿Dónde quedan mis archivos?',
     steps: [
       'Todo lo que crea Educando queda en tu carpeta Documentos, dentro de «Educando».',
-      'Para abrirla, toca «📁 Mis archivos» en el inicio.'
+      'Para abrirla, toca «📂 Mis archivos» en el menú de la izquierda.'
     ],
     keywords: ['carpeta', 'documentos', 'resultado', 'guardado', 'archivos']
   },
@@ -216,7 +234,7 @@ export const HELP: HelpTopic[] = [
     icon: '💾',
     question: 'Quiero guardar una copia de mis datos o pasarlos a otra computadora',
     steps: [
-      'Abre «💜 Acerca de» y busca «Mis datos» (también está en «Lista de estudiantes»).',
+      'Abre «💜 Acerca de» (en el menú de la izquierda) y busca «Mis datos» (también está en «Mi clase», pestaña «📋 Estudiantes»).',
       'Toca «⬇ Guardar una copia ahora»: queda en un archivo.',
       'En la otra computadora, abre el mismo lugar y toca «⬆ Restaurar una copia» y elige ese archivo.',
       'Aparte, la app guarda sola un respaldo cada día en Documentos/Educando/Respaldo.'
