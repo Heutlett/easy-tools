@@ -1,0 +1,7 @@
+{
+  "lang": "es",
+  "seed": 7,
+  "instruct": "A warm, calm adult male voice with a neutral Latin American Spanish accent, like a kind primary-school teacher reading aloud to children. Clear articulation, slow and steady pace, natural pauses.",
+  "text": "Hola, niños. Hoy vamos a leer juntos un cuento muy bonito. Escuchen con atención, y después contestaremos unas preguntas.",
+  "designedWith": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign@5ecdb67327fd37bb2e042aab12ff7391903235d3"
+}

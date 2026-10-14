@@ -264,7 +264,7 @@ function TextRound({
               <>
                 <button
                   className="btn secondary"
-                  onClick={() => voice.speak([text.title, ...text.paragraphs].join('.\n'), 0.85)}
+                  onClick={() => voice.speak([text.title, ...text.paragraphs].join('\n'), 0.85)}
                 >
                   🔊 Escuchar
                 </button>

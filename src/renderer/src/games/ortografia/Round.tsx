@@ -6,7 +6,6 @@ import Scoreboard from '../../components/games/Scoreboard'
 import { useScores, type Player } from '../../lib/games/players'
 import { sfx } from '../../lib/games/sfx'
 import { useCountdown } from '../../lib/games/useCountdown'
-import { useVoice } from '../../lib/games/useVoice'
 import type { Item } from './engine'
 import { ruleSummary, ruleTitle, type RuleId } from './rules'
 
@@ -48,7 +47,6 @@ export default function Round({
   onAgain,
   onExit
 }: Props): React.JSX.Element {
-  const voice = useVoice('es')
   const { scores, add, reset, ranking, leaders } = useScores(players)
   const turns = useTurns(players)
   const [index, setIndex] = useState(0)
@@ -84,7 +82,6 @@ export default function Round({
 
   const next = (): void => {
     if (picked === null) return
-    voice.stop()
     turns.next()
     if (index + 1 < items.length) {
       setIndex(index + 1)

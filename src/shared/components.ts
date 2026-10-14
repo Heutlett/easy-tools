@@ -1,8 +1,10 @@
+import { VOICES_PACK } from './voices'
+
 /**
  * Piezas grandes que NO viajan dentro del instalador: se descargan la primera vez (o desde el aviso de la pantalla de inicio)
  * y se guardan en la carpeta de datos de la app, así las actualizaciones no las vuelven a bajar.
  */
-export type ComponentId = 'ffmpeg' | 'ytdlp' | 'model'
+export type ComponentId = 'ffmpeg' | 'ytdlp' | 'model' | 'voices'
 
 export interface ComponentDef {
   id: ComponentId
@@ -27,6 +29,12 @@ export const COMPONENTS: ComponentDef[] = [
     label: 'Inteligencia artificial para quitar fondos',
     forWhat: 'quitar el fondo de una imagen',
     sizeMB: 88
+  },
+  {
+    id: 'voices',
+    label: 'Voces para leer en voz alta',
+    forWhat: 'que los juegos lean en voz alta, en español y en inglés',
+    sizeMB: VOICES_PACK.sizeMB
   }
 ]
 
