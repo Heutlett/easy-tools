@@ -2,6 +2,15 @@
 
 Cada versión se publica con una etiqueta `vX.Y.Z` (ver [GITFLOW.md](GITFLOW.md)). El texto de cada entrada es el que aparece en la descripción del release en GitHub.
 
+## [0.4.0] - 2026-10-14
+
+- Los juegos ahora leen en voz alta con voces nuevas, naturales y siempre iguales, en español y en inglés: Comprensión de lectura, Bingo, Listen and choose, What is it?, Build the sentence, Simon says, Arma la palabra, Ordena la oración y Trabalenguas y rimas
+- Las voces son audios ya hechos que se descargan solos una sola vez al abrir la app (unos 114 MB, con internet); después funcionan sin conexión. Sin ellas, los juegos funcionan igual pero sin sonido
+- Ya no se usan las voces del sistema: suena igual en todas las computadoras, sin instalar nada en Windows
+- Velocidad lenta en Listen and choose, y lenta, normal y rápida en los trabalenguas y en Simon says
+- ¿Quién quiere ser millonario? ya no lee las preguntas en voz alta
+- Para quien desarrolla: laboratorio de voces en `tools/tts-lab` para generar audios nuevos cuando se agreguen textos, palabras o juegos
+
 ## [0.3.0] - 2026-10-12
 
 - Corregido: las listas de estudiantes y los puntos ya no se borran; ahora se guardan en un archivo de la computadora, con una copia anterior, un respaldo por día y una copia visible en Documentos/Educando/Respaldo
