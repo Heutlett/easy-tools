@@ -1,0 +1,7 @@
+{
+  "lang": "en",
+  "seed": 7,
+  "instruct": "A warm, friendly adult female voice with a clear American English accent, like an elementary-school English teacher speaking to young learners. Clear articulation, slow and steady pace.",
+  "text": "Hello, kids. Today we are going to read a story together. Listen carefully, and then we will answer some questions.",
+  "designedWith": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign@5ecdb67327fd37bb2e042aab12ff7391903235d3"
+}

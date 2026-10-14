@@ -1,0 +1,12 @@
+# Entorno de Python y modelos pesados (se bajan con setup.sh y download_models.py)
+.venv/
+models/
+# Lo que se genera
+out/
+.build/
+candidates/
+manifest.json
+__pycache__/
+*.pyc
+
+dist/

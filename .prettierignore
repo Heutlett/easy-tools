@@ -8,3 +8,12 @@ src/renderer/src/content/questions
 src/renderer/src/content/statements
 src/renderer/src/content/lists
 src/renderer/src/content/pairs
+
+# Laboratorio de voces: entorno, modelos y lo que genera
+tools/tts-lab/.venv
+tools/tts-lab/models
+tools/tts-lab/out
+tools/tts-lab/.build
+tools/tts-lab/candidates
+tools/tts-lab/manifest.json
+tools/tts-lab/dist
