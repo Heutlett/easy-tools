@@ -61,12 +61,15 @@ export default function Timer(): React.JSX.Element {
 
   const shown = phase === 'setup' ? total : Math.ceil(remaining)
   const fraction = phase === 'setup' || total === 0 ? 1 : remaining / total
+  // El color avisa cuánto falta: verde, amarillo, rojo y, al terminar, rojo oscuro
   const color =
-    phase === 'finished' || (phase !== 'setup' && remaining <= 10)
-      ? '#dc2626'
-      : phase !== 'setup' && fraction <= 0.2
-        ? '#d97706'
-        : '#059669'
+    phase === 'finished'
+      ? '#c4502f'
+      : phase === 'setup' || fraction > 0.5
+        ? '#4fae6a'
+        : fraction > 0.2
+          ? '#e0a020'
+          : '#e8644a'
 
   const clampInput = (v: string, max: number): number =>
     Math.min(max, Math.max(0, parseInt(v, 10) || 0))

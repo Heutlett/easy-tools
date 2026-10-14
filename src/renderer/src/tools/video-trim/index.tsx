@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import FileDrop from '../../components/FileDrop'
 import JobStatus from '../../components/JobStatus'
+import { stepOf, useToolStep } from '../../lib/toolStep'
 import TimeField from '../../components/TimeField'
 import TrimTimeline from '../../components/TrimTimeline'
 import { baseName, formatDuration, formatTime } from '../../lib/format'
@@ -23,6 +24,7 @@ export default function VideoTrim(): React.JSX.Element {
   const [error, setError] = useState('')
   const video = useRef<HTMLVideoElement>(null)
   const job = useJob<{ output: string }>()
+  useToolStep(stepOf(file !== null, job.status))
   const frames = useFilmstrip(file, duration, FRAME_COUNT)
 
   const [start, end] = range

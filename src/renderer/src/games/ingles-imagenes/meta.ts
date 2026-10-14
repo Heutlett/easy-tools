@@ -4,7 +4,7 @@ export default {
   title: 'What is it?',
   description: 'Un dibujo y cuatro palabras en inglés: ¿cuál es? También al revés, con voz.',
   icon: '🖼️',
-  color: '#7c3aed',
+  type: 'ingles',
   subjects: ['ingles'],
   grades: [1, 2, 3, 4, 5, 6],
   modes: ['clase', 'equipos', 'turnos'],

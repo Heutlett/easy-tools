@@ -6,8 +6,9 @@ export default {
   description: 'Guarda un video o su audio para usarlo sin internet.',
   icon: '⬇️',
   images: [youtubeLogo],
-  color: '#dc2626',
+  color: '#3b8fd9',
   category: 'video',
   requires: ['ytdlp', 'ffmpeg'],
+  steps: ['Pega el enlace', 'Revisa', 'Guarda'],
   order: 3
 } satisfies ToolMeta

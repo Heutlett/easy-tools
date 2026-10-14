@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import FileDrop from '../../components/FileDrop'
 import JobStatus from '../../components/JobStatus'
+import { stepOf, useToolStep } from '../../lib/toolStep'
 import { baseName, formatDuration } from '../../lib/format'
 import { useJob } from '../../lib/useJob'
 
@@ -9,6 +10,7 @@ export default function VideoToAudio(): React.JSX.Element {
   const [duration, setDuration] = useState<number | null>(null)
   const [error, setError] = useState('')
   const job = useJob<{ output: string }>()
+  useToolStep(stepOf(file !== null, job.status))
 
   useEffect(() => {
     if (!file) return

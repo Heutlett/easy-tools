@@ -5,7 +5,7 @@ export default {
   description:
     'Adivina la palabra letra por letra antes de que se derrita el helado. Toda la clase o por equipos.',
   icon: '🔤',
-  color: '#db2777',
+  type: 'palabras',
   subjects: ['matematica', 'espanol', 'ciencias', 'sociales', 'ingles', 'musica', 'cultura'],
   grades: [1, 2, 3, 4, 5, 6],
   modes: ['clase', 'equipos', 'turnos'],

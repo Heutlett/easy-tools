@@ -5,7 +5,7 @@ export default {
   description:
     'Actuar, dibujar o describir una palabra secreta sin decirla, mientras la clase adivina antes de que se acabe el tiempo.',
   icon: '🎭',
-  color: '#c026d3',
+  type: 'palabras',
   subjects: [],
   grades: [1, 2, 3, 4, 5, 6],
   modes: ['equipos', 'turnos', 'clase'],

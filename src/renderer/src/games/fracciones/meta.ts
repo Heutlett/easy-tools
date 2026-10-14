@@ -5,7 +5,7 @@ export default {
   description:
     'Pizzas, barras y cuadrículas: colorea, reconoce, compara y suma fracciones tocando las partes.',
   icon: '🍕',
-  color: '#9333ea',
+  type: 'mate',
   subjects: ['matematica'],
   grades: [3, 4, 5, 6],
   modes: ['clase', 'equipos', 'turnos'],

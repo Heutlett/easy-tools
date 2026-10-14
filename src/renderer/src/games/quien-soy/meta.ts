@@ -5,7 +5,7 @@ export default {
   description:
     'Se descubre una pista a la vez sobre un animal, lugar o personaje: ¡mientras antes adivinen, más puntos!',
   icon: '🕵️‍♂️',
-  color: '#0f766e',
+  type: 'palabras',
   subjects: ['ciencias', 'sociales', 'cultura'],
   grades: [1, 2, 3, 4, 5, 6],
   modes: ['clase', 'equipos'],

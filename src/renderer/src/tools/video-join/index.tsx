@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import FileDrop from '../../components/FileDrop'
 import JobStatus from '../../components/JobStatus'
+import { stepOf, useToolStep } from '../../lib/toolStep'
 import OrderedFileList from '../../components/OrderedFileList'
 import { formatDuration } from '../../lib/format'
 import { useJob } from '../../lib/useJob'
@@ -10,6 +11,7 @@ export default function VideoJoin(): React.JSX.Element {
   const [durations, setDurations] = useState<Record<string, number>>({})
   const [error, setError] = useState('')
   const job = useJob<{ output: string }>()
+  useToolStep(stepOf(files.length > 0, job.status))
 
   // Pide la duración de cada video que se agrega (y avisa si alguno no sirve).
   useEffect(() => {

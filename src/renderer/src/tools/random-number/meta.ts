@@ -5,7 +5,7 @@ export default {
   description:
     'Saca un número al azar dentro del rango que elijas, por ejemplo para el número de lista.',
   icon: '🎲',
-  color: '#0284c7',
+  color: '#3b8fd9',
   category: 'classroom',
   order: 2
 } satisfies ToolMeta

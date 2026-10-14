@@ -7,7 +7,7 @@ export default {
   description: 'Guarda cada página de un PDF como una imagen JPG o PNG.',
   icon: '🖼️',
   images: [pdfLogo, imageLogo],
-  color: '#0d9488',
+  color: '#4fae6a',
   category: 'images',
   order: 3
 } satisfies ToolMeta

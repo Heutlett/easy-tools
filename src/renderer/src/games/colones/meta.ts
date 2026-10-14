@@ -5,7 +5,7 @@ export default {
   description:
     'El dinero de Costa Rica: forma montos, cuenta dinero, haz compras con vuelto y cambia billetes.',
   icon: '💵',
-  color: '#b45309',
+  type: 'mate',
   subjects: ['matematica'],
   grades: [1, 2, 3, 4, 5],
   modes: ['clase', 'equipos', 'turnos'],

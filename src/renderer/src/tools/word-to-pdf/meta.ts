@@ -7,7 +7,7 @@ export default {
   description: 'Convierte un documento de Word en un PDF listo para enviar o imprimir.',
   icon: '📘',
   images: [wordLogo, pdfLogo],
-  color: '#2563eb',
+  color: '#e8644a',
   category: 'documents',
   order: 4
 } satisfies ToolMeta

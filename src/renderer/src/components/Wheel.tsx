@@ -1,13 +1,13 @@
 const RADIUS = 240
 const COLORS = [
-  '#e11d48',
-  '#ea580c',
-  '#ca8a04',
-  '#16a34a',
-  '#0891b2',
-  '#2563eb',
-  '#7c3aed',
-  '#c026d3'
+  '#e8644a',
+  '#3b8fd9',
+  '#f2b632',
+  '#4fae6a',
+  '#8a63d2',
+  '#e46aa8',
+  '#2aa3a0',
+  '#e0a020'
 ]
 
 interface Props {
@@ -52,7 +52,7 @@ export default function Wheel({ items, angle, spinSeconds, onSpinEnd }: Props): 
     <div className="wheel-box">
       <div className="wheel-pointer" />
       <svg viewBox="-250 -250 500 500" role="img" aria-label="Ruleta">
-        <circle r={248} fill="#1f2933" />
+        <circle r={248} fill="#2b2622" />
         <g
           className="wheel-spin"
           style={{
@@ -86,9 +86,10 @@ export default function Wheel({ items, angle, spinSeconds, onSpinEnd }: Props): 
                   textAnchor="end"
                   dominantBaseline="central"
                   fontSize={fontSize}
-                  fontWeight={700}
+                  fontWeight={800}
+                  fontFamily="'Baloo 2', 'Nunito', sans-serif"
                   fill="#fff"
-                  stroke="rgba(0,0,0,0.35)"
+                  stroke="rgba(0,0,0,0.3)"
                   strokeWidth={3}
                   paintOrder="stroke"
                   textLength={fit(item).squeeze ? available : undefined}
@@ -101,7 +102,7 @@ export default function Wheel({ items, angle, spinSeconds, onSpinEnd }: Props): 
             )
           })}
         </g>
-        <circle r={34} fill="#fff" stroke="#1f2933" strokeWidth={6} />
+        <circle r={34} fill="#fffdf8" stroke="#2b2622" strokeWidth={6} />
       </svg>
     </div>
   )

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import CropBox from '../../components/CropBox'
 import FileDrop from '../../components/FileDrop'
 import JobStatus from '../../components/JobStatus'
+import { stepOf, useToolStep } from '../../lib/toolStep'
 import { fitRatio, type CropRect } from '../../lib/crop'
 import { baseName, nameWithoutExtension } from '../../lib/format'
 import { useJob } from '../../lib/useJob'
@@ -23,6 +24,7 @@ export default function CropImage(): React.JSX.Element {
   const [rect, setRect] = useState<CropRect>(START)
   const [error, setError] = useState('')
   const job = useJob<{ output: string }>()
+  useToolStep(stepOf(file !== null, job.status))
 
   const pick = async (path: string): Promise<void> => {
     setError('')
