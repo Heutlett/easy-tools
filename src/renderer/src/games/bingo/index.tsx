@@ -1,15 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 import { randomInt } from '../../lib/random'
-import { useSpanishVoice } from '../../lib/useSpanishVoice'
+import { useVoice } from '../../lib/games/useVoice'
+import { bingoSpeech } from '../../../../shared/speech/bingo'
 import { usePersistentState } from '../../lib/usePersistentState'
 
 type Variant = 75 | 90
 
 const LETTERS = 'BINGO'
-/** Nombre de cada letra, para que la voz la diga bien ("be", "i", "ene"…) */
-const LETTER_NAMES = ['Be', 'I', 'Ene', 'Ge', 'O']
 const LETTER_COLORS = ['#2563eb', '#dc2626', '#6b7280', '#16a34a', '#ea580c']
-const DIGITS = ['cero', 'uno', 'dos', 'tres', 'cuatro', 'cinco', 'seis', 'siete', 'ocho', 'nueve']
 /** Pausas (ms) entre un número y otro mientras "rueda" la bolita */
 const ROLL_DELAYS = [45, 45, 45, 50, 55, 60, 70, 80, 95, 115, 140, 170, 210, 260]
 
@@ -18,12 +16,6 @@ const colorOf = (n: number, variant: Variant): string =>
   variant === 75 ? LETTER_COLORS[letterIndex(n)] : '#7c3aed'
 const labelOf = (n: number, variant: Variant): string =>
   variant === 75 ? `${LETTERS[letterIndex(n)]} ${n}` : String(n)
-
-/** Lo que dice la voz: la letra, el número y, si tiene dos cifras, cada cifra ("Ge, cuarenta y siete. Cuatro, siete.") */
-function narration(n: number, variant: Variant): string {
-  const spelled = n >= 10 ? `. ${[...String(n)].map((d) => DIGITS[Number(d)]).join(', ')}.` : '.'
-  return variant === 75 ? `${LETTER_NAMES[letterIndex(n)]}, ${n}${spelled}` : `${n}${spelled}`
-}
 
 function Ball({
   n,
@@ -67,7 +59,7 @@ export default function Bingo(): React.JSX.Element {
   const [confirmReset, setConfirmReset] = useState(false)
   const [card, setCard] = useState('')
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
-  const voice = useSpanishVoice()
+  const voice = useVoice('es')
 
   const { variant, called } = game
   const last = called.length ? called[called.length - 1] : null
@@ -94,7 +86,7 @@ export default function Bingo(): React.JSX.Element {
       setShown(result)
       setRolling(false)
       setGame({ variant, called: [...called, result] })
-      if (voiceOn) voice.speak(narration(result, variant))
+      if (voiceOn) voice.speak(bingoSpeech(result, variant))
     }
     roll()
   }
@@ -160,7 +152,7 @@ export default function Bingo(): React.JSX.Element {
           <button
             className="btn secondary small"
             disabled={rolling || last === null || !voice.available}
-            onClick={() => last !== null && voice.speak(narration(last, variant))}
+            onClick={() => last !== null && voice.speak(bingoSpeech(last, variant))}
           >
             🔊 Repetir
           </button>
@@ -193,8 +185,8 @@ export default function Bingo(): React.JSX.Element {
         </label>
         {!voice.available && (
           <p className="muted">
-            Este equipo no tiene una voz en español. En Windows se agrega en Configuración → Hora e
-            idioma → Voz.
+            Las voces todavía no se han descargado. Se bajan solas con internet desde la pantalla de
+            inicio.
           </p>
         )}
 

@@ -1,16 +1,31 @@
+import { useEffect } from 'react'
 import { COMPONENTS } from '../../../shared/components'
 import { overallPercent, totalMB, useComponents } from '../lib/useComponents'
 import { usePersistentState } from '../lib/usePersistentState'
 
+/** Para que se baje solo una vez por apertura de la app (si se cancela, se vuelve a intentar la próxima vez) */
+let autoTried = false
+
 /**
- * Aviso de la pantalla de inicio: ofrece descargar de una vez las piezas grandes (video, YouTube y quitar fondos)
- * para no tener que esperar cuando se necesiten. Se puede dejar para después.
+ * Aviso de la pantalla de inicio: las piezas grandes (video, YouTube, quitar fondos y voces) se bajan solas al abrir la app y aquí se ve
+ * el avance; si se cancela o falla, queda el botón. Se puede dejar para después.
  */
 export default function ComponentsBanner(): React.JSX.Element | null {
   const c = useComponents()
   const [later, setLater] = usePersistentState('components-banner-later', false)
 
   const missing = c.installed ? COMPONENTS.filter((d) => !c.installed?.[d.id]).map((d) => d.id) : []
+  const hasMissing = missing.length > 0
+
+  useEffect(() => {
+    if (!c.installed || !hasMissing || autoTried) return
+    autoTried = true
+    void window.api.components.options().then((o) => {
+      if (o.autoDownload) void c.install(missing)
+    })
+    // Solo la primera vez que se sabe qué falta
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [c.installed, hasMissing])
   // Si en esta sesión se bajó algo y ya no falta nada, se avisa que quedó listo
   const finished = Object.values(c.progress).some((p) => p?.state === 'done')
 
@@ -29,10 +44,13 @@ export default function ComponentsBanner(): React.JSX.Element | null {
   return (
     <section className="components-banner panel" aria-live="polite">
       <div>
-        <b>⬇️ Falta descargar unas piezas ({totalMB(missing)} MB)</b>
+        <b>
+          ⬇️ {c.busy ? 'Descargando' : 'Falta descargar'} unas piezas ({totalMB(missing)} MB)
+        </b>
         <p className="muted">
-          Sirven para recortar y unir videos, bajar de YouTube y quitar fondos. Se descargan una
-          sola vez y necesitas internet. El resto de la app funciona sin ellas.
+          Sirven para recortar y unir videos, bajar de YouTube, quitar fondos y que los juegos lean
+          en voz alta. Se descargan solas, una sola vez, y necesitas internet. El resto de la app
+          funciona sin ellas.
         </p>
         {c.busy && (
           <>

@@ -117,11 +117,14 @@ export function TopicRow({
   )
 }
 
-/** Aviso discreto cuando el equipo no tiene voz en inglés */
+/** Aviso discreto mientras las voces todavía no se han descargado */
 export function VoiceNotice({ available }: { available: boolean }): React.JSX.Element | null {
   if (available) return null
   return (
-    <span className="ing-novoice" title="Este equipo no tiene una voz en inglés instalada">
+    <span
+      className="ing-novoice"
+      title="Las voces se descargan solas con internet desde la pantalla de inicio"
+    >
       🔇 sin voz
     </span>
   )

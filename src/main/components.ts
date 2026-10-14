@@ -16,6 +16,8 @@ import { pipeline } from 'stream/promises'
 import { createGunzip } from 'zlib'
 import type { ComponentId, ComponentProgress, ComponentStatus } from '../shared/components'
 import { COMPONENTS, componentDef } from '../shared/components'
+import { VOICES_PACK, type VoiceCatalog } from '../shared/voices'
+import { unzipTo } from './unzip'
 import { handle } from './ipc'
 import { UserError } from './jobs'
 
@@ -85,8 +87,24 @@ export function requireModelDir(): string {
   return p
 }
 
+/** Carpeta de las voces (con index.json y los audios), o null si falta o es de otra versión del paquete */
+export function voicesDir(): string | null {
+  const dir = join(componentDir('voices'), 'audio')
+  try {
+    // La marca dice qué paquete es: si cambió el paquete, hay que bajar el nuevo
+    const marker = readFileSync(join(componentDir('voices'), '.completo'), 'utf8').trim()
+    return marker === VOICES_PACK.sha256 && existsSync(join(dir, 'index.json')) ? dir : null
+  } catch {
+    return null
+  }
+}
+
 export const isInstalled = (id: ComponentId): boolean =>
-  id === 'model' ? modelDir() !== null : binaryPath(id) !== null
+  id === 'model'
+    ? modelDir() !== null
+    : id === 'voices'
+      ? voicesDir() !== null
+      : binaryPath(id) !== null
 
 export function status(): ComponentStatus[] {
   return COMPONENTS.map((c) => ({ id: c.id, installed: isInstalled(c.id) }))
@@ -146,6 +164,11 @@ async function fetchTo(
 
 async function jobsFor(id: ComponentId, signal: AbortSignal): Promise<FileJob[]> {
   const dir = componentDir(id)
+  if (id === 'voices') {
+    // Un solo .zip con todos los audios y su catálogo (se descomprime al terminar de bajar)
+    const url = OVERRIDE ? `${OVERRIDE}/voices.zip` : VOICES_PACK.url
+    return [{ url, dest: join(dir, 'voces.zip'), sha256: VOICES_PACK.sha256, weight: 1 }]
+  }
   if (id === 'ffmpeg') {
     const url = OVERRIDE
       ? `${OVERRIDE}/ffmpeg.gz`
@@ -199,6 +222,19 @@ async function install(id: ComponentId, signal: AbortSignal): Promise<void> {
     done += job.weight
     emit({ id, state: 'downloading', percent: Math.round((done / totalWeight) * 100) })
   }
+  if (id === 'voices') {
+    // Se descomprime en una carpeta aparte y se cambia de una vez, así nunca queda a medias
+    const dir = componentDir(id)
+    const tmp = join(dir, 'audio.tmp')
+    rmSync(tmp, { recursive: true, force: true })
+    unzipTo(join(dir, 'voces.zip'), tmp)
+    if (!existsSync(join(tmp, 'index.json')))
+      throw new Error('El paquete de voces no trae su catálogo')
+    rmSync(join(dir, 'audio'), { recursive: true, force: true })
+    renameSync(tmp, join(dir, 'audio'))
+    rmSync(join(dir, 'voces.zip'), { force: true })
+    writeFileSync(join(dir, '.completo'), VOICES_PACK.sha256)
+  }
   // Marca de que quedó completo (el modelo son muchos archivos)
   if (id === 'model') writeFileSync(join(componentDir(id), '.completo'), String(Date.now()))
   emit({ id, state: 'done', percent: 100 })
@@ -225,8 +261,27 @@ export function installComponent(id: ComponentId): Promise<void> {
   return promise
 }
 
+/** Las pruebas automáticas apagan la descarga automática del arranque con EASY_TOOLS_NO_AUTO_DOWNLOAD=1 */
+const AUTO_DOWNLOAD = process.env['EASY_TOOLS_NO_AUTO_DOWNLOAD'] !== '1'
+
+/** Catálogo de voces instalado (null si todavía no se descargó); se lee una vez por versión del paquete */
+let catalogCache: VoiceCatalog | null = null
+function voiceCatalog(): VoiceCatalog | null {
+  const dir = voicesDir()
+  if (!dir) return (catalogCache = null)
+  if (catalogCache?.dir === dir) return catalogCache
+  try {
+    catalogCache = { dir, entries: JSON.parse(readFileSync(join(dir, 'index.json'), 'utf8')) }
+  } catch {
+    catalogCache = null
+  }
+  return catalogCache
+}
+
 export function registerComponentHandlers(): void {
   handle('components:status', () => status())
+  handle('components:options', () => ({ autoDownload: AUTO_DOWNLOAD }))
+  handle('voices:catalog', () => voiceCatalog())
   handle('components:install', (_e, id: ComponentId) => installComponent(id))
   handle('components:cancel', (_e, id: ComponentId) => {
     active.get(id)?.abort.abort()

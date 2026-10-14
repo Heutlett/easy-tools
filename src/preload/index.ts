@@ -1,6 +1,7 @@
 import { contextBridge, ipcRenderer, webUtils } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 import type { ComponentId, ComponentProgress, ComponentStatus } from '../shared/components'
+import type { VoiceCatalog } from '../shared/voices'
 import type { UpdateStatus } from '../shared/update'
 import type { FileKind, MediaInfo, WordModel } from '../shared/types'
 
@@ -55,6 +56,8 @@ const api = {
     status: () => call<ComponentStatus[]>('components:status'),
     install: (id: ComponentId) => call<void>('components:install', id),
     cancel: (id: ComponentId) => call<void>('components:cancel', id),
+    /** Opciones del arranque (por ejemplo, si se baja todo solo) */
+    options: () => call<{ autoDownload: boolean }>('components:options'),
     onProgress: (cb: (p: ComponentProgress) => void) => {
       const listener = (_: unknown, p: ComponentProgress): void => cb(p)
       ipcRenderer.on('components:progress', listener)
@@ -62,6 +65,11 @@ const api = {
         ipcRenderer.removeListener('components:progress', listener)
       }
     }
+  },
+
+  voices: {
+    /** Catálogo de audios instalados, o null si todavía no se descargan */
+    catalog: () => call<VoiceCatalog | null>('voices:catalog')
   },
 
   update: {
