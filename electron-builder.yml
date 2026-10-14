@@ -9,6 +9,8 @@ files:
   - package.json
 asarUnpack:
   - node_modules/onnxruntime-node/**
+  # Motor de las voces descargables (ver src/main/voices.ts): trae su propia librería nativa
+  - node_modules/sherpa-onnx-*/**
 # ffmpeg, yt-dlp y el modelo de IA NO viajan en el instalador (pesan ~190 MB): la app los descarga la primera vez
 # (ver src/main/components.ts). Para desarrollar se bajan con `npm run setup` a resources/ y no se empaquetan.
 win:

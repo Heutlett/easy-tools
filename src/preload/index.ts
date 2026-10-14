@@ -1,6 +1,7 @@
 import { contextBridge, ipcRenderer, webUtils } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 import type { ComponentId, ComponentProgress, ComponentStatus } from '../shared/components'
+import type { SpeechAudio, VoiceChunk, VoiceId } from '../shared/voices'
 import type { UpdateStatus } from '../shared/update'
 import type { FileKind, MediaInfo, WordModel } from '../shared/types'
 
@@ -55,11 +56,32 @@ const api = {
     status: () => call<ComponentStatus[]>('components:status'),
     install: (id: ComponentId) => call<void>('components:install', id),
     cancel: (id: ComponentId) => call<void>('components:cancel', id),
+    /** Opciones del arranque (por ejemplo, si se baja todo solo) */
+    options: () => call<{ autoDownload: boolean }>('components:options'),
     onProgress: (cb: (p: ComponentProgress) => void) => {
       const listener = (_: unknown, p: ComponentProgress): void => cb(p)
       ipcRenderer.on('components:progress', listener)
       return () => {
         ipcRenderer.removeListener('components:progress', listener)
+      }
+    }
+  },
+
+  voices: {
+    /** Genera todo el audio de un texto con una voz (para pruebas) */
+    speak: (p: { id: VoiceId; text: string; speed: number }) =>
+      call<SpeechAudio>('voices:speak', p),
+    /** Pide el audio por trozos: llegan por `onChunk` con el mismo `requestId` */
+    speakStream: (p: { requestId: number; id: VoiceId; text: string; speed: number }) =>
+      call<void>('voices:speakStream', p),
+    cancelSpeak: (requestId: number) => call<void>('voices:cancelSpeak', requestId),
+    /** Carga el motor con anticipación */
+    warmup: () => call<void>('voices:warmup'),
+    onChunk: (cb: (m: VoiceChunk) => void) => {
+      const listener = (_: unknown, m: VoiceChunk): void => cb(m)
+      ipcRenderer.on('voices:chunk', listener)
+      return () => {
+        ipcRenderer.removeListener('voices:chunk', listener)
       }
     }
   },

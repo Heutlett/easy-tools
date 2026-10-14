@@ -16,6 +16,8 @@ import { pipeline } from 'stream/promises'
 import { createGunzip } from 'zlib'
 import type { ComponentId, ComponentProgress, ComponentStatus } from '../shared/components'
 import { COMPONENTS, componentDef } from '../shared/components'
+import { ESPEAK, VOICES } from '../shared/voices'
+import { unzipTo } from './unzip'
 import { handle } from './ipc'
 import { UserError } from './jobs'
 
@@ -85,8 +87,45 @@ export function requireModelDir(): string {
   return p
 }
 
+/** Carpeta de las voces (con el modelo), o null si faltan */
+const VOICE_FILES = [
+  ...VOICES.flatMap((v) => [join(v.id, 'model.onnx'), join(v.id, 'tokens.txt')]),
+  join('espeak-ng-data', '.completo')
+]
+/** Archivos de versiones anteriores de las voces (otro modelo) que ya no sirven */
+const OLD_VOICE_FILES = [
+  'duration_predictor.int8.onnx',
+  'text_encoder.int8.onnx',
+  'vector_estimator.int8.onnx',
+  'vocoder.int8.onnx',
+  'tts.json',
+  'unicode_indexer.bin',
+  'voice.bin'
+]
+
+/** Cambia cuando cambia alguna voz: así una instalación con otra voz se vuelve a bajar */
+const VOICES_VERSION = createHash('sha256')
+  .update(VOICES.map((v) => v.modelSha256 + v.tokensSha256).join() + ESPEAK.sha256)
+  .digest('hex')
+  .slice(0, 16)
+
+export function voicesDir(): string | null {
+  const dir = componentDir('voices')
+  // No basta la marca de «completo»: tiene que ser de estas voces y estar los archivos de las dos
+  try {
+    if (readFileSync(join(dir, '.completo'), 'utf8').trim() !== VOICES_VERSION) return null
+  } catch {
+    return null
+  }
+  return VOICE_FILES.every((f) => existsSync(join(dir, f))) ? dir : null
+}
+
 export const isInstalled = (id: ComponentId): boolean =>
-  id === 'model' ? modelDir() !== null : binaryPath(id) !== null
+  id === 'model'
+    ? modelDir() !== null
+    : id === 'voices'
+      ? voicesDir() !== null
+      : binaryPath(id) !== null
 
 export function status(): ComponentStatus[] {
   return COMPONENTS.map((c) => ({ id: c.id, installed: isInstalled(c.id) }))
@@ -101,7 +140,7 @@ function emit(p: ComponentProgress): void {
     if (!win.isDestroyed()) win.webContents.send('components:progress', p)
 }
 
-interface FileJob {
+export interface FileJob {
   url: string
   dest: string
   gunzip?: boolean
@@ -112,7 +151,7 @@ interface FileJob {
   executable?: boolean
 }
 
-async function fetchTo(
+export async function fetchTo(
   job: FileJob,
   signal: AbortSignal,
   onFraction: (f: number) => void
@@ -161,6 +200,37 @@ async function jobsFor(id: ComponentId, signal: AbortSignal): Promise<FileJob[]>
       : `https://github.com/yt-dlp/yt-dlp/releases/latest/download/${asset}`
     return [{ url, dest: join(dir, `yt-dlp${exe}`), weight: 1, executable: true }]
   }
+  if (id === 'voices') {
+    // Voces: dos modelos de Piper (español e inglés) en una revisión fija de Hugging Face y los datos de pronunciación; todo con SHA-256
+    const jobs: FileJob[] = []
+    for (const v of VOICES) {
+      const base = OVERRIDE
+        ? `${OVERRIDE}/voices/${v.id}`
+        : `https://huggingface.co/${v.repo}/resolve/${v.revision}`
+      jobs.push(
+        {
+          url: `${base}/${v.model}`,
+          dest: join(dir, v.id, 'model.onnx'),
+          sha256: v.modelSha256,
+          weight: v.sizeMB
+        },
+        {
+          url: `${base}/tokens.txt`,
+          dest: join(dir, v.id, 'tokens.txt'),
+          sha256: v.tokensSha256,
+          weight: 0.1
+        }
+      )
+    }
+    if (!existsSync(join(dir, 'espeak-ng-data', '.completo')))
+      jobs.push({
+        url: OVERRIDE ? `${OVERRIDE}/voices/espeak-ng-data.zip` : ESPEAK.url,
+        dest: join(dir, 'espeak-ng-data.zip'),
+        sha256: ESPEAK.sha256,
+        weight: ESPEAK.sizeMB
+      })
+    return jobs
+  }
   // Modelo de IA: la lista de pedazos viene en resources.json; cada pedazo se llama como su SHA-256
   const base = OVERRIDE
     ? `${OVERRIDE}/model`
@@ -183,6 +253,17 @@ async function jobsFor(id: ComponentId, signal: AbortSignal): Promise<FileJob[]>
 
 async function install(id: ComponentId, signal: AbortSignal): Promise<void> {
   emit({ id, state: 'downloading', percent: 0 })
+  if (id === 'voices') {
+    // Si había una versión anterior de las voces (otro modelo), se borra: la marca de «completo» ya no es cierta
+    const dir = componentDir(id)
+    rmSync(join(dir, '.completo'), { force: true })
+    for (const f of OLD_VOICE_FILES) rmSync(join(dir, f), { force: true })
+    // Un modelo que ya no es el de ahora (por ejemplo, se cambió la voz en inglés) se borra para bajar el nuevo
+    for (const v of VOICES) {
+      const model = join(dir, v.id, 'model.onnx')
+      if (existsSync(model) && sha256Of(model) !== v.modelSha256) rmSync(model, { force: true })
+    }
+  }
   const jobs = await jobsFor(id, signal)
   const totalWeight = jobs.reduce((n, j) => n + j.weight, 0)
   let done = 0
@@ -199,8 +280,23 @@ async function install(id: ComponentId, signal: AbortSignal): Promise<void> {
     done += job.weight
     emit({ id, state: 'downloading', percent: Math.round((done / totalWeight) * 100) })
   }
+  // Voces: los datos de pronunciación vienen en un .zip
+  if (id === 'voices' && existsSync(join(componentDir(id), 'espeak-ng-data.zip'))) {
+    const dir = componentDir(id)
+    const tmp = join(dir, 'espeak-extract')
+    rmSync(tmp, { recursive: true, force: true })
+    unzipTo(join(dir, 'espeak-ng-data.zip'), tmp)
+    if (!existsSync(join(tmp, 'espeak-ng-data')))
+      throw new Error('Faltan los datos de pronunciación')
+    rmSync(join(dir, 'espeak-ng-data'), { recursive: true, force: true })
+    renameSync(join(tmp, 'espeak-ng-data'), join(dir, 'espeak-ng-data'))
+    writeFileSync(join(dir, 'espeak-ng-data', '.completo'), String(Date.now()))
+    rmSync(tmp, { recursive: true, force: true })
+    rmSync(join(dir, 'espeak-ng-data.zip'), { force: true })
+  }
   // Marca de que quedó completo (el modelo son muchos archivos)
   if (id === 'model') writeFileSync(join(componentDir(id), '.completo'), String(Date.now()))
+  if (id === 'voices') writeFileSync(join(componentDir(id), '.completo'), VOICES_VERSION)
   emit({ id, state: 'done', percent: 100 })
 }
 
@@ -225,8 +321,12 @@ export function installComponent(id: ComponentId): Promise<void> {
   return promise
 }
 
+/** Las pruebas automáticas apagan la descarga automática del arranque con EASY_TOOLS_NO_AUTO_DOWNLOAD=1 */
+const AUTO_DOWNLOAD = process.env['EASY_TOOLS_NO_AUTO_DOWNLOAD'] !== '1'
+
 export function registerComponentHandlers(): void {
   handle('components:status', () => status())
+  handle('components:options', () => ({ autoDownload: AUTO_DOWNLOAD }))
   handle('components:install', (_e, id: ComponentId) => installComponent(id))
   handle('components:cancel', (_e, id: ComponentId) => {
     active.get(id)?.abort.abort()

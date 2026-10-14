@@ -193,8 +193,8 @@ export default function Bingo(): React.JSX.Element {
         </label>
         {!voice.available && (
           <p className="muted">
-            Este equipo no tiene una voz en español. En Windows se agrega en Configuración → Hora e
-            idioma → Voz.
+            Las voces todavía no se han descargado (necesitan internet la primera vez). Mira el
+            avance en el inicio.
           </p>
         )}
 

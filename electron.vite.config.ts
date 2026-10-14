@@ -10,7 +10,14 @@ export default defineConfig({
     build: {
       // Se incluye en el bundle para poder reemplazar sharp; onnxruntime-node es nativo y se queda afuera.
       externalizeDeps: { exclude: ['@imgly/background-removal-node'] },
-      rollupOptions: { external: ['onnxruntime-node'] }
+      rollupOptions: {
+        external: ['onnxruntime-node'],
+        // La voz se genera en un proceso aparte (ver src/main/voices.ts)
+        input: {
+          index: resolve('src/main/index.ts'),
+          voiceWorker: resolve('src/main/voiceWorker.ts')
+        }
+      }
     }
   },
   preload: {},

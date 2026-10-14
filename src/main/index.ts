@@ -14,6 +14,7 @@ import { registerWordTools } from './tools/word'
 import { registerAppInfoHandlers } from './appInfo'
 import { registerComponentHandlers } from './components'
 import { registerStoreHandlers } from './store'
+import { registerVoiceHandlers } from './voices'
 import { setupUpdater } from './updater'
 import { fixedContentSize, setupWindowSizing } from './windowMode'
 
@@ -96,6 +97,7 @@ app.whenReady().then(() => {
   setupUpdater()
   registerStoreHandlers()
   registerComponentHandlers()
+  registerVoiceHandlers()
   registerCommonHandlers()
   registerVideoTools()
   registerYoutubeTools()

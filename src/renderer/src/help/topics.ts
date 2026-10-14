@@ -183,7 +183,7 @@ export const HELP: HelpTopic[] = [
     icon: '⬇️',
     question: 'Una herramienta me pide descargar algo',
     steps: [
-      'Recortar video, sacar audio, descargar de YouTube y quitar fondos usan piezas grandes que no vienen en el instalador.',
+      'Recortar video, sacar audio, descargar de YouTube, quitar fondos y las voces de los juegos usan piezas grandes que no vienen en el instalador.',
       'Se descargan una sola vez, con internet, y después funcionan sin conexión.',
       'Si la descarga falla, toca «Reintentar».'
     ],
