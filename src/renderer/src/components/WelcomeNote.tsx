@@ -74,9 +74,12 @@ export default function WelcomeNote(): React.JSX.Element | null {
             {REPO_URL.replace('https://', '')}
           </a>
         </p>
-        <p className="welcome-where">Todo esto está en «💜 Acerca de», en el inicio.</p>
         <p className="welcome-where">
-          ¿Te pierdes entre tantas cosas? Toca «❓ Ayuda» en el inicio: te dice cómo hacer cada una.
+          Todo esto está en «💜 Acerca de», en el menú de la izquierda.
+        </p>
+        <p className="welcome-where">
+          ¿Te pierdes entre tantas cosas? Toca «❓ Ayuda» en el menú de la izquierda: te dice cómo
+          hacer cada una.
         </p>
 
         <button ref={button} className="btn big" onClick={() => setSeen(true)}>

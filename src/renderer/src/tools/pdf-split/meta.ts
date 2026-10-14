@@ -6,7 +6,8 @@ export default {
   description: 'Elige las páginas que quieres o sepáralas todas.',
   icon: '📄',
   images: [pdfLogo],
-  color: '#ca8a04',
+  color: '#e8644a',
   category: 'documents',
+  steps: ['Elige el PDF', 'Elige las páginas', 'Guarda'],
   order: 2
 } satisfies ToolMeta

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import JobStatus from '../../components/JobStatus'
+import { stepOf, useToolStep } from '../../lib/toolStep'
 import { formatDuration } from '../../lib/format'
 import { useJob } from '../../lib/useJob'
 
@@ -13,6 +14,7 @@ export default function YoutubeDownload(): React.JSX.Element {
   const [error, setError] = useState('')
   const [mode, setMode] = useState<Mode>('video')
   const job = useJob<{ output: string }>()
+  useToolStep(stepOf(info !== null, job.status))
 
   const search = async (value = url): Promise<void> => {
     setError('')

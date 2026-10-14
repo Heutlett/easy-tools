@@ -6,7 +6,8 @@ export default {
   description: 'Junta varios PDFs en un solo documento.',
   icon: '📚',
   images: [pdfLogo],
-  color: '#ea580c',
+  color: '#e8644a',
   category: 'documents',
+  steps: ['Elige los PDFs', 'Ordénalos', 'Guarda'],
   order: 1
 } satisfies ToolMeta

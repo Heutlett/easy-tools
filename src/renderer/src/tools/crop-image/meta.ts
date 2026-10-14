@@ -6,7 +6,8 @@ export default {
   description: 'Quédate solo con la parte de la imagen que necesitas.',
   icon: '✂️',
   images: [imageLogo],
-  color: '#4f46e5',
+  color: '#4fae6a',
   category: 'images',
+  steps: ['Elige la imagen', 'Marca la parte', 'Guarda'],
   order: 1
 } satisfies ToolMeta

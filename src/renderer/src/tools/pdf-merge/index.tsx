@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import FileDrop from '../../components/FileDrop'
 import JobStatus from '../../components/JobStatus'
+import { stepOf, useToolStep } from '../../lib/toolStep'
 import OrderedFileList from '../../components/OrderedFileList'
 import { openPdf, renderThumbnail } from '../../lib/pdf'
 import { useJob } from '../../lib/useJob'
@@ -14,6 +15,7 @@ export default function PdfMerge(): React.JSX.Element {
   const [files, setFiles] = useState<string[]>([])
   const [meta, setMeta] = useState<Record<string, PdfMeta | 'error'>>({})
   const job = useJob<{ output: string }>()
+  useToolStep(stepOf(files.length > 0, job.status))
 
   // Lee la cantidad de páginas y dibuja una miniatura de la primera de cada PDF.
   useEffect(() => {

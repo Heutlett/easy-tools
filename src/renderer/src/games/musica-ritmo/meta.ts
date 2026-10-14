@@ -5,7 +5,7 @@ export default {
   description:
     'Se escucha y se lee un ritmo con negras, corcheas y silencios, y la clase lo repite en el tambor de la pantalla o con la barra espaciadora.',
   icon: '🥁',
-  color: '#ea580c',
+  type: 'musica',
   subjects: ['musica'],
   grades: [1, 2, 3, 4, 5, 6],
   modes: ['clase', 'equipos', 'turnos', 'individual'],

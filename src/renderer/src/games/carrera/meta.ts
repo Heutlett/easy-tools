@@ -5,7 +5,7 @@ export default {
   description:
     'Una pista con un carril por equipo: cada acierto hace avanzar una casilla. Con o sin preguntas.',
   icon: '🏁',
-  color: '#ea580c',
+  type: 'preguntas',
   subjects: [],
   grades: [1, 2, 3, 4, 5, 6],
   modes: ['equipos', 'turnos'],

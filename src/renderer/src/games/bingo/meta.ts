@@ -5,7 +5,7 @@ export default {
   description:
     'Saca las bolitas del bingo y las canta en voz alta. Incluye el tablero y un revisor de cartones.',
   icon: '🎱',
-  color: '#c026d3',
+  type: 'azar',
   subjects: [],
   grades: [1, 2, 3, 4, 5, 6],
   modes: ['clase'],

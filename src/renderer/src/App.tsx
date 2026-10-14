@@ -1,95 +1,108 @@
-import { Suspense, useState } from 'react'
-import { requestGame } from './lib/openIntent'
+import { Suspense, useEffect, useRef } from 'react'
 import type { HelpTopic } from './help/topics'
-import { tools } from './tools/registry'
-import ComponentsBanner from './components/ComponentsBanner'
-import ToolCatalog from './components/ToolCatalog'
-import logo from './assets/logo.svg'
+import { useChromeState, useNav, type Place } from './lib/nav'
+import { ChromeProvider, NavProvider } from './lib/NavProvider'
 import AboutPage from './components/AboutPage'
 import HelpPage from './components/HelpPage'
-import TipCard from './components/TipCard'
-import ToolLayout from './components/ToolLayout'
 import RecoveredNotice from './components/RecoveredNotice'
+import Sidebar from './components/Sidebar'
 import UpdateBanner from './components/UpdateBanner'
 import WelcomeNote from './components/WelcomeNote'
+import AulaPage from './pages/AulaPage'
+import ClassPage from './pages/ClassPage'
+import FilesPage from './pages/FilesPage'
+import GamesPage from './pages/GamesPage'
+import Home from './pages/Home'
 
-function Content(): React.JSX.Element {
-  const [toolId, setToolId] = useState<string | null>(null)
-  const [about, setAbout] = useState(false)
-  // Ayuda abierta (con la pregunta que se debe mostrar, si la hay)
-  const [help, setHelp] = useState<{ topic: string | null } | null>(null)
-  const tool = tools.find((t) => t.id === toolId)
+/** A dónde lleva el botón «Llévame ahí» de la ayuda */
+function placeFor(topic: HelpTopic): (Partial<Place> & Pick<Place, 'page'>) | null {
+  const to = topic.target
+  if (!to) return null
+  if (to.kind === 'about') return { page: 'about' }
+  if (to.kind === 'game') return { page: 'games', gameId: to.id }
+  switch (to.id) {
+    case 'games':
+      return { page: 'games' }
+    case 'students':
+      return { page: 'class', classTab: 'students' }
+    case 'stars':
+      return { page: 'class', classTab: 'points' }
+    case 'wheel':
+      return { page: 'aula', aulaTab: 'wheel' }
+    case 'timer':
+      return { page: 'aula', aulaTab: 'timer' }
+    case 'random-number':
+      return { page: 'aula', aulaTab: 'number' }
+    default:
+      return { page: 'files', fileTool: to.id }
+  }
+}
 
-  const goTo = (topic: HelpTopic): void => {
-    const to = topic.target
-    if (!to) return
-    setHelp(null)
-    if (to.kind === 'about') setAbout(true)
-    else {
-      if (to.kind === 'game') requestGame(to.id)
-      setToolId(to.kind === 'game' ? 'games' : to.id)
+function Shell(): React.JSX.Element {
+  const { place, go } = useNav()
+  const chrome = useChromeState()
+  // Un juego abierto ocupa toda la ventana (como al proyectar), salvo las pantallas que piden la barra lateral
+  const fullWindow =
+    (place.page === 'games' && place.gameId !== null && !chrome.sidebar) ||
+    (place.page === 'aula' && place.projecting)
+
+  // Al cambiar de pantalla se vuelve arriba (todo se desplaza dentro de la misma zona)
+  const main = useRef<HTMLElement>(null)
+  useEffect(() => {
+    main.current?.scrollTo(0, 0)
+  }, [place.page, place.gameId, place.fileTool, place.classTab, place.aulaTab])
+
+  const toHome = (): void => go({ page: 'home' })
+  const page = ((): React.JSX.Element => {
+    switch (place.page) {
+      case 'games':
+        return <GamesPage />
+      case 'aula':
+        return <AulaPage />
+      case 'class':
+        return <ClassPage />
+      case 'files':
+        return <FilesPage />
+      case 'about':
+        return <AboutPage onBack={toHome} />
+      case 'help':
+        return (
+          <HelpPage
+            key={place.helpTopic ?? ''}
+            openId={place.helpTopic}
+            onBack={toHome}
+            onGo={(topic) => {
+              const to = placeFor(topic)
+              if (to) go(to)
+            }}
+          />
+        )
+      default:
+        return <Home />
     }
-  }
-
-  if (about) return <AboutPage onBack={() => setAbout(false)} />
-
-  if (help)
-    return (
-      <HelpPage
-        key={help.topic ?? ''}
-        openId={help.topic}
-        onBack={() => setHelp(null)}
-        onGo={goTo}
-      />
-    )
-
-  if (tool) {
-    return (
-      <ToolLayout tool={tool} onBack={() => setToolId(null)}>
-        <Suspense fallback={<p className="muted">Cargando…</p>}>
-          <tool.Component />
-        </Suspense>
-      </ToolLayout>
-    )
-  }
+  })()
 
   return (
-    <main className="home">
-      <header className="home-header">
-        <div className="brand">
-          <img className="app-logo" src={logo} alt="" />
-          <div>
-            <h1>Educando</h1>
-            <p className="muted">Herramientas sencillas para el día a día en el aula</p>
-          </div>
-        </div>
-        <div className="header-actions">
-          <button className="btn secondary" onClick={() => setHelp({ topic: null })}>
-            ❓ Ayuda
-          </button>
-          <button className="btn secondary" onClick={() => setAbout(true)}>
-            💜 Acerca de
-          </button>
-          <button className="btn secondary" onClick={() => window.api.openOutputFolder()}>
-            📁 Mis archivos
-          </button>
-        </div>
-      </header>
-      <h2 className="home-question">¿Qué quieres hacer hoy?</h2>
-      <ComponentsBanner />
-      <TipCard onHelp={(topic) => setHelp({ topic })} />
-      <ToolCatalog tools={tools} onOpen={setToolId} onHelp={(topic) => setHelp({ topic })} />
-    </main>
+    <div className={`shell ${fullWindow ? 'full' : ''}`}>
+      {!fullWindow && <Sidebar />}
+      <main className="main" id="main" ref={main}>
+        <Suspense fallback={<p className="muted page">Cargando…</p>}>{page}</Suspense>
+      </main>
+    </div>
   )
 }
 
 export default function App(): React.JSX.Element {
   return (
-    <>
-      <UpdateBanner />
-      <RecoveredNotice />
-      <Content />
-      <WelcomeNote />
-    </>
+    <NavProvider>
+      <ChromeProvider>
+        <div className="app">
+          <UpdateBanner />
+          <RecoveredNotice />
+          <Shell />
+          <WelcomeNote />
+        </div>
+      </ChromeProvider>
+    </NavProvider>
   )
 }

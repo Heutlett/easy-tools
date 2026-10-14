@@ -5,7 +5,7 @@ export default {
   description:
     'Palabras relámpago que aparecen y desaparecen, y lectura cronometrada con palabras por minuto.',
   icon: '🚀',
-  color: '#7c3aed',
+  type: 'lectura',
   subjects: ['espanol'],
   grades: [1, 2, 3, 4, 5, 6],
   modes: ['clase', 'individual'],

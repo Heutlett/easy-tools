@@ -2,6 +2,7 @@ import type { PDFDocumentProxy } from 'pdfjs-dist/legacy/build/pdf.mjs'
 import { useEffect, useRef, useState } from 'react'
 import FileDrop from '../../components/FileDrop'
 import JobStatus from '../../components/JobStatus'
+import { stepOf, useToolStep } from '../../lib/toolStep'
 import pdfLogo from '../../assets/icons/pdf.svg'
 import { baseName } from '../../lib/format'
 import { openPdf, renderThumbnail } from '../../lib/pdf'
@@ -78,6 +79,7 @@ export default function PdfSplit(): React.JSX.Element {
   const [rangeText, setRangeText] = useState('')
   const [error, setError] = useState('')
   const job = useJob<{ output: string; count: number }>()
+  useToolStep(stepOf(file !== null, job.status))
 
   useEffect(() => {
     if (!file) return

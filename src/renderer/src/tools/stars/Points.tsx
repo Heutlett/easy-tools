@@ -54,8 +54,7 @@ export default function Points(): React.JSX.Element {
       <section className="panel students-empty">
         <p className="panel-title">Primero necesitas un grupo de estudiantes</p>
         <p className="muted">
-          Escribe o pega aquí los nombres (también puedes guardarlos y editarlos en «Lista de
-          estudiantes»).
+          Escribe o pega aquí los nombres (también puedes guardarlos y editarlos en «Estudiantes»).
         </p>
         <AddStudents
           label="Crear mi grupo"
@@ -102,53 +101,42 @@ export default function Points(): React.JSX.Element {
   const nameOf = (id: string): string =>
     group.students.find((s) => s.id === id)?.name ?? '(ya no está en la lista)'
 
+  const last = recent[0]
+
   return (
     <>
-      <div className="row">
-        <div className="pills" role="group" aria-label="Grupo">
-          {groups.map((g) => (
-            <button
-              key={g.id}
-              className={`pill ${g.id === group.id ? 'selected' : ''}`}
-              aria-pressed={g.id === group.id}
-              onClick={() => (setGroupId(g.id), setConfirmReset(false))}
-            >
-              {g.name || 'Sin nombre'}
-            </button>
-          ))}
-        </div>
-        <div className="pills" role="group" aria-label="Orden">
-          <button
-            className={`pill ${sort === 'list' ? 'selected' : ''}`}
-            onClick={() => setSort('list')}
-          >
+      <div className="points-top">
+        {groups.length > 1 && (
+          <div className="chips" role="group" aria-label="Grupo">
+            {groups.map((g) => (
+              <button
+                key={g.id}
+                className={`chip ${g.id === group.id ? 'on' : ''}`}
+                aria-pressed={g.id === group.id}
+                onClick={() => (setGroupId(g.id), setConfirmReset(false))}
+              >
+                👥 {g.name || 'Sin nombre'}
+              </button>
+            ))}
+          </div>
+        )}
+        <div className="segmented push" role="group" aria-label="Orden">
+          <button className={sort === 'list' ? 'on' : ''} onClick={() => setSort('list')}>
             En orden de lista
           </button>
-          <button
-            className={`pill ${sort === 'stars' ? 'selected' : ''}`}
-            onClick={() => setSort('stars')}
-          >
+          <button className={sort === 'stars' ? 'on' : ''} onClick={() => setSort('stars')}>
             Más puntos primero
           </button>
         </div>
       </div>
 
-      <div className="tiers" aria-label="Equivalencias">
-        {[...TIERS].reverse().map((t) => (
-          <span key={t.value} className="tier">
-            <span className="tier-emoji">{t.emoji}</span>
-            <span className="tier-value">= {t.value}</span>
-          </span>
-        ))}
-      </div>
-
-      <div className="panel reason-panel">
-        <span className="panel-title">El punto es por:</span>
-        <div className="pills" role="group" aria-label="Razón del punto">
+      <div className="reason-panel">
+        <b>El punto es por:</b>
+        <div className="chips" role="group" aria-label="Razón del punto">
           {[...PRESETS, OTHER].map((r) => (
             <button
               key={r}
-              className={`pill ${reasonChoice === r ? 'selected' : ''}`}
+              className={`chip ${reasonChoice === r ? 'on' : ''}`}
               aria-pressed={reasonChoice === r}
               onClick={() => setReasonChoice(r)}
             >
@@ -156,9 +144,16 @@ export default function Points(): React.JSX.Element {
             </button>
           ))}
         </div>
+        <div className="tiers" aria-label="Equivalencias">
+          {[...TIERS].reverse().map((t) => (
+            <span key={t.value} className="tier">
+              {t.emoji} {t.value}
+            </span>
+          ))}
+        </div>
         {reasonChoice === OTHER && (
           <input
-            className="field"
+            className="field reason-custom"
             value={custom}
             placeholder="Escribe la razón"
             aria-label="Otra razón"
@@ -169,14 +164,17 @@ export default function Points(): React.JSX.Element {
 
       {group.students.length === 0 ? (
         <p className="notice">
-          Este grupo no tiene estudiantes todavía. Agrégalos en «Lista de estudiantes».
+          Este grupo no tiene estudiantes todavía. Agrégalos en «Estudiantes».
         </p>
       ) : (
         <div className="star-grid">
           {students.map((s) => {
             const n = countOf(s.id)
             return (
-              <div key={s.id} className={`star-card ${bumped === s.id ? 'bump' : ''}`}>
+              <div
+                key={s.id}
+                className={`star-card ${bumped === s.id ? 'bump' : ''} ${last?.student === s.id ? 'last' : ''}`}
+              >
                 <strong className="star-name">{s.name}</strong>
                 <div className="star-count" aria-live="polite" aria-label={pointsLabel(n)}>
                   <span className="star-number">{n}</span>
@@ -188,7 +186,7 @@ export default function Points(): React.JSX.Element {
                 </div>
                 <div className="star-actions">
                   <button className="btn star-give" onClick={() => give(s.id)}>
-                    ⭐ Dar punto
+                    ⭐ +1
                   </button>
                   <button
                     className="icon-btn"
@@ -206,42 +204,43 @@ export default function Points(): React.JSX.Element {
         </div>
       )}
 
-      <div className="panel">
-        <div className="row">
-          <p className="panel-title">Total del grupo: {pointsLabel(total)}</p>
-          <div className="row start">
-            <button
-              className="btn secondary small"
-              disabled={events.length === 0}
-              onClick={() => takeBack()}
-            >
-              Deshacer la última
-            </button>
-            {confirmReset ? (
-              <button
-                className="btn danger small"
-                onClick={() => {
-                  setStore({ events: store.events.filter((e) => e.group !== group.id) })
-                  setConfirmReset(false)
-                }}
-              >
-                Sí, empezar de cero
-              </button>
-            ) : (
-              <button
-                className="btn secondary small"
-                disabled={events.length === 0}
-                onClick={() => (
-                  setConfirmReset(true),
-                  setTimeout(() => setConfirmReset(false), 3500)
-                )}
-              >
-                Reiniciar puntos
-              </button>
-            )}
-          </div>
-        </div>
-        {recent.length > 0 && (
+      <div className="total-bar">
+        <b>Total del grupo: {pointsLabel(total)}</b>
+        {last && (
+          <span className="muted total-last">
+            Último: +1 a {nameOf(last.student)} ({last.reason})
+          </span>
+        )}
+        <button
+          className="btn secondary small"
+          disabled={events.length === 0}
+          onClick={() => takeBack()}
+        >
+          ↶ Deshacer
+        </button>
+        {confirmReset ? (
+          <button
+            className="btn danger small"
+            onClick={() => {
+              setStore({ events: store.events.filter((e) => e.group !== group.id) })
+              setConfirmReset(false)
+            }}
+          >
+            Sí, empezar de cero
+          </button>
+        ) : (
+          <button
+            className="btn secondary small"
+            disabled={events.length === 0}
+            onClick={() => (setConfirmReset(true), setTimeout(() => setConfirmReset(false), 3500))}
+          >
+            Reiniciar
+          </button>
+        )}
+      </div>
+      {recent.length > 1 && (
+        <details className="star-history-box">
+          <summary>Últimos puntos</summary>
           <ul className="star-history">
             {recent.map((e) => (
               <li key={e.id}>
@@ -250,8 +249,8 @@ export default function Points(): React.JSX.Element {
               </li>
             ))}
           </ul>
-        )}
-      </div>
+        </details>
+      )}
     </>
   )
 }

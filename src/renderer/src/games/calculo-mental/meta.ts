@@ -5,7 +5,7 @@ export default {
   description:
     'Operaciones grandes en pantalla con cuenta regresiva: relámpago para toda la clase, duelo de equipos o a solas.',
   icon: '⚡',
-  color: '#ea580c',
+  type: 'mate',
   subjects: ['matematica'],
   grades: [1, 2, 3, 4, 5, 6],
   modes: ['clase', 'equipos', 'individual'],

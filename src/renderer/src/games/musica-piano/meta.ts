@@ -5,7 +5,7 @@ export default {
   description:
     'Un teclado en pantalla que suena con el mouse y con el teclado de la computadora, y canciones para aprender tocando.',
   icon: '🎹',
-  color: '#7c3aed',
+  type: 'musica',
   subjects: ['musica'],
   grades: [1, 2, 3, 4, 5, 6],
   modes: ['clase', 'individual'],

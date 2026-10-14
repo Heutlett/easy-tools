@@ -5,7 +5,7 @@ export default {
   description:
     'Con las palabras desordenadas se arma la oración, con mayúscula y signos desde 2.º.',
   icon: '🧩',
-  color: '#0d9488',
+  type: 'lectura',
   subjects: ['espanol'],
   grades: [1, 2, 3, 4, 5, 6],
   modes: ['clase', 'equipos', 'turnos', 'individual'],

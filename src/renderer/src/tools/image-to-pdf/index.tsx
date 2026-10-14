@@ -2,6 +2,7 @@ import { PDFDocument } from 'pdf-lib'
 import { useState } from 'react'
 import FileDrop from '../../components/FileDrop'
 import JobStatus from '../../components/JobStatus'
+import { stepOf, useToolStep } from '../../lib/toolStep'
 import OrderedFileList from '../../components/OrderedFileList'
 import { baseName, nameWithoutExtension } from '../../lib/format'
 import { imageToJpeg } from '../../lib/image'
@@ -18,6 +19,7 @@ export default function ImageToPdf(): React.JSX.Element {
   const [files, setFiles] = useState<string[]>([])
   const [pageSize, setPageSize] = usePersistentState<PageSize>('image-to-pdf-size', 'letter')
   const job = useJob<{ output: string }>()
+  useToolStep(stepOf(files.length > 0, job.status))
 
   const add = (paths: string[]): void =>
     setFiles((list) => [...list, ...paths.filter((p) => !list.includes(p))])

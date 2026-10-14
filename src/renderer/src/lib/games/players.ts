@@ -11,27 +11,28 @@ export interface Player {
   emoji: string
 }
 
-/** Colores y emojis de los equipos, en orden */
-export const TEAM_STYLES: { color: string; emoji: string }[] = [
-  { color: '#dc2626', emoji: '🦊' },
-  { color: '#2563eb', emoji: '🐬' },
-  { color: '#16a34a', emoji: '🐸' },
-  { color: '#d97706', emoji: '🐯' },
-  { color: '#7c3aed', emoji: '🦄' },
-  { color: '#db2777', emoji: '🦩' },
-  { color: '#0891b2', emoji: '🐢' },
-  { color: '#4d7c0f', emoji: '🦜' }
+/** Colores, emojis y nombres de los equipos, en orden */
+export const TEAM_STYLES: { color: string; emoji: string; name: string }[] = [
+  { color: '#e8644a', emoji: '🦊', name: 'Zorros' },
+  { color: '#4fae6a', emoji: '🐢', name: 'Tortugas' },
+  { color: '#8a63d2', emoji: '🦉', name: 'Búhos' },
+  { color: '#3b8fd9', emoji: '🐬', name: 'Delfines' },
+  { color: '#e0a020', emoji: '🐝', name: 'Abejas' },
+  { color: '#e46aa8', emoji: '🦩', name: 'Flamencos' },
+  { color: '#2aa3a0', emoji: '🐸', name: 'Ranas' },
+  { color: '#8a6a4a', emoji: '🐻', name: 'Osos' }
 ]
 
 export const MAX_TEAMS = TEAM_STYLES.length
 
-export const defaultTeamName = (i: number): string => `Equipo ${i + 1}`
+export const defaultTeamName = (i: number): string => TEAM_STYLES[i % TEAM_STYLES.length].name
 
 export function makeTeams(count: number, names: string[] = []): Player[] {
   return Array.from({ length: count }, (_, i) => ({
     id: `team-${i + 1}`,
     name: names[i]?.trim() || defaultTeamName(i),
-    ...TEAM_STYLES[i % TEAM_STYLES.length]
+    color: TEAM_STYLES[i % TEAM_STYLES.length].color,
+    emoji: TEAM_STYLES[i % TEAM_STYLES.length].emoji
   }))
 }
 

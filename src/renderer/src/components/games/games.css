@@ -4,24 +4,118 @@
 /* ---------- Equipos y marcador ---------- */
 .player-setup {
   max-width: 880px;
-}
-.player-teams {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 10px;
-}
-.player-team {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* «¿Quién juega?»: tres tarjetas y el detalle de la elegida */
+.player-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.who-cards {
+  display: grid;
   gap: 10px;
-  padding: 8px 12px;
+}
+.who-cards.n3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.who-cards.n2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.who-card {
+  font: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 14px;
   border: 3px solid var(--border);
-  border-radius: 16px;
+  border-radius: 18px;
+  background: var(--surface);
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+}
+.who-card:hover {
+  border-color: var(--text);
+}
+.who-card.on {
+  border-color: var(--grape);
+  background: color-mix(in srgb, var(--grape) 17%, white);
+}
+.who-card b {
+  font-size: 16.5px;
+}
+.who-card span:last-child {
+  font-size: 13px;
+  line-height: 1.3;
+  color: var(--muted);
+}
+.who-icon {
+  font-size: 30px;
+  line-height: 1;
+}
+.who-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 2px solid var(--border);
+  border-radius: 20px;
   background: var(--surface);
 }
-.player-team-emoji {
-  font-size: 1.8rem;
+.who-line {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 12px;
 }
+.team-chips {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+.team-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 6px 10px;
+  border: 3px solid var(--border);
+  border-radius: 14px;
+  background: #fff;
+}
+.team-chip-emoji {
+  font-size: 22px;
+}
+.team-chip input {
+  font: inherit;
+  font-size: 15px;
+  font-weight: 800;
+  min-width: 0;
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  user-select: text;
+}
+.team-chip input:focus {
+  outline: none;
+  text-decoration: underline;
+}
+.chip.student.here {
+  border-color: var(--leaf);
+  background: #e9f6ec;
+  color: var(--text);
+}
+.chip.student.out {
+  color: #a59a8b;
+  text-decoration: line-through;
+}
+
 .scoreboard {
   display: flex;
   flex-wrap: wrap;

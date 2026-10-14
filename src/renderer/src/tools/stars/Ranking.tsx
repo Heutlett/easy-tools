@@ -98,11 +98,11 @@ export default function Ranking(): React.JSX.Element {
   return (
     <>
       <div className="row">
-        <div className="pills" role="group" aria-label="Grupo">
+        <div className="chips" role="group" aria-label="Grupo">
           {groups.map((g) => (
             <button
               key={g.id}
-              className={`pill ${g.id === group.id ? 'selected' : ''}`}
+              className={`chip ${g.id === group.id ? 'on' : ''}`}
               aria-pressed={g.id === group.id}
               onClick={() => (setGroupId(g.id), setConfirm(false))}
             >
@@ -125,12 +125,12 @@ export default function Ranking(): React.JSX.Element {
         </section>
       ) : (
         <>
-          <div className="panel rk-filters">
+          <div className="rk-filters">
             <div className="bank-filter-row">
               <span className="bank-filter-label">Juego</span>
-              <div className="pills" role="group" aria-label="Juego">
+              <div className="chips" role="group" aria-label="Juego">
                 <button
-                  className={`pill ${!activeGame ? 'selected' : ''}`}
+                  className={`chip ${!activeGame ? 'on' : ''}`}
                   aria-pressed={!activeGame}
                   onClick={() => (setGame(null), setSort(null))}
                 >
@@ -139,7 +139,7 @@ export default function Ranking(): React.JSX.Element {
                 {games.map((g) => (
                   <button
                     key={g.id}
-                    className={`pill ${activeGame === g.id ? 'selected' : ''}`}
+                    className={`chip ${activeGame === g.id ? 'on' : ''}`}
                     aria-pressed={activeGame === g.id}
                     onClick={() => (setGame(g.id), setSort(null))}
                   >
@@ -150,11 +150,11 @@ export default function Ranking(): React.JSX.Element {
             </div>
             <div className="bank-filter-row">
               <span className="bank-filter-label">Ordenar por</span>
-              <div className="pills" role="group" aria-label="Ordenar por">
+              <div className="chips" role="group" aria-label="Ordenar por">
                 {SORTS.map((s) => (
                   <button
                     key={s.id}
-                    className={`pill small ${effectiveSort === s.id ? 'selected' : ''}`}
+                    className={`chip ${effectiveSort === s.id ? 'on' : ''}`}
                     aria-pressed={effectiveSort === s.id}
                     onClick={() => setSort(s.id)}
                   >
