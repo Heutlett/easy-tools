@@ -20,18 +20,30 @@ Los archivos se procesan en la propia computadora (nada se sube a internet) y lo
 | Quitar el fondo de una imagen | IA local (sin internet), resultado PNG transparente                                                                                                                                                                                                                                                                       |
 | PDF a imagen                  | Una imagen JPG o PNG por página, a 200 ppp, en una carpeta                                                                                                                                                                                                                                                                |
 | Imagen a PDF                  | Varias imágenes en un PDF (hoja carta o del tamaño de cada imagen); respeta la rotación de las fotos de celular                                                                                                                                                                                                           |
-| Temporizador para el aula     | Cuenta regresiva grande, pantalla completa, aviso sonoro                                                                                                                                                                                                                                                                  |
-| Número al azar                | Número dentro de un rango, con opción de no repetir, historial y pantalla completa                                                                                                                                                                                                                                        |
+| Temporizador para el aula     | Cuenta regresiva grande, aviso sonoro y modo «📺 Proyectar» (todo más grande y sin menú)                                                                                                                                                                                                                                  |
+| Número al azar                | Número dentro de un rango, con opción de no repetir, historial y modo «📺 Proyectar»                                                                                                                                                                                                                                      |
 | Juegos                        | 32 juegos para la clase con buscador y filtros por asignatura, grado y modo de juego (ver más abajo). El bingo está aquí                                                                                                                                                                                                  |
 | Lista de estudiantes          | Guarda varios grupos con sus estudiantes (acepta listas pegadas desde Word o Excel) para usarlos en otras herramientas                                                                                                                                                                                                    |
 | Puntos y ranking              | **Puntos**: los das tú a mano a tus estudiantes (con emojis que suben: ⭐ 1, 💎 5, 👑 10, 💯 100), con la razón, historial, deshacer y reinicio. **Ranking de juegos**: se llena solo al terminar cada partida con estudiantes de un grupo guardado; se filtra por juego y por grupo. Son cosas distintas y no se mezclan |
 | Ruleta                        | Gira para elegir un ganador de una lista editable (se recuerda); puede cargar un grupo de estudiantes y quitar a quien salga                                                                                                                                                                                              |
 
-La pantalla de inicio tiene **buscador**, filtro por sección y **favoritos**: la estrella de cada tarjeta la agrega a una fila «Favoritos» que va siempre arriba (si no hay favoritos, no se muestra).
+## Cómo está organizada la app
+
+Una **barra lateral** fija lleva a cinco lugares (el diseño está pensado para 1100 × 724 px):
+
+| Lugar          | Qué hay                                                                                                                                                                    |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Inicio**     | «Seguir donde quedaste» (la última partida, con «Jugar otra vez»), accesos rápidos (temporizador, ruleta, número al azar, puntos), los juegos por materia y los materiales |
+| **Juegos**     | El catálogo agrupado por tipo, con buscador, filtros (materia, grado, cómo se juega) y favoritos ⭐. Cada juego se prepara en pantalla y se juega a pantalla completa      |
+| **En el aula** | Temporizador, ruleta y número al azar en pestañas, con **📺 Proyectar** (oculta el menú y agranda todo)                                                                    |
+| **Mi clase**   | Pestañas: ⭐ Puntos, 🏆 Ranking de juegos y 📋 Estudiantes (los grupos)                                                                                                    |
+| **Archivos**   | Las herramientas de video, documentos e imágenes, con sus tres pasos a la vista (elegir, revisar, guardar)                                                                 |
+
+Abajo están el consejo «¿Sabías que…?» y los enlaces a **Ayuda**, **Mis archivos** y **Acerca de**. El buscador del inicio encuentra juegos, herramientas y ayuda.
 
 ## Juegos
 
-En **Para el aula → Juegos** hay 32 juegos pensados para proyectarse en el salón (texto grande, pocos botones, teclado y sonidos). Se filtran y buscan por asignatura (Matemática, Español, Ciencias, Estudios Sociales, Inglés, Música, Cultura de Costa Rica), grado (1.º a 6.º) y modo (toda la clase, por equipos, por turnos, individual), y también se pueden marcar como favoritos.
+En **Juegos** hay 32 juegos pensados para proyectarse en el salón (texto grande, pocos botones, teclado y sonidos). Se filtran y buscan por asignatura (Matemática, Español, Ciencias, Estudios Sociales, Inglés, Música, Cultura de Costa Rica), grado (1.º a 6.º) y modo (toda la clase, por equipos, por turnos, individual), y también se pueden marcar como favoritos.
 
 | Tipo             | Juegos                                                                                                                                 |
 | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
@@ -108,11 +120,11 @@ De ahí salen `build/icon.ico` (Windows, 7 tamaños: la completa de 64 a 256 px 
 ## Cómo agregar una herramienta
 
 1. Crear la carpeta `src/renderer/src/tools/<nombre>/` con dos archivos:
-   - `meta.ts`: título, descripción, ícono, color y posición en la pantalla de inicio.
+   - `meta.ts`: título, descripción, ícono, color, categoría, posición y, si quieres, el nombre de sus tres pasos (`steps`).
    - `index.tsx`: el componente de la herramienta (`export default`).
 2. Si necesita procesar archivos, agregar su lógica en `src/main/tools/` y exponerla en `src/preload/index.ts`.
 
-`meta.ts` incluye la `category` (las secciones de la pantalla de inicio están en `src/renderer/src/tools/categories.ts`). La pantalla de inicio descubre las herramientas automáticamente; no hay que registrarlas en ningún otro lugar.
+`meta.ts` incluye la `category` (`video`, `documents` o `images`: los grupos de la pantalla «Archivos», en `src/renderer/src/tools/categories.ts`). Esa pantalla descubre las herramientas automáticamente; no hay que registrarlas en ningún otro lugar. Para que la herramienta marque en qué paso va, llama `useToolStep(stepOf(hayArchivo, job.status))` (`lib/toolStep.ts`). El temporizador, la ruleta y el número al azar (categoría `classroom`) se muestran en «En el aula»; los puntos, el ranking y los estudiantes están en `pages/ClassPage.tsx`.
 
 ## Íconos
 
@@ -123,14 +135,14 @@ Las herramientas con logos de YouTube, Word y PDF usan los íconos oficiales (de
 ```
 src/main/       Proceso principal de Electron: ffmpeg, yt-dlp, PDFs, quitar fondo
 src/preload/    API segura que usa la ventana para hablar con el proceso principal
-src/renderer/   Interfaz (React): pantalla de inicio, componentes y herramientas
+src/renderer/   Interfaz (React): pages/ (inicio, juegos, en el aula, mi clase, archivos), componentes y herramientas
 src/shared/     Tipos compartidos
 scripts/        Descarga de binarios y modelos para desarrollar, y revisión del contenido
 ```
 
 ## Notas técnicas
 
-- **Piezas que se descargan la primera vez** (`src/main/components.ts`, `src/shared/components.ts`): ffmpeg (video y audio, ~30 MB), yt-dlp (YouTube, ~18 MB) y el modelo de IA de quitar fondos (~88 MB) **no viajan en el instalador**, para que pese mucho menos. Se bajan una sola vez desde el aviso de la pantalla de inicio o al abrir la primera herramienta que las necesita, y se guardan en la carpeta de datos de la app (así las actualizaciones no las vuelven a bajar). ffmpeg viene de `eugeneware/ffmpeg-static`, yt-dlp de sus releases oficiales y el modelo del CDN de IMG.LY (cada pedazo se verifica con su SHA-256). yt-dlp trata de actualizarse solo al iniciar, porque YouTube cambia seguido. Al desarrollar, lo que baje `npm run setup` a `resources/` cuenta como ya descargado; para probar la descarga: `EASY_TOOLS_IGNORE_BUNDLED=1` y, para no usar internet, `EASY_TOOLS_COMPONENTS_URL=http://127.0.0.1:PUERTO` con `ffmpeg.gz`, `yt-dlp` y `model/`.
+- **Piezas que se descargan la primera vez** (`src/main/components.ts`, `src/shared/components.ts`): ffmpeg (video y audio, ~30 MB), yt-dlp (YouTube, ~18 MB), el modelo de IA de quitar fondos (~88 MB) y las voces de los juegos (~114 MB) **no viajan en el instalador**, para que pese mucho menos. Se bajan solas, una sola vez, al abrir la app (con el avance en el aviso de la pantalla de inicio; si falla queda el botón «Reintentar») o al abrir la primera herramienta que las necesita, y se guardan en la carpeta de datos de la app (así las actualizaciones no las vuelven a bajar). ffmpeg viene de `eugeneware/ffmpeg-static`, yt-dlp de sus releases oficiales y el modelo del CDN de IMG.LY (cada pedazo se verifica con su SHA-256). yt-dlp trata de actualizarse solo al iniciar, porque YouTube cambia seguido. Al desarrollar, lo que baje `npm run setup` a `resources/` cuenta como ya descargado; para probar la descarga: `EASY_TOOLS_IGNORE_BUNDLED=1` y, para no usar internet, `EASY_TOOLS_COMPONENTS_URL=http://127.0.0.1:PUERTO` con `ffmpeg.gz`, `yt-dlp` y `model/`.
 - Recortar y unir videos **vuelven a codificar** el video para que el corte sea exacto y el resultado funcione en cualquier reproductor; en videos largos puede tardar unos minutos.
 - **Quitar fondo** usa `@imgly/background-removal-node` con `onnxruntime-node`. La librería depende de `sharp`, que se cae dentro de Electron, así que se reemplaza por un módulo vacío al compilar (`src/main/stubs/sharp.ts`): la ventana decodifica la imagen y el proceso principal escribe el PNG.
 - **Word a PDF** prefiere un programa de Office de verdad (`src/main/tools/officeEngine.ts`): Microsoft Word en Windows (vía PowerShell/COM, **sin probar** aún en Windows) o LibreOffice (`soffice --headless --convert-to pdf`). Con cualquiera de los dos el PDF queda igual al documento y también se pueden abrir los `.doc` antiguos. Si no hay ninguno (o falla), se usa el método sencillo: `docx-preview` en una ventana oculta (`src/renderer/print.html`) impreso con Chromium; ese método respeta estilos, tablas simples, imágenes, encabezados y pies, pero **no** diseños exactos (filas con alto fijo, cuadros de texto, formas) y no lee `.doc`.
@@ -146,3 +158,5 @@ scripts/        Descarga de binarios y modelos para desarrollar, y revisión del
 ## Licencia
 
 [MIT](LICENSE): puedes usar, copiar y modificar Educando libremente.
+
+Las tipografías **Baloo 2** y **Nunito** (instaladas con `@fontsource`, vienen dentro de la app) están bajo la licencia SIL Open Font License 1.1.
