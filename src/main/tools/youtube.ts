@@ -7,15 +7,26 @@ import { ffmpegPath, outputDir } from '../paths'
 /** yt-dlp es un componente que se descarga la primera vez (ver components.ts) y se actualiza solo. */
 const ytDlpPath = requireYtDlp
 
+/** La actualización de yt-dlp que se lanzó al abrir la app (mientras corre, el archivo se está reemplazando) */
+let updating: Promise<void> = Promise.resolve()
+
 /** Se llama al iniciar la app: intenta actualizar yt-dlp en segundo plano (si hay internet). */
 export function updateYtDlpInBackground(): void {
-  try {
-    const child = spawn(ytDlpPath(), ['-U'], { windowsHide: true, stdio: 'ignore' })
-    child.on('error', () => {})
-  } catch {
-    // Si no se puede actualizar seguimos con la versión que tengamos.
-  }
+  updating = new Promise<void>((resolve) => {
+    try {
+      const child = spawn(ytDlpPath(), ['-U'], { windowsHide: true, stdio: 'ignore' })
+      child.on('error', () => resolve())
+      child.on('close', () => resolve())
+    } catch {
+      // Si no se puede actualizar seguimos con la versión que tengamos.
+      resolve()
+    }
+  })
 }
+
+/** Antes de usar yt-dlp se espera a que termine de actualizarse (como mucho medio minuto): si no, falla al estar cambiando el archivo */
+const updated = (): Promise<void> =>
+  Promise.race([updating, new Promise<void>((r) => setTimeout(r, 30_000))])
 
 function friendlyError(stderr: string): UserError {
   if (
@@ -49,9 +60,20 @@ interface RunOptions {
   onLine?: (line: string) => void
 }
 
-function runYtDlp({ jobId, args, onLine }: RunOptions): Promise<string> {
+/**
+ * YouTube pide resolver unos retos en JavaScript para entregar los videos. Sin un intérprete, yt-dlp solo prueba un cliente
+ * de respaldo que YouTube rechaza para muchos videos («This video is not available» aunque el video exista).
+ * Se usa el Node que ya trae la app: el mismo ejecutable de Electron con ELECTRON_RUN_AS_NODE=1, así no hay que bajar nada más.
+ */
+const JS_RUNTIME = ['--js-runtimes', `node:${process.execPath}`]
+
+async function runYtDlp({ jobId, args, onLine }: RunOptions): Promise<string> {
+  await updated()
   return new Promise((resolve, reject) => {
-    const child = spawn(ytDlpPath(), args, { windowsHide: true })
+    const child = spawn(ytDlpPath(), [...JS_RUNTIME, ...args], {
+      windowsHide: true,
+      env: { ...process.env, ELECTRON_RUN_AS_NODE: '1' }
+    })
     let cancelled = false
     const unregister = jobId
       ? registerJob(jobId, () => {
