@@ -2,6 +2,11 @@
 
 Cada versión se publica con una etiqueta `vX.Y.Z` (ver [GITFLOW.md](GITFLOW.md)). El texto de cada entrada es el que aparece en la descripción del release en GitHub.
 
+## [0.5.1] - 2026-11-10
+
+- Corregido: «Descargar de YouTube» decía que algunos videos no estaban disponibles aunque sí existían; ahora se descargan bien
+- Corregido: buscar un video justo después de abrir la app ya no falla mientras el descargador se actualiza
+
 ## [0.5.0] - 2026-10-14
 
 - Nuevo diseño de toda la app: colores cálidos, letras más amigables y una barra lateral fija con Inicio, Juegos, En el aula, Mi clase y Archivos
